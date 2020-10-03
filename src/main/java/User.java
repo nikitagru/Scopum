@@ -1,16 +1,18 @@
 import java.util.Scanner;
 
 public class User {
-    private String name;
-    private int age;
-    private double weight;
-    private int growth;
-    private boolean correctData;
+    private String name; // Имя пользователя
+    private int age; // Возраст пользователя
+    private double weight; // Вес пользователя
+    private int growth; // Рост пользователя
 
     public User() {
         init();
     }
 
+    /**
+     * Инициализация пользователя
+     */
     private void init() {
         do {
             Scanner in = new Scanner(System.in);
@@ -34,6 +36,10 @@ public class User {
         } while (!isCorrectData());
     }
 
+    /**
+     * Проверяет корректно ли введены данные пользователем
+     * @return true - если все данные введены корректно, false - если данные введены некорректно
+     */
     private boolean isCorrectData() {
         if (!name.equals("") && age != 0 && weight != 0.0d && growth != 0) {
             return true;
