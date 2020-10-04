@@ -1,8 +1,10 @@
+import java.io.IOException;
+
 public interface BotFunctionality {
     /**
      * Составление разового дневного рациона питания
      */
-    void dailyDiet(double weight, int growth, int age, String gender, double employment);
+    void dailyDiet(double weight, int growth, int age, String gender, double employment) throws IOException;
 
     /**
      * Составление продолжительной диеты
