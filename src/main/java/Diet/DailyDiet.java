@@ -1,5 +1,7 @@
 package Diet;
 
+import java.util.Scanner;
+
 public class DailyDiet {
     private int age; // Возраст пользователя
     private double weight; // Вес пользователя
@@ -15,13 +17,38 @@ public class DailyDiet {
         this.employment = employment;
     }
 
-    private double computeDaily() {
+    private double computeDailyCal() {
         if (gender == "male") {
-            double result = 88.36 + (13.4 * weight) + (4.8 * growth) - (5.7 * age) * employment;
+            double result = (10 * weight) + (6.25 * growth) - (5 * age) * employment;
             return result;
         } else {
-            double result = 447.6 + (9.2 * weight) + (3.1 * growth) - (4.3 * age) * employment;
+            double result = (10 * weight) + (6.25 * growth) - (5 * age) * employment;
             return result;
         }
+    }
+
+    public int computeEatenCalPFC() {
+        System.out.println("Вы знаете какое количество КБЖУ вы сегодня уже употребили?(Да/Нет)");
+        Scanner in = new Scanner(System.in);
+
+        String userChoice = in.nextLine();
+        userChoice = userChoice.replaceAll("\\s+","");
+        userChoice = userChoice.toLowerCase();
+
+        switch (userChoice) {
+            case "да":
+                System.out.println("Напишите в формате К-Б-Ж-У (без пробелов и через тире)");
+                String calPFC = in.nextLine();
+                calPFC = calPFC.replaceAll("\\s+","");
+                break;
+            case "нет":
+                System.out.println("Давайте тогда посчитаем сами.");
+
+        }
+
+    }
+
+    private double computeUserPFC() {
+        System.out.println("Напишите, что вы сегодня ели? ");
     }
 }
