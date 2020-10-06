@@ -62,9 +62,9 @@ public class DailyDiet {
         double finDailyCal = dailyCal - calPFC[0];
 
         requiredCalPfc = new double[]{  finDailyCal,
-                                        dailyCal * 30 / 4 - calPFC[1],
-                                        dailyCal * 20 / 9 - calPFC[2],
-                                        dailyCal * 50 / 4 - calPFC[3]};
+                                        Math.ceil(dailyCal * 0.3 / 4) - calPFC[1],
+                                        Math.ceil(dailyCal * 0.3 / 9) - calPFC[2],
+                                        Math.ceil(dailyCal * 0.4 / 4) - calPFC[3]};
 
         System.out.println("Вам осталось необходимо употребить:");
         System.out.println(requiredCalPfc[0] + "калорий");
