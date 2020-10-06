@@ -19,7 +19,7 @@ public class Main {
 
             switch (userChoice) {
                 case "Дневная диета":
-                    bot.dailyDiet(user.getWeight(), user.getGrowth(), user.getAge(), user.getGender(), user.getEmployment());
+                    bot.dailyDiet(user);
                     break;
                 case "Многодневная диета":
                     bot.longDiet();

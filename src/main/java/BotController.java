@@ -21,7 +21,13 @@ public class BotController implements BotFunctionality {
     }
 
     @Override
-    public void dailyDiet(double weight, int growth, int age, String gender, double employment) throws IOException, ParseException {
+    public void dailyDiet(User user) throws IOException, ParseException {
+        double weight = user.getWeight();
+        int growth = user.getGrowth();
+        int age = user.getAge();
+        String gender = user.getGender();
+        double employment = user.getEmployment();
+
         DailyDiet dailyDiet = new DailyDiet(weight, growth, age, gender, employment);
 
         boolean isGetCalPFC = dailyDiet.tryGetEatenCalPFC();

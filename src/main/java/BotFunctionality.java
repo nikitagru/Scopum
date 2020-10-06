@@ -6,7 +6,7 @@ public interface BotFunctionality {
     /**
      * Составление разового дневного рациона питания
      */
-    void dailyDiet(double weight, int growth, int age, String gender, double employment) throws IOException, ParseException;
+    void dailyDiet(User user) throws ParseException, IOException;
 
     /**
      * Составление продолжительной диеты

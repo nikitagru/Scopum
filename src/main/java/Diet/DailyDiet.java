@@ -3,7 +3,7 @@ package Diet;
 import java.util.Scanner;
 
 
-public class DailyDiet {
+public class DailyDiet extends Diet {
     private int age; // Возраст пользователя
     private double weight; // Вес пользователя
     private int growth; // Рост пользователя
@@ -17,16 +17,6 @@ public class DailyDiet {
         this.growth = growth;
         this.gender = gender;
         this.employment = employment;
-    }
-
-    private double computeDailyCal() {
-        if (gender == "male") {
-            double result = (10 * weight) + (6.25 * growth) - (5 * age) * employment;
-            return result;
-        } else {
-            double result = (10 * weight) + (6.25 * growth) - (5 * age) * employment;
-            return result;
-        }
     }
 
     public boolean tryGetEatenCalPFC() {
@@ -46,8 +36,8 @@ public class DailyDiet {
                 String calPFC = in.nextLine();
                 calPFC = calPFC.replaceAll("\\s+","");
 
-                double[] userCalPFC = convertUserCalPFC(calPFC);
-                computeUserPFC(userCalPFC);
+                double[] userEatenCalPFC = convertUserCalPFC(calPFC);
+                computeUserRemCalPFC(userEatenCalPFC);
                 break;
             case "нет":
                 System.out.println("Давайте тогда посчитаем сами.");
@@ -57,20 +47,19 @@ public class DailyDiet {
         return isSuccess;
     }
 
-    private void computeUserPFC(double[] calPFC) {
-        double dailyCal = computeDailyCal();
-        double finDailyCal = dailyCal - calPFC[0];
+    private void computeUserRemCalPFC(double[] userEatenCalPFC) {
+        double[] userDailyCalPfc = computeUserCalPFC(gender, weight, growth, age, employment);
 
-        requiredCalPfc = new double[]{  finDailyCal,
-                                        Math.ceil(dailyCal * 0.3 / 4) - calPFC[1],
-                                        Math.ceil(dailyCal * 0.3 / 9) - calPFC[2],
-                                        Math.ceil(dailyCal * 0.4 / 4) - calPFC[3]};
+        requiredCalPfc = new double[]{  userDailyCalPfc[0] - userEatenCalPFC[0],
+                                        userDailyCalPfc[1] - userEatenCalPFC[1],
+                                        userDailyCalPfc[2] - userEatenCalPFC[2],
+                                        userDailyCalPfc[3] - userEatenCalPFC[3]};
 
         System.out.println("Вам осталось необходимо употребить:");
-        System.out.println(requiredCalPfc[0] + "калорий");
-        System.out.println(requiredCalPfc[1] + "белков");
-        System.out.println(requiredCalPfc[2] + "жиров");
-        System.out.println(requiredCalPfc[3] + "углеводов");
+        System.out.println(requiredCalPfc[0] + " " + "калорий");
+        System.out.println(requiredCalPfc[1] + " " + "белков");
+        System.out.println(requiredCalPfc[2] + " " + "жиров");
+        System.out.println(requiredCalPfc[3] + " " + "углеводов");
 
     }
 
@@ -83,4 +72,5 @@ public class DailyDiet {
         }
         return finUserCalPfc;
     }
+
 }
