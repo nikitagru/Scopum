@@ -75,11 +75,11 @@ public class DailyDiet {
     }
 
     private double[] convertUserCalPFC(String calPFC) {
-        String[] userCalPFC = calPFC.split("\\w");
+        String[] userCalPFC = calPFC.split("_");
         double[] finUserCalPfc = new double[4];
 
         for(int i = 0; i < 4; i++) {
-            finUserCalPfc[i] = Integer.parseInt(userCalPFC[i]);
+            finUserCalPfc[i] = Double.parseDouble(userCalPFC[i]);
         }
         return finUserCalPfc;
     }

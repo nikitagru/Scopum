@@ -1,4 +1,6 @@
 import Diet.DailyDiet;
+import Diet.FindProducts;
+import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -19,7 +21,7 @@ public class BotController implements BotFunctionality {
     }
 
     @Override
-    public void dailyDiet(double weight, int growth, int age, String gender, double employment) throws IOException {
+    public void dailyDiet(double weight, int growth, int age, String gender, double employment) throws IOException, ParseException {
         DailyDiet dailyDiet = new DailyDiet(weight, growth, age, gender, employment);
 
         boolean isGetCalPFC = dailyDiet.tryGetEatenCalPFC();
@@ -38,7 +40,9 @@ public class BotController implements BotFunctionality {
                 }
             }
         } else {
-
+            FindProducts finder = new FindProducts();
+            System.out.println("Enter");
+            finder.productsInit();
         }
     }
 

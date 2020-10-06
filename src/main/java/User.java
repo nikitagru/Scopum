@@ -118,9 +118,9 @@ public class User {
     private void setGender(String gender) {
         gender = gender.toLowerCase();
         gender = gender.replaceAll("\\s+","");
-        if (gender == "мужчина") {
+        if (gender.equals("мужчина")) {
             this.gender = Gender.male;
-        } else if (gender == "женщина"){
+        } else if (gender.equals("женщина")){
             this.gender = Gender.female;
         } else {
             this.gender = null;

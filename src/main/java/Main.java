@@ -1,8 +1,10 @@
+import org.json.simple.parser.ParseException;
+
 import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ParseException {
         // главный класс для запуска бота и инициализации пользователя
 
         BotController bot = new BotController();
