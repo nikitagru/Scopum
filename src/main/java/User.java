@@ -70,7 +70,7 @@ public class User {
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         name = name.replaceAll("\\s+","");
         this.name = name;
     }
@@ -79,7 +79,7 @@ public class User {
         return age;
     }
 
-    public void setAge(int age) {
+    private void setAge(int age) {
         if (age > 122 || age < 0) {
             this.age = 0;
         } else {
@@ -91,7 +91,7 @@ public class User {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    private void setWeight(double weight) {
         if (weight < 0) {
             this.weight = 0.0d;
         } else {
@@ -103,7 +103,7 @@ public class User {
         return growth;
     }
 
-    public void setGrowth(int growth) {
+    private void setGrowth(int growth) {
         if (growth < 0) {
             this.growth = 0;
         } else {

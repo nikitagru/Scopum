@@ -1,14 +1,9 @@
 import Diet.DailyDiet;
-import Diet.FindProducts;
+import Diet.ProductsFinder;
+
 import org.json.simple.parser.ParseException;
 
-import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 
@@ -46,9 +41,9 @@ public class BotController implements BotFunctionality {
                 }
             }
         } else {
-            FindProducts finder = new FindProducts();
+            ProductsFinder finder = new ProductsFinder();
             System.out.println("Enter");
-            finder.productsInit();
+
         }
     }
 

@@ -1,4 +1,4 @@
-package Diet;
+package Bot;
 
 import netscape.javascript.JSObject;
 import org.json.simple.JSONObject;
@@ -12,18 +12,18 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class FindProducts {
 
-    private HashMap calPFC = new HashMap<String, String>();
+public class JSONParse {
 
-    private HashMap dishes = new HashMap<String, HashMap>();
+    public HashMap<String, double[]> products = new HashMap<String, double[]>();
+    private JSONObject resultJson;
 
-    public void productsInit() throws ParseException {
+    public JSONObject productsInit(String path) throws ParseException {
         StringBuilder jsonStrBuilder = new StringBuilder();
         Scanner inputScanner;
 
         try {
-            inputScanner = new Scanner(new File("e:\\JavaProjects\\Scopum\\Scopum\\src\\main\\java\\Diet\\Dishes.json"));
+            inputScanner = new Scanner(new File(path));
             while(inputScanner.hasNext()) // Цикл чтения из файла
                 jsonStrBuilder.append(inputScanner.next());
             inputScanner.close();
@@ -32,8 +32,8 @@ public class FindProducts {
             System.err.println(e.toString());
         }
 
-        JSONParser jsonParser = new JSONParser();
-        JSONObject resultJson; // Объект со всеми данными из JSON файла
+        org.json.simple.parser.JSONParser jsonParser = new org.json.simple.parser.JSONParser();
+
         try{
             resultJson = (JSONObject) jsonParser.parse(jsonStrBuilder.toString());
         }
@@ -43,6 +43,16 @@ public class FindProducts {
 
         resultJson = (JSONObject) jsonParser.parse(jsonStrBuilder.toString());
 
+        return resultJson;
+    }
+
+    public HashMap<String, double[]> convertJson() {
+        String result = resultJson.toJSONString();
+
+        String[] resultTable = result.split(":");
+
+        System.out.println(resultTable);
+        return products;
     }
 
 

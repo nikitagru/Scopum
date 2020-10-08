@@ -2,7 +2,6 @@ package Diet;
 
 import java.util.Scanner;
 
-
 public class DailyDiet extends Diet {
     private int age; // Возраст пользователя
     private double weight; // Вес пользователя
