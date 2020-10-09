@@ -18,6 +18,4 @@ public class ProductsFinder extends JSONParse {
         jsonObj.productsInit("e:\\JavaProjects\\Scopum\\Scopum\\src\\main\\java\\Diet\\Dishes.json");
         productsCalPFC = jsonObj.convertJson();
     }
-
-
 }
