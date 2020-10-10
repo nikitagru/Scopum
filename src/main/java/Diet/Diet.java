@@ -1,6 +1,6 @@
 package Diet;
 
-public class Diet {
+abstract public class Diet {
     protected double computeDailyCal(String gender, double weight, int growth, int age, double employment) {
         if (gender == "male") {
             double result = (10 * weight) + (6.25 * growth) - (5 * age + 5) * employment;
