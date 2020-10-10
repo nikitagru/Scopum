@@ -14,11 +14,11 @@ public class ProductsFinder extends JSONParse {
 
     private JSONParse jsonObj = new JSONParse();
 
-    private List<HashMap> dayCalPFC;
-    private List<HashMap> morningCalPFC;
-    private List<HashMap> eveningCalPFC;
-    private List<HashMap> recipes;
-    private double[] userRemCalPFC;
+    private List<HashMap> dayCalPFC;        // массив дневных блюд
+    private List<HashMap> morningCalPFC;        // массив утренних блюд
+    private List<HashMap> eveningCalPFC;        // массив вечерних блюд
+    private List<HashMap> recipes;      // массив рецептов
+    private double[] userRemCalPFC;     // остаток необходимых к употреблению БЖУК
 
     public ProductsFinder(double[] userRemCalPFC) throws ParseException {
         jsonObj.productsInit("e:\\JavaProjects\\Scopum\\Scopum\\src\\main\\java\\Diet\\Day.json");
@@ -32,8 +32,12 @@ public class ProductsFinder extends JSONParse {
         this.userRemCalPFC = userRemCalPFC;
     }
 
+    /**
+     * Получение блюда
+     * @return Возвращает словарь, где ключ - название блюда, рецепт и ингредиенты, а значение - БЖУК
+     */
     public HashMap<String[], double[]> getDish() {
-        String timeOfDay = getCurrentTimeOfDay();
+        String timeOfDay = getCurrentTimeOfDay();       // получение нынешнего времени суток
         HashMap<String[], double[]> result = new HashMap<>();
 
         switch (timeOfDay) {
@@ -49,17 +53,22 @@ public class ProductsFinder extends JSONParse {
         return result;
     }
 
+    /**
+     * Получение блюда и его рецепта
+     * @param dishCalPFC массив блюд
+     * @return Возвращает словарь, где ключ - название блюда, рецепт и ингредиенты, а значение - БЖУК
+     */
     private HashMap<String[], double[]> getDishAndRecipe(List<HashMap> dishCalPFC) {
-        String currentDishName = "";
-        double[] currentDishCalPFC = new double[4];
+        String currentDishName = "";        // название нужного блюда
+        double[] currentDishCalPFC = new double[4];     // БЖУК нужного блюда
 
         for (int i = 0; i < dishCalPFC.size(); i++) {
             Random rnd = new Random();
-            HashMap<String, double[]> dish = dishCalPFC.get(rnd.nextInt(dishCalPFC.size()));
-            Map.Entry<String, double[]> currentDish = dish.entrySet().iterator().next();
+            HashMap<String, double[]> dish = dishCalPFC.get(rnd.nextInt(dishCalPFC.size()));        // получение рандомного блюда из массива блюд
+            Map.Entry<String, double[]> currentDish = dish.entrySet().iterator().next();        // преобразование нужного словаря блюда
 
-            String dishName = currentDish.getKey();
-            double[] calPFC = currentDish.getValue();
+            String dishName = currentDish.getKey();     // получение название блюда
+            double[] calPFC = currentDish.getValue();       // получение БЖУК блюда
 
             if (    userRemCalPFC[0] - calPFC[0] > 0 &&
                     userRemCalPFC[1] - calPFC[1] > 0 &&
@@ -67,11 +76,11 @@ public class ProductsFinder extends JSONParse {
                     userRemCalPFC[3] - calPFC[3] > 0 ) {
                 currentDishName = dishName;
                 currentDishCalPFC = calPFC;
-                break;
+                break;      // если нашли подходящее блюдо, то цикл прерывается
             }
     }
 
-        String[] recipe = getRecipe(currentDishName);
+        String[] recipe = getRecipe(currentDishName);       // получаем рецепт подходящего блюда
         String[] recAndName = new String[] {currentDishName, recipe[0], recipe[1]};
 
         HashMap<String[], double[]> result = new HashMap<>();
@@ -80,13 +89,18 @@ public class ProductsFinder extends JSONParse {
         return result;
     }
 
+    /**
+     * Получение рецепта
+     * @param dishName Название блюда
+     * @return Рецепт и ингредиенты
+     */
     private String[] getRecipe(String dishName) {
         String[] result = new String[2];
 
-        for (int i = 0; i < recipes.size(); i++) {
+        for (int i = 0; i < recipes.size(); i++) {      // идем по всем рецептам
             HashMap recipe = recipes.get(i);
 
-            if (recipe.containsKey(dishName)) {
+            if (recipe.containsKey(dishName)) {     // проверяем у каждого совпадает ли название с входящим
                 result = (String[]) recipe.get(dishName);
                 break;
             }
@@ -95,6 +109,10 @@ public class ProductsFinder extends JSONParse {
         return result;
     }
 
+    /**
+     * Получение ныншнего времени суток
+     * @return Утро, день или вечер
+     */
     private String getCurrentTimeOfDay() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();

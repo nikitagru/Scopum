@@ -8,7 +8,7 @@ public class DailyDiet extends Diet {
     private int growth; // Рост пользователя
     private String gender; // Пол пользователя
     private double employment; // Уровень занятости пользователя(1-5)
-    public double[] remCalPFC = new double[4];
+    public double[] remCalPFC = new double[4];      // оставшиеся БЖУК
 
     public DailyDiet(double weight, int growth, int age, String gender, double employment) {
         this.age = age;
@@ -18,6 +18,10 @@ public class DailyDiet extends Diet {
         this.employment = employment;
     }
 
+    /**
+     * Попытка получить БЖУК пользователя
+     * @return получилось или нет
+     */
     public boolean tryGetEatenCalPFC() {
         System.out.println("Вы знаете какое количество КБЖУ вы сегодня уже употребили?(Да/Нет)");
         Scanner in = new Scanner(System.in);
@@ -35,8 +39,8 @@ public class DailyDiet extends Diet {
                 String calPFC = in.nextLine();
                 calPFC = calPFC.replaceAll("\\s+","");
 
-                double[] userEatenCalPFC = convertUserCalPFC(calPFC);
-                computeUserRemCalPFC(userEatenCalPFC);
+                double[] userEatenCalPFC = convertUserCalPFC(calPFC);       // конвертация БЖУК
+                computeUserRemCalPFC(userEatenCalPFC);      // подсчет оставшихся к употреблению
                 break;
             case "нет":
                 System.out.println("Давайте тогда посчитаем сами.");
@@ -46,8 +50,12 @@ public class DailyDiet extends Diet {
         return isSuccess;
     }
 
+    /**
+     * Подсчет оставшихся БЖУК к употреблению
+     * @param userEatenCalPFC Употребленные БЖУК на данный момент
+     */
     private void computeUserRemCalPFC(double[] userEatenCalPFC) {
-        double[] userDailyCalPfc = computeUserCalPFC(gender, weight, growth, age, employment);
+        double[] userDailyCalPfc = computeUserCalPFC(gender, weight, growth, age, employment);      // получение дневной нормы БЖУК пользователя
 
         remCalPFC = new double[]{  userDailyCalPfc[0] - userEatenCalPFC[0],
                                         userDailyCalPfc[1] - userEatenCalPFC[1],
@@ -62,6 +70,11 @@ public class DailyDiet extends Diet {
 
     }
 
+    /**
+     * Конвертация БЖУК
+     * @param calPFC введенное БЖУК пользователя
+     * @return массив БЖУК
+     */
     private double[] convertUserCalPFC(String calPFC) {
         String[] userCalPFC = calPFC.split("_");
         double[] finUserCalPfc = new double[4];
