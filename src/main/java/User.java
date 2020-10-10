@@ -1,5 +1,6 @@
 import org.w3c.dom.ls.LSOutput;
 
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class User {
@@ -9,6 +10,7 @@ public class User {
     private int growth; // Рост пользователя
     private Gender gender; // Пол пользователя
     private double employment; // Уровень занятости пользователя(1-5)
+    private boolean isCorrect;
 
     public User() {
         init();
@@ -58,12 +60,7 @@ public class User {
      * @return true - если все данные введены корректно, false - если данные введены некорректно
      */
     private boolean isCorrectData() {
-        if (!name.equals("") && age != 0 && weight != 0.0d && growth != 0 && gender != null && employment != 0) {
-            return true;
-        } else {
-            System.out.println("Вы ввели некорректные данные, попробуйте снова");
-            return false;
-        }
+        return isCorrect;
     }
 
     public String getName() {
@@ -72,7 +69,13 @@ public class User {
 
     private void setName(String name) {
         name = name.replaceAll("\\s+","");
-        this.name = name;
+        if (name != null && !name.equals("")) {
+            this.name = name;
+        } else {
+            System.out.println("В качестве имени была введена пустая строка. Пожалуйста, напишите корректное имя");
+            isCorrect = false;
+        }
+
     }
 
     public int getAge() {
@@ -80,8 +83,9 @@ public class User {
     }
 
     private void setAge(int age) {
-        if (age > 122 || age < 0) {
-            this.age = 0;
+        if (age > 122 || age <= 0) {
+            System.out.println("Вы ввели некорректный возраст, попробуйте снова");
+            isCorrect = false;
         } else {
             this.age = age;
         }
@@ -92,8 +96,9 @@ public class User {
     }
 
     private void setWeight(double weight) {
-        if (weight < 0) {
-            this.weight = 0.0d;
+        if (weight <= 0.0d) {
+            System.out.println("Вы ввели некорректный вес, попробуйте снова");
+            isCorrect = false;
         } else {
             this.weight = weight;
         }
@@ -104,8 +109,9 @@ public class User {
     }
 
     private void setGrowth(int growth) {
-        if (growth < 0) {
-            this.growth = 0;
+        if (growth <= 0) {
+            System.out.println("Вы ввели некорректный рост, попробуйте снова");
+            isCorrect = false;
         } else {
             this.growth = growth;
         }
@@ -123,7 +129,8 @@ public class User {
         } else if (gender.equals("женщина")){
             this.gender = Gender.female;
         } else {
-            this.gender = null;
+            System.out.println("Вы ввели некорретный пол, попробуйте снова");
+            isCorrect = false;
         }
     }
 
@@ -151,7 +158,8 @@ public class User {
                     break;
             }
         } else {
-            this.employment = 0;
+            System.out.println("Вы ввели некорретное значение, введите число от 1-5");
+            isCorrect = false;
         }
     }
 }
