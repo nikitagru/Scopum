@@ -8,7 +8,7 @@ public class DailyDiet extends Diet {
     private int growth; // Рост пользователя
     private String gender; // Пол пользователя
     private double employment; // Уровень занятости пользователя(1-5)
-    public double[] requiredCalPfc = new double[4];
+    public double[] remCalPFC = new double[4];
 
     public DailyDiet(double weight, int growth, int age, String gender, double employment) {
         this.age = age;
@@ -49,16 +49,16 @@ public class DailyDiet extends Diet {
     private void computeUserRemCalPFC(double[] userEatenCalPFC) {
         double[] userDailyCalPfc = computeUserCalPFC(gender, weight, growth, age, employment);
 
-        requiredCalPfc = new double[]{  userDailyCalPfc[0] - userEatenCalPFC[0],
+        remCalPFC = new double[]{  userDailyCalPfc[0] - userEatenCalPFC[0],
                                         userDailyCalPfc[1] - userEatenCalPFC[1],
                                         userDailyCalPfc[2] - userEatenCalPFC[2],
                                         userDailyCalPfc[3] - userEatenCalPFC[3]};
 
         System.out.println("Вам осталось необходимо употребить:");
-        System.out.println(requiredCalPfc[0] + " " + "калорий");
-        System.out.println(requiredCalPfc[1] + " " + "белков");
-        System.out.println(requiredCalPfc[2] + " " + "жиров");
-        System.out.println(requiredCalPfc[3] + " " + "углеводов");
+        System.out.println(remCalPFC[0] + " " + "калорий");
+        System.out.println(remCalPFC[1] + " " + "белков");
+        System.out.println(remCalPFC[2] + " " + "жиров");
+        System.out.println(remCalPFC[3] + " " + "углеводов");
 
     }
 

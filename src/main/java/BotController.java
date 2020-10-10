@@ -1,9 +1,13 @@
 import Diet.DailyDiet;
 import Diet.ProductsFinder;
 
+import com.sun.security.jgss.GSSUtil;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
+import java.sql.SQLOutput;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 
@@ -41,9 +45,30 @@ public class BotController implements BotFunctionality {
                 }
             }
         } else {
-            ProductsFinder finder = new ProductsFinder();
-            System.out.println("Enter");
+            ProductsFinder finder = new ProductsFinder(dailyDiet.remCalPFC);
+            HashMap<String[], double[]> dish = finder.getDish();
+            Map.Entry<String[], double[]> currentDish = dish.entrySet().iterator().next();
 
+            String dishName = currentDish.getKey()[0];
+
+            String recipe = currentDish.getKey()[1];
+            String ingred = currentDish.getKey()[2];
+
+            double[] calPFC = currentDish.getValue();
+
+            if(dishName == null) {
+                System.out.println("Мы не смогли ничего найти подходящего в нашей базе данных рецептов. Возможно, вы уже употребили достаточно пищи сегодня");
+            } else {
+                System.out.println( "Могу предложить вам этот рецепт:\n" +
+                        dishName + "\n" +
+                        recipe + "\n" +
+                        ingred + "\n" +
+                        "КБЖУ данного рецепта:\n" +
+                        calPFC[0] + "\n" +
+                        calPFC[1] + "\n" +
+                        calPFC[2] + "\n" +
+                        calPFC[3] + "\n");
+            }
         }
     }
 

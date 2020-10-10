@@ -128,6 +128,23 @@ public class JSONParse {
         return converteredProduct;
     }
 
+    public List<HashMap> convertRecipes() {
+        products = resultJson.entrySet();
+        List<Object> produc = new ArrayList<>();
+
+        products.forEach(entry -> produc.add(entry));
+
+        List<HashMap> converteredProduct = new ArrayList<>();
+
+        for (int i = 0; i < produc.size(); i++) {
+            Object temp = produc.get(i);
+            temp = temp.toString();
+            converteredProduct.add(convertToMapRecipes((String) temp));
+        }
+
+        return converteredProduct;
+    }
+
     private HashMap<String, double[]> convertToMap(String product) {
         String[] prodcutCalPFC = product.split("=");
         prodcutCalPFC[1] = prodcutCalPFC[1].substring(1);
@@ -144,6 +161,29 @@ public class JSONParse {
 
         HashMap<String, double[]> result = new HashMap<>();
         result.put(prodcutCalPFC[0], calPFC);
+
+        return result;
+    }
+
+    private HashMap<String, String[]> convertToMapRecipes(String product) {
+        String[] recipe = product.split("=");       // первое значение - название блюда, второе - рецепт и ингредиенты
+        recipe[1] = recipe[1].substring(1);
+        recipe[1] = recipe[1].replaceAll("}", "");
+
+        String ingrText = recipe[1].substring(recipe[1].lastIndexOf(",") + 1);
+        String recText = recipe[1].substring(0, recipe[1].lastIndexOf(","));
+
+        String[] recipeIngr = new String[]{recText, ingrText};     // получение элементов через запятую
+        String[] recipeText = new String[2];        // текст рецепта и ингредиенты (1 - рецепт, 2 - ингредиенты)
+
+        for (int i = 0; i < 2; i++) {
+            recipeIngr[i] = recipeIngr[i].replaceAll("\"","");
+            String value = recipeIngr[i].split(":")[1];
+            recipeText[i] = value;
+        }
+
+        HashMap<String, String[]> result = new HashMap<>();
+        result.put(recipe[0], recipeText);      // первое значение - название блюда, второе - рецепт и ингредиенты
 
         return result;
     }
