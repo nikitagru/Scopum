@@ -63,11 +63,11 @@ public class BotController implements BotFunctionality {
                         dishName + "\n" +
                         recipe + "\n" +
                         ingred + "\n" +
-                        "КБЖУ данного рецепта:\n" +
-                        calPFC[0] + "\n" +
-                        calPFC[1] + "\n" +
-                        calPFC[2] + "\n" +
-                        calPFC[3] + "\n");
+                        "БЖУК данного рецепта:\n" +
+                        calPFC[0] + " " + "белков" + "\n" +
+                        calPFC[1] + " " + "жиров" + "\n" +
+                        calPFC[2] + " " + "углеводов" + "\n" +
+                        calPFC[3] + " " + "калорий" + "\n");
             }
         }
     }

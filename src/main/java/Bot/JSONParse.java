@@ -146,6 +146,9 @@ public class JSONParse {
     }
 
     private HashMap<String, double[]> convertToMap(String product) {
+        product = product.replaceAll("_", " ");
+        product = product.replaceAll("__", "\n");
+
         String[] prodcutCalPFC = product.split("=");
         prodcutCalPFC[1] = prodcutCalPFC[1].substring(1);
         prodcutCalPFC[1] = prodcutCalPFC[1].replaceAll("}", "");
@@ -166,6 +169,9 @@ public class JSONParse {
     }
 
     private HashMap<String, String[]> convertToMapRecipes(String product) {
+        product = product.replaceAll("_", " ");
+        product = product.replaceAll("__", "\n");
+
         String[] recipe = product.split("=");       // первое значение - название блюда, второе - рецепт и ингредиенты
         recipe[1] = recipe[1].substring(1);
         recipe[1] = recipe[1].replaceAll("}", "");
