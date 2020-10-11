@@ -1,6 +1,8 @@
 import org.w3c.dom.ls.LSOutput;
 
 import java.sql.SQLOutput;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class User {
@@ -10,7 +12,8 @@ public class User {
     private int growth; // Рост пользователя
     private Gender gender; // Пол пользователя
     private double employment; // Уровень занятости пользователя(1-5)
-    private boolean isCorrect;
+    private boolean isCorrect = true;
+    private List<String> allergyProducts;
 
     public User() {
         init();
@@ -52,7 +55,27 @@ public class User {
             int employment = Integer.parseInt(in.nextLine());
             setEmployment(employment);
 
+            System.out.println("Вы имеете аллергию на какие-нибудь продукты?(да/нет)");
+            String allergy = in.nextLine();
+            allergy = allergy.replaceAll(" ", "");
+            allergy = allergy.toLowerCase();
+            if (allergy.equals("да")) {
+                setAllergyProducts();
+            }
+
         } while (!isCorrectData());
+    }
+
+    private void setAllergyProducts() {
+        System.out.println("Введите список продуктов через пробел в начальной форме. Вместо \"огурцы\" напишите просто \"огурец\"");
+        Scanner in = new Scanner(System.in);
+        String allergyProd = in.nextLine();
+
+        this.allergyProducts = Arrays.asList(allergyProd.split(" "));
+    }
+
+    public List<String> getAllergyProducts() {
+        return this.allergyProducts;
     }
 
     /**

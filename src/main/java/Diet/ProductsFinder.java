@@ -5,10 +5,7 @@ import org.json.simple.parser.ParseException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class ProductsFinder extends JSONParse {
 
@@ -19,8 +16,9 @@ public class ProductsFinder extends JSONParse {
     private List<HashMap> eveningCalPFC;        // массив вечерних блюд
     private List<HashMap> recipes;      // массив рецептов
     private double[] userRemCalPFC;     // остаток необходимых к употреблению БЖУК
+    private List<String> allegryProducts;       // массив аллергических продуктов пользователя
 
-    public ProductsFinder(double[] userRemCalPFC) throws ParseException {
+    public ProductsFinder(double[] userRemCalPFC, List<String> allergyProd) throws ParseException {
         jsonObj.productsInit("e:\\JavaProjects\\Scopum\\Scopum\\src\\main\\java\\Diet\\Day.json");
         dayCalPFC = jsonObj.convertJson();
         jsonObj.productsInit("E:\\JavaProjects\\Scopum\\Scopum\\src\\main\\java\\Diet\\Morning.json");
@@ -30,13 +28,14 @@ public class ProductsFinder extends JSONParse {
         jsonObj.productsInit("E:\\JavaProjects\\Scopum\\Scopum\\src\\main\\java\\Diet\\Recipes.json");
         recipes = jsonObj.convertRecipes();
         this.userRemCalPFC = userRemCalPFC;
+        this.allegryProducts = allergyProd;
     }
 
     /**
      * Получение блюда
      * @return Возвращает словарь, где ключ - название блюда, рецепт и ингредиенты, а значение - БЖУК
      */
-    public HashMap<String[], double[]> getDish() {
+    public HashMap<String[], double[]> getDishDaily() {
         String timeOfDay = getCurrentTimeOfDay();       // получение нынешнего времени суток
         HashMap<String[], double[]> result = new HashMap<>();
 
@@ -61,6 +60,8 @@ public class ProductsFinder extends JSONParse {
     private HashMap<String[], double[]> getDishAndRecipe(List<HashMap> dishCalPFC) {
         String currentDishName = "";        // название нужного блюда
         double[] currentDishCalPFC = new double[4];     // БЖУК нужного блюда
+        String[] recipe = new String[2];
+
 
         for (int i = 0; i < dishCalPFC.size(); i++) {
             Random rnd = new Random();
@@ -76,11 +77,19 @@ public class ProductsFinder extends JSONParse {
                     userRemCalPFC[3] - calPFC[3] > 0 ) {
                 currentDishName = dishName;
                 currentDishCalPFC = calPFC;
-                break;      // если нашли подходящее блюдо, то цикл прерывается
+                recipe = getRecipe(currentDishName);       // получаем рецепт подходящего блюда
+
+                boolean allergy = checkAllergy(recipe[1]);      // сдержит ли еда продукты, вызывающие аллергическую реакцию
+
+                if (allergy) {
+                    continue;
+                } else {
+                    break;      // если нашли подходящее блюдо, то цикл прерывается
+                }
             }
     }
 
-        String[] recipe = getRecipe(currentDishName);       // получаем рецепт подходящего блюда
+
         String[] recAndName = new String[] {currentDishName, recipe[0], recipe[1]};
 
         HashMap<String[], double[]> result = new HashMap<>();
@@ -127,5 +136,21 @@ public class ProductsFinder extends JSONParse {
         } else {
             return "evening";
         }
+    }
+
+    /**
+     * Проверяет содержится ли в рецепте продукты, вызывающие аллергическую реакцию
+     * @param ingredients Ингредиенты рецепта
+     * @return Содержит ли аллергические продукты
+     */
+    private boolean checkAllergy(String ingredients) {
+        List<String> ingred = Arrays.asList(ingredients.split("\n"));       // ингредиенты рецепта в виде массива
+        boolean result = false;
+
+        for(String allergy : allegryProducts) {
+            result = ingred.contains(allergy);
+        }
+
+        return result;
     }
 }
