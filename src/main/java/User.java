@@ -96,7 +96,8 @@ public class User {
             this.name = name;
         } else {
             System.out.println("В качестве имени была введена пустая строка. Пожалуйста, напишите корректное имя");
-            isCorrect = false;
+            Scanner newIn = new Scanner(System.in);
+            setName(newIn.nextLine());
         }
 
     }
@@ -108,7 +109,8 @@ public class User {
     private void setAge(int age) {
         if (age > 122 || age <= 0) {
             System.out.println("Вы ввели некорректный возраст, попробуйте снова");
-            isCorrect = false;
+            Scanner newIn = new Scanner(System.in);
+            setAge(Integer.parseInt(newIn.nextLine()));
         } else {
             this.age = age;
         }
@@ -121,7 +123,8 @@ public class User {
     private void setWeight(double weight) {
         if (weight <= 0.0d) {
             System.out.println("Вы ввели некорректный вес, попробуйте снова");
-            isCorrect = false;
+            Scanner newIn = new Scanner(System.in);
+            setWeight(Double.parseDouble(newIn.nextLine()));
         } else {
             this.weight = weight;
         }
@@ -134,7 +137,8 @@ public class User {
     private void setGrowth(int growth) {
         if (growth <= 0) {
             System.out.println("Вы ввели некорректный рост, попробуйте снова");
-            isCorrect = false;
+            Scanner newIn = new Scanner(System.in);
+            setGrowth(Integer.parseInt(newIn.nextLine()));
         } else {
             this.growth = growth;
         }
@@ -153,7 +157,8 @@ public class User {
             this.gender = Gender.female;
         } else {
             System.out.println("Вы ввели некорретный пол, попробуйте снова");
-            isCorrect = false;
+            Scanner newIn = new Scanner(System.in);
+            setGender(newIn.nextLine());
         }
     }
 
@@ -182,7 +187,8 @@ public class User {
             }
         } else {
             System.out.println("Вы ввели некорретное значение, введите число от 1-5");
-            isCorrect = false;
+            Scanner newIn = new Scanner(System.in);
+            setEmployment(Integer.parseInt(newIn.nextLine()));
         }
     }
 }

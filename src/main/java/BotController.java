@@ -57,7 +57,7 @@ public class BotController implements BotFunctionality {
 
             double[] calPFC = currentDish.getValue();
 
-            if(dishName == null) {
+            if(recipe.equals(null)) {
                 System.out.println("Мы не смогли ничего найти подходящего в нашей базе данных рецептов. Возможно, вы уже употребили достаточно пищи сегодня");
             } else {
                 System.out.println( "Могу предложить вам этот рецепт:\n" +

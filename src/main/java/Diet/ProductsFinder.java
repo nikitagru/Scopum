@@ -3,6 +3,7 @@ package Diet;
 import Bot.JSONParse;
 import org.json.simple.parser.ParseException;
 
+import java.sql.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -81,13 +82,11 @@ public class ProductsFinder extends JSONParse {
 
                 boolean allergy = checkAllergy(recipe[1]);      // сдержит ли еда продукты, вызывающие аллергическую реакцию
 
-                if (allergy) {
-                    continue;
-                } else {
+                if (!allergy) {
                     break;      // если нашли подходящее блюдо, то цикл прерывается
                 }
             }
-    }
+        }
 
 
         String[] recAndName = new String[] {currentDishName, recipe[0], recipe[1]};
@@ -145,10 +144,19 @@ public class ProductsFinder extends JSONParse {
      */
     private boolean checkAllergy(String ingredients) {
         List<String> ingred = Arrays.asList(ingredients.split("\n"));       // ингредиенты рецепта в виде массива
+
+        for (int i = 0; i < ingred.size(); i++) {
+            String idredient = ingred.get(i);
+            int index = idredient.indexOf("-");
+            ingred.set(i, idredient.substring(0, index - 1).toLowerCase());
+        }
+
         boolean result = false;
 
         for(String allergy : allegryProducts) {
-            result = ingred.contains(allergy);
+            if (ingred.contains(allergy)) {
+                result = true;
+            }
         }
 
         return result;
