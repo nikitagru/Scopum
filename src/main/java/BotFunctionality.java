@@ -11,7 +11,7 @@ public interface BotFunctionality {
     /**
      * Составление продолжительной диеты
      */
-    void longDiet();
+    void longDiet(User user);
 
     /**
      * Составление тренировки для обычного человека

@@ -1,12 +1,12 @@
 import Diet.DailyDiet;
+import Diet.LongDiet;
 import Diet.ProductsFinder;
 
-import com.sun.security.jgss.GSSUtil;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -45,8 +45,9 @@ public class BotController implements BotFunctionality {
                 }
             }
         } else {
-            ProductsFinder finder = new ProductsFinder(dailyDiet.remCalPFC);
-            HashMap<String[], double[]> dish = finder.getDish();
+            List<String> userAllergyProd = user.getAllergyProducts();
+            ProductsFinder finder = new ProductsFinder(dailyDiet.remCalPFC, userAllergyProd);
+            HashMap<String[], double[]> dish = finder.getDishDaily();
             Map.Entry<String[], double[]> currentDish = dish.entrySet().iterator().next();
 
             String dishName = currentDish.getKey()[0];
@@ -56,7 +57,7 @@ public class BotController implements BotFunctionality {
 
             double[] calPFC = currentDish.getValue();
 
-            if(dishName == null) {
+            if(recipe.equals(null)) {
                 System.out.println("Мы не смогли ничего найти подходящего в нашей базе данных рецептов. Возможно, вы уже употребили достаточно пищи сегодня");
             } else {
                 System.out.println( "Могу предложить вам этот рецепт:\n" +
@@ -73,8 +74,16 @@ public class BotController implements BotFunctionality {
     }
 
     @Override
-    public void longDiet() {
+    public void longDiet(User user) {
+        double weight = user.getWeight();
+        int growth = user.getGrowth();
+        int age = user.getAge();
+        String gender = user.getGender();
+        double employment = user.getEmployment();
 
+        LongDiet longDiet = new LongDiet(weight, growth, age, gender, employment);
+
+        longDiet.initLongDiet();
     }
 
     @Override

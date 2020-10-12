@@ -22,7 +22,7 @@ public class Main {
                     bot.dailyDiet(user);
                     break;
                 case "Многодневная диета":
-                    bot.longDiet();
+                    bot.longDiet(user);
                     break;
                 default:
                     System.out.println("Некорректно введенный запрос. Повторите попытку");

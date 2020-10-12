@@ -1,6 +1,8 @@
 import org.w3c.dom.ls.LSOutput;
 
 import java.sql.SQLOutput;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class User {
@@ -10,7 +12,8 @@ public class User {
     private int growth; // Рост пользователя
     private Gender gender; // Пол пользователя
     private double employment; // Уровень занятости пользователя(1-5)
-    private boolean isCorrect;
+    private boolean isCorrect = true;
+    private List<String> allergyProducts;
 
     public User() {
         init();
@@ -28,16 +31,15 @@ public class User {
             setName(name);
 
             System.out.println("Введите ваш возраст");
-            int age = Integer.parseInt(in.nextLine());
-            setAge(age);
+            setAge(in.nextLine());
 
             System.out.println("Введите ваш вес");
-            double weight = Double.parseDouble(in.nextLine());
-            setWeight(weight);
+
+            setWeight(in.nextLine());
 
             System.out.println("Введите ваш рост");
-            int growth = Integer.parseInt(in.nextLine());
-            setGrowth(growth);
+
+            setGrowth(in.nextLine());
 
             System.out.println("Вы мужчина или женщина?");
             String gender = in.nextLine();
@@ -49,10 +51,31 @@ public class User {
                     "\"Занятия 3-5 дней в неделю\"--" +
                     "\"Интенсивные тренировки 6-7 раз в неделю\"--" +
                     "\"Спортсмены, выполняющие упражнения чаще, чем раз в день(несколько тренировок за день)\"");
-            int employment = Integer.parseInt(in.nextLine());
-            setEmployment(employment);
+
+            setEmployment(in.nextLine());
+
+            System.out.println("Вы имеете аллергию на какие-нибудь продукты?(да/нет)");
+            String allergy = in.nextLine();
+            allergy = allergy.replaceAll(" ", "");
+            allergy = allergy.toLowerCase();
+
+            if (allergy.equals("да")) {
+                setAllergyProducts();
+            }
 
         } while (!isCorrectData());
+    }
+
+    private void setAllergyProducts() {
+        System.out.println("Введите список продуктов через пробел в начальной форме. Вместо \"огурцы\" напишите просто \"огурец\"");
+        Scanner in = new Scanner(System.in);
+        String allergyProd = in.nextLine();
+
+        this.allergyProducts = Arrays.asList(allergyProd.split(" "));
+    }
+
+    public List<String> getAllergyProducts() {
+        return this.allergyProducts;
     }
 
     /**
@@ -73,7 +96,8 @@ public class User {
             this.name = name;
         } else {
             System.out.println("В качестве имени была введена пустая строка. Пожалуйста, напишите корректное имя");
-            isCorrect = false;
+            Scanner newIn = new Scanner(System.in);
+            setName(newIn.nextLine());
         }
 
     }
@@ -82,12 +106,20 @@ public class User {
         return age;
     }
 
-    private void setAge(int age) {
-        if (age > 122 || age <= 0) {
-            System.out.println("Вы ввели некорректный возраст, попробуйте снова");
-            isCorrect = false;
-        } else {
+    private void setAge(String ageIn) {
+        int age = 0;
+        if (ageIn != null && !ageIn.equals("")) {
+            age = Integer.parseInt(ageIn);
+            if (age > 122 || age <= 0) {
+                System.out.println("Вы ввели некорректный возраст, попробуйте снова");
+                Scanner newIn = new Scanner(System.in);
+                setAge(newIn.nextLine());
+            }
             this.age = age;
+        } else {
+            System.out.println("Вы ввели некорректный возраст, попробуйте снова");
+            Scanner newIn = new Scanner(System.in);
+            setAge(newIn.nextLine());
         }
     }
 
@@ -95,12 +127,20 @@ public class User {
         return weight;
     }
 
-    private void setWeight(double weight) {
-        if (weight <= 0.0d) {
-            System.out.println("Вы ввели некорректный вес, попробуйте снова");
-            isCorrect = false;
-        } else {
+    private void setWeight(String weightIn) {
+        double weight;
+        if (weightIn != null && !weightIn.equals("")) {
+            weight = Double.parseDouble(weightIn);
+            if (weight <= 0.0d) {
+                System.out.println("Вы ввели некорректный вес, попробуйте снова");
+                Scanner newIn = new Scanner(System.in);
+                setWeight(newIn.nextLine());
+            }
             this.weight = weight;
+        } else {
+            System.out.println("Вы ввели некорректный вес, попробуйте снова");
+            Scanner newIn = new Scanner(System.in);
+            setWeight(newIn.nextLine());
         }
     }
 
@@ -108,12 +148,20 @@ public class User {
         return growth;
     }
 
-    private void setGrowth(int growth) {
-        if (growth <= 0) {
-            System.out.println("Вы ввели некорректный рост, попробуйте снова");
-            isCorrect = false;
-        } else {
+    private void setGrowth(String growthIn) {
+        int growth;
+        if (growthIn != null && !growthIn.equals("")) {
+            growth = Integer.parseInt(growthIn);
+            if (growth <= 0) {
+                System.out.println("Вы ввели некорректный рост, попробуйте снова");
+                Scanner newIn = new Scanner(System.in);
+                setGrowth(newIn.nextLine());
+            }
             this.growth = growth;
+        } else {
+            System.out.println("Вы ввели некорректный рост, попробуйте снова");
+            Scanner newIn = new Scanner(System.in);
+            setGrowth(newIn.nextLine());
         }
     }
 
@@ -122,15 +170,22 @@ public class User {
     }
 
     private void setGender(String gender) {
-        gender = gender.toLowerCase();
-        gender = gender.replaceAll("\\s+","");
-        if (gender.equals("мужчина")) {
-            this.gender = Gender.male;
-        } else if (gender.equals("женщина")){
-            this.gender = Gender.female;
+        if (gender != null && !gender.equals("")) {
+            gender = gender.toLowerCase();
+            gender = gender.replaceAll("\\s+","");
+            if (gender.equals("мужчина")) {
+                this.gender = Gender.male;
+            } else if (gender.equals("женщина")){
+                this.gender = Gender.female;
+            } else {
+                System.out.println("Вы ввели некорретный пол, попробуйте снова");
+                Scanner newIn = new Scanner(System.in);
+                setGender(newIn.nextLine());
+            }
         } else {
             System.out.println("Вы ввели некорретный пол, попробуйте снова");
-            isCorrect = false;
+            Scanner newIn = new Scanner(System.in);
+            setGender(newIn.nextLine());
         }
     }
 
@@ -138,28 +193,37 @@ public class User {
         return employment;
     }
 
-    private void setEmployment(int employment) {
-        if (employment > 0 && employment < 6) {
-            switch (employment) {
-                case 1:
-                    this.employment = 1.2;
-                    break;
-                case 2:
-                    this.employment = 1.375;
-                    break;
-                case 3:
-                    this.employment = 1.55;
-                    break;
-                case 4:
-                    this.employment = 1.725;
-                    break;
-                case 5:
-                    this.employment = 1.9;
-                    break;
+    private void setEmployment(String employmentIn) {
+        int employment;
+        if (employmentIn != null && !employmentIn.equals("")) {
+            employment = Integer.parseInt(employmentIn);
+            if (employment > 0 && employment < 6) {
+                switch (employment) {
+                    case 1:
+                        this.employment = 1.2;
+                        break;
+                    case 2:
+                        this.employment = 1.375;
+                        break;
+                    case 3:
+                        this.employment = 1.55;
+                        break;
+                    case 4:
+                        this.employment = 1.725;
+                        break;
+                    case 5:
+                        this.employment = 1.9;
+                        break;
+                }
+            } else {
+                System.out.println("Вы ввели некорретное значение, введите число от 1-5");
+                Scanner newIn = new Scanner(System.in);
+                setEmployment(newIn.nextLine());
             }
         } else {
             System.out.println("Вы ввели некорретное значение, введите число от 1-5");
-            isCorrect = false;
+            Scanner newIn = new Scanner(System.in);
+            setEmployment(newIn.nextLine());
         }
     }
 }

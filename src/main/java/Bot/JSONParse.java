@@ -192,8 +192,8 @@ public class JSONParse {
      * @return Возвращает словарь, где ключ - название блюда, значение - рецепт и ингридиенты
      */
     private HashMap<String, String[]> convertToMapRecipes(String product) {
-        product = product.replaceAll("_", " ");
         product = product.replaceAll("__", "\n");
+        product = product.replaceAll("_", " ");
 
         String[] recipe = product.split("=");       // первое значение - название блюда, второе - рецепт и ингредиенты
         recipe[1] = recipe[1].substring(1);
