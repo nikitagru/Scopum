@@ -82,6 +82,8 @@ public class BotController implements BotFunctionality {
         double employment = user.getEmployment();
 
         LongDiet longDiet = new LongDiet(weight, growth, age, gender, employment);
+
+        longDiet.initLongDiet();
     }
 
     @Override

@@ -15,7 +15,7 @@ public class LongDiet extends Diet {
         this.employment = employment;
     }
 
-    public void InitLongDiet() {
+    public void initLongDiet() {
         double[] userCalPFC = computeUserCalPFC(gender, weight, growth, age, employment);
 
         System.out.println("Ваша дневная норма КБЖУ:\n " +

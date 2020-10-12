@@ -58,6 +58,7 @@ public class User {
             String allergy = in.nextLine();
             allergy = allergy.replaceAll(" ", "");
             allergy = allergy.toLowerCase();
+
             if (allergy.equals("да")) {
                 setAllergyProducts();
             }
