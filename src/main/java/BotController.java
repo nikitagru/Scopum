@@ -1,7 +1,8 @@
 import Diet.DailyDiet;
 import Diet.LongDiet;
 import Diet.ProductsFinder;
-
+import Training.NormalTraining;
+import Training.ProfessionalTraining;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ public class BotController implements BotFunctionality {
 
     public BotController() {
         System.out.println("Привет! Меня зовут Scopum. " +
-                "Я бот, который поможет тебе орагнизовать в твоем обычном дне элементы здорового образа жизни" +
+                "Я бот, который поможет тебе орагнизовать в твоем обычном дне элементы здорового образа жизни. " +
                 "Давай познакомимся!");
     }
 
@@ -87,13 +88,18 @@ public class BotController implements BotFunctionality {
     }
 
     @Override
-    public void normalTraining() {
+    public void normalTraining() throws IOException, InterruptedException {
+        NormalTraining nTraining = new NormalTraining();
+
+        nTraining.formatNormalTraining();
 
     }
 
     @Override
-    public void professionalTraining() {
+    public void professionalTraining() throws IOException, InterruptedException {
+        ProfessionalTraining pTraining = new ProfessionalTraining();
 
+        pTraining.formatProfessionalTraining();
     }
 
 

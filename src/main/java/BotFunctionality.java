@@ -16,12 +16,12 @@ public interface BotFunctionality {
     /**
      * Составление тренировки для обычного человека
      */
-    void normalTraining();
+    void normalTraining() throws IOException, InterruptedException;
 
     /**
      * Составление тренировки для спортсмена
      */
-    void professionalTraining();
+    void professionalTraining() throws IOException, InterruptedException;
 
 
 }
