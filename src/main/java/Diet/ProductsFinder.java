@@ -3,7 +3,6 @@ package Diet;
 import Bot.JSONParse;
 import org.json.simple.parser.ParseException;
 
-import java.sql.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -17,7 +16,7 @@ public class ProductsFinder extends JSONParse {
     private List<HashMap> eveningCalPFC;        // массив вечерних блюд
     private List<HashMap> recipes;      // массив рецептов
     private double[] userRemCalPFC;     // остаток необходимых к употреблению БЖУК
-    private List<String> allegryProducts;       // массив аллергических продуктов пользователя
+    private List<String> allergyProducts;       // массив аллергических продуктов пользователя
 
     public ProductsFinder(double[] userRemCalPFC, List<String> allergyProd) throws ParseException {
         jsonObj.productsInit("e:\\JavaProjects\\Scopum\\Scopum\\src\\main\\java\\Diet\\Day.json");
@@ -29,7 +28,7 @@ public class ProductsFinder extends JSONParse {
         jsonObj.productsInit("E:\\JavaProjects\\Scopum\\Scopum\\src\\main\\java\\Diet\\Recipes.json");
         recipes = jsonObj.convertRecipes();
         this.userRemCalPFC = userRemCalPFC;
-        this.allegryProducts = allergyProd;
+        this.allergyProducts = allergyProd;
     }
 
     /**
@@ -153,7 +152,7 @@ public class ProductsFinder extends JSONParse {
 
         boolean result = false;
 
-        for(String allergy : allegryProducts) {
+        for(String allergy : allergyProducts) {
             if (ingred.contains(allergy)) {
                 result = true;
             }
