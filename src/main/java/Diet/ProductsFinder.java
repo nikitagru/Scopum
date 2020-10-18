@@ -27,7 +27,7 @@ public class ProductsFinder extends JSONParse {
         morningCalPFC = jsonObj.convertJson();
         jsonObj.productsInit(classLoader.getResource("Evening.json").getPath());
         eveningCalPFC = jsonObj.convertJson();
-        jsonObj.productsInit(classLoader.getResource("Reciptes.json").getPath());
+        jsonObj.productsInit(classLoader.getResource("Recipes.json").getPath());
         recipes = jsonObj.convertRecipes();
         this.userRemCalPFC = userRemCalPFC;
         this.allegryProducts = allergyProd;
@@ -79,7 +79,7 @@ public class ProductsFinder extends JSONParse {
                     userRemCalPFC[3] - calPFC[3] > 0 ) {
                 currentDishName = dishName;
                 currentDishCalPFC = calPFC;
-                recipe = getRecipe(currentDishName);       // получаем рецепт подходящего блюда
+                recipe = Reciptes.getRecipe(currentDishName, recipes);       // получаем рецепт подходящего блюда
 
                 boolean allergy = checkAllergy(recipe[1]);      // сдержит ли еда продукты, вызывающие аллергическую реакцию
 
@@ -94,26 +94,6 @@ public class ProductsFinder extends JSONParse {
 
         HashMap<String[], double[]> result = new HashMap<>();
         result.put(recAndName, currentDishCalPFC);
-
-        return result;
-    }
-
-    /**
-     * Получение рецепта
-     * @param dishName Название блюда
-     * @return Рецепт и ингредиенты
-     */
-    private String[] getRecipe(String dishName) {
-        String[] result = new String[2];
-
-        for (int i = 0; i < recipes.size(); i++) {      // идем по всем рецептам
-            HashMap recipe = recipes.get(i);
-
-            if (recipe.containsKey(dishName)) {     // проверяем у каждого совпадает ли название с входящим
-                result = (String[]) recipe.get(dishName);
-                break;
-            }
-        }
 
         return result;
     }
@@ -153,12 +133,14 @@ public class ProductsFinder extends JSONParse {
         }
 
         boolean result = false;
-
-        for(String allergy : allegryProducts) {
-            if (ingred.contains(allergy)) {
-                result = true;
+        if (allegryProducts != null) {
+            for(String allergy : allegryProducts) {
+                if (ingred.contains(allergy)) {
+                    result = true;
+                }
             }
         }
+
 
         return result;
     }
