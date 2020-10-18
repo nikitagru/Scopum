@@ -117,10 +117,10 @@ public class JSONParse {
      * @return Возвращает массив словарей, где ключ - название блюда, значение - БЖУК
      */
     public List<HashMap> convertJson() {
-        products = resultJson.entrySet();       // конвертация объекта JSON в множество Set
+        //products = resultJson.entrySet();       // конвертация объекта JSON в множество Set
         List<Object> produc = new ArrayList<>();        // массив всех блюд
 
-        products.forEach(entry -> produc.add(entry));       // добавление в массив блюд
+        resultJson.entrySet().forEach(entry -> produc.add(entry));       // добавление в массив блюд
 
         List<HashMap> converteredProduct = new ArrayList<>();       // массив сконвертированных словарей(вовзращаемое значение)
 

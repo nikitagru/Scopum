@@ -20,13 +20,14 @@ public class ProductsFinder extends JSONParse {
     private List<String> allegryProducts;       // массив аллергических продуктов пользователя
 
     public ProductsFinder(double[] userRemCalPFC, List<String> allergyProd) throws ParseException {
-        jsonObj.productsInit("e:\\JavaProjects\\Scopum\\Scopum\\src\\main\\java\\Diet\\Day.json");
+        ClassLoader classLoader = getClass().getClassLoader();
+        jsonObj.productsInit(classLoader.getResource("Day.json").getPath());
         dayCalPFC = jsonObj.convertJson();
-        jsonObj.productsInit("E:\\JavaProjects\\Scopum\\Scopum\\src\\main\\java\\Diet\\Morning.json");
+        jsonObj.productsInit(classLoader.getResource("Morning.json").getPath());
         morningCalPFC = jsonObj.convertJson();
-        jsonObj.productsInit("E:\\JavaProjects\\Scopum\\Scopum\\src\\main\\java\\Diet\\Evening.json");
+        jsonObj.productsInit(classLoader.getResource("Evening.json").getPath());
         eveningCalPFC = jsonObj.convertJson();
-        jsonObj.productsInit("E:\\JavaProjects\\Scopum\\Scopum\\src\\main\\java\\Diet\\Recipes.json");
+        jsonObj.productsInit(classLoader.getResource("Reciptes.json").getPath());
         recipes = jsonObj.convertRecipes();
         this.userRemCalPFC = userRemCalPFC;
         this.allegryProducts = allergyProd;
