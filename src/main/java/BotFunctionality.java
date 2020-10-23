@@ -11,17 +11,17 @@ public interface BotFunctionality {
     /**
      * Составление продолжительной диеты
      */
-    void longDiet();
+    void longDiet(User user);
 
     /**
      * Составление тренировки для обычного человека
      */
-    void normalTraining();
+    void normalTraining() throws IOException, InterruptedException;
 
     /**
      * Составление тренировки для спортсмена
      */
-    void professionalTraining();
+    void professionalTraining() throws IOException, InterruptedException;
 
 
 }

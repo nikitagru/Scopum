@@ -1,6 +1,15 @@
 package Diet;
 
-public class Diet {
+abstract public class Diet {
+    /**
+     * Подсчет дневной нормы калорий
+     * @param gender
+     * @param weight
+     * @param growth
+     * @param age
+     * @param employment
+     * @return Дневная норма калорий
+     */
     protected double computeDailyCal(String gender, double weight, int growth, int age, double employment) {
         if (gender == "male") {
             double result = (10 * weight) + (6.25 * growth) - (5 * age + 5) * employment;
@@ -11,6 +20,15 @@ public class Diet {
         }
     }
 
+    /**
+     * Подсчет дневной нормы БЖУК
+     * @param gender
+     * @param weight
+     * @param growth
+     * @param age
+     * @param employment
+     * @return Дневная норма БЖУК
+     */
     protected double[] computeUserCalPFC(String gender, double weight, int growth, int age, double employment) {
         double dailyCal = computeDailyCal(gender, weight, growth, age, employment);
         double[] userCalPFC;
@@ -22,4 +40,6 @@ public class Diet {
 
         return userCalPFC;
     }
+
+
 }

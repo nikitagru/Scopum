@@ -1,12 +1,13 @@
 import Diet.DailyDiet;
+import Diet.LongDiet;
 import Diet.ProductsFinder;
-
-import com.sun.security.jgss.GSSUtil;
+import Training.NormalTraining;
+import Training.ProfessionalTraining;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -15,7 +16,7 @@ public class BotController implements BotFunctionality {
 
     public BotController() {
         System.out.println("Привет! Меня зовут Scopum. " +
-                "Я бот, который поможет тебе орагнизовать в твоем обычном дне элементы здорового образа жизни" +
+                "Я бот, который поможет тебе орагнизовать в твоем обычном дне элементы здорового образа жизни. " +
                 "Давай познакомимся!");
     }
 
@@ -35,18 +36,21 @@ public class BotController implements BotFunctionality {
             System.out.println("Перечислите через Enter еду, которую вы сегодня ели." +
                     "Формат записи: вместо \"овсянная каша\" пишите овсянка, вместо \"сваренный рис\" - рис.");
 
-            while(true) {
+            boolean isStop = false;
+            do {
                 Scanner in = new Scanner(System.in);
                 System.out.println("Введите название продукта");
                 String userFood = Bot.findWord(in.nextLine());
                 System.out.println("Продолжить запись продуктов?(да/нет)");
-                if(in.nextLine() == "нет") {
-                    break;
+                if(in.nextLine().toLowerCase() == "нет") {
+                    isStop = true;
                 }
-            }
+            } while (!isStop);
+
         } else {
-            ProductsFinder finder = new ProductsFinder(dailyDiet.remCalPFC);
-            HashMap<String[], double[]> dish = finder.getDish();
+            List<String> userAllergyProd = user.getAllergyProducts();
+            ProductsFinder finder = new ProductsFinder(dailyDiet.remCalPFC, userAllergyProd);
+            HashMap<String[], double[]> dish = finder.getDishDaily();
             Map.Entry<String[], double[]> currentDish = dish.entrySet().iterator().next();
 
             String dishName = currentDish.getKey()[0];
@@ -56,7 +60,7 @@ public class BotController implements BotFunctionality {
 
             double[] calPFC = currentDish.getValue();
 
-            if(dishName == null) {
+            if(calPFC[0] == 0.0) {
                 System.out.println("Мы не смогли ничего найти подходящего в нашей базе данных рецептов. Возможно, вы уже употребили достаточно пищи сегодня");
             } else {
                 System.out.println( "Могу предложить вам этот рецепт:\n" +
@@ -73,18 +77,31 @@ public class BotController implements BotFunctionality {
     }
 
     @Override
-    public void longDiet() {
+    public void longDiet(User user) {
+        double weight = user.getWeight();
+        int growth = user.getGrowth();
+        int age = user.getAge();
+        String gender = user.getGender();
+        double employment = user.getEmployment();
+
+        LongDiet longDiet = new LongDiet(weight, growth, age, gender, employment);
+
+        longDiet.initLongDiet();
+    }
+
+    @Override
+    public void normalTraining() throws IOException, InterruptedException {
+        NormalTraining nTraining = new NormalTraining();
+
+        nTraining.formatNormalTraining();
 
     }
 
     @Override
-    public void normalTraining() {
+    public void professionalTraining() throws IOException, InterruptedException {
+        ProfessionalTraining pTraining = new ProfessionalTraining();
 
-    }
-
-    @Override
-    public void professionalTraining() {
-
+        pTraining.formatProfessionalTraining();
     }
 
 
