@@ -42,7 +42,7 @@ public class BotController implements BotFunctionality {
                 System.out.println("Введите название продукта");
                 String userFood = Bot.findWord(in.nextLine());
                 System.out.println("Продолжить запись продуктов?(да/нет)");
-                if(in.nextLine().toLowerCase() == "нет") {
+                if (in.nextLine().toLowerCase() == "нет") {
                     isStop = true;
                 }
             } while (!isStop);
@@ -60,18 +60,23 @@ public class BotController implements BotFunctionality {
 
             double[] calPFC = currentDish.getValue();
 
-            if(calPFC[0] == 0.0) {
-                System.out.println("Мы не смогли ничего найти подходящего в нашей базе данных рецептов. Возможно, вы уже употребили достаточно пищи сегодня");
-            } else {
-                System.out.println( "Могу предложить вам этот рецепт:\n" +
-                        dishName + "\n" +
-                        recipe + "\n" +
-                        ingred + "\n" +
-                        "БЖУК данного рецепта:\n" +
-                        calPFC[0] + " " + "белков" + "\n" +
-                        calPFC[1] + " " + "жиров" + "\n" +
-                        calPFC[2] + " " + "углеводов" + "\n" +
-                        calPFC[3] + " " + "калорий" + "\n");
+
+            if (calPFC[0] == 0.0) {
+
+                if (recipe.equals(null)) {
+
+                    System.out.println("Мы не смогли ничего найти подходящего в нашей базе данных рецептов. Возможно, вы уже употребили достаточно пищи сегодня");
+                } else {
+                    System.out.println("Могу предложить вам этот рецепт:\n" +
+                            dishName + "\n" +
+                            recipe + "\n" +
+                            ingred + "\n" +
+                            "БЖУК данного рецепта:\n" +
+                            calPFC[0] + " " + "белков" + "\n" +
+                            calPFC[1] + " " + "жиров" + "\n" +
+                            calPFC[2] + " " + "углеводов" + "\n" +
+                            calPFC[3] + " " + "калорий" + "\n");
+                }
             }
         }
     }

@@ -144,6 +144,4 @@ public class ProductsFinder extends JSONParse {
 
         return result;
     }
-
-
 }

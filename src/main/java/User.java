@@ -62,8 +62,10 @@ public class User {
 
             if (allergy.equals("да")) {
                 setAllergyProducts();
+
             } else if (allergy.equals("нет")) {
                 this.allergyProducts = null;
+
             }
 
         } while (!isCorrectData());
