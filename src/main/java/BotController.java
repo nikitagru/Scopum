@@ -30,7 +30,7 @@ public class BotController implements BotFunctionality {
 
         DailyDiet dailyDiet = new DailyDiet(weight, growth, age, gender, employment);
         boolean isGetCalPFC = dailyDiet.tryGetEatenCalPFC();
-
+        /*
         List<String> userAllergyProd = user.getAllergyProducts();
         ProductsFinder finder = new ProductsFinder(dailyDiet.remCalPFC, userAllergyProd);
         HashMap<String[], double[]> dish = finder.getDishDaily();
@@ -59,6 +59,8 @@ public class BotController implements BotFunctionality {
                     calPFC[3] + " " + "калорий" + "\n");
 
         }
+        */
+
     }
 
 
