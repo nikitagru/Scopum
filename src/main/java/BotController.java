@@ -30,56 +30,37 @@ public class BotController implements BotFunctionality {
 
         DailyDiet dailyDiet = new DailyDiet(weight, growth, age, gender, employment);
 
-        boolean isGetCalPFC = dailyDiet.tryGetEatenCalPFC();
 
-        if (!isGetCalPFC) {
-            System.out.println("Перечислите через Enter еду, которую вы сегодня ели." +
-                    "Формат записи: вместо \"овсянная каша\" пишите овсянка, вместо \"сваренный рис\" - рис.");
+        List<String> userAllergyProd = user.getAllergyProducts();
+        ProductsFinder finder = new ProductsFinder(dailyDiet.remCalPFC, userAllergyProd);
+        HashMap<String[], double[]> dish = finder.getDishDaily();
+        Map.Entry<String[], double[]> currentDish = dish.entrySet().iterator().next();
 
-            boolean isStop = false;
-            do {
-                Scanner in = new Scanner(System.in);
-                System.out.println("Введите название продукта");
-                String userFood = Bot.findWord(in.nextLine());
-                System.out.println("Продолжить запись продуктов?(да/нет)");
-                if (in.nextLine().toLowerCase() == "нет") {
-                    isStop = true;
-                }
-            } while (!isStop);
+        String dishName = currentDish.getKey()[0];
 
+        String recipe = currentDish.getKey()[1];
+        String ingred = currentDish.getKey()[2];
+
+        double[] calPFC = currentDish.getValue();
+
+
+
+        if (calPFC[0] == 0.0) {
+                System.out.println("Мы не смогли ничего найти подходящего в нашей базе данных рецептов. Возможно, вы уже употребили достаточно пищи сегодня");
         } else {
-            List<String> userAllergyProd = user.getAllergyProducts();
-            ProductsFinder finder = new ProductsFinder(dailyDiet.remCalPFC, userAllergyProd);
-            HashMap<String[], double[]> dish = finder.getDishDaily();
-            Map.Entry<String[], double[]> currentDish = dish.entrySet().iterator().next();
+            System.out.println("Могу предложить вам этот рецепт:\n" +
+                    dishName + "\n" +
+                    recipe + "\n" +
+                    ingred + "\n" +
+                    "БЖУК данного рецепта:\n" +
+                    calPFC[0] + " " + "белков" + "\n" +
+                    calPFC[1] + " " + "жиров" + "\n" +
+                    calPFC[2] + " " + "углеводов" + "\n" +
+                    calPFC[3] + " " + "калорий" + "\n");
 
-            String dishName = currentDish.getKey()[0];
-
-            String recipe = currentDish.getKey()[1];
-            String ingred = currentDish.getKey()[2];
-
-            double[] calPFC = currentDish.getValue();
-
-
-            if (calPFC[0] == 0.0) {
-
-                if (recipe.equals(null)) {
-
-                    System.out.println("Мы не смогли ничего найти подходящего в нашей базе данных рецептов. Возможно, вы уже употребили достаточно пищи сегодня");
-                } else {
-                    System.out.println("Могу предложить вам этот рецепт:\n" +
-                            dishName + "\n" +
-                            recipe + "\n" +
-                            ingred + "\n" +
-                            "БЖУК данного рецепта:\n" +
-                            calPFC[0] + " " + "белков" + "\n" +
-                            calPFC[1] + " " + "жиров" + "\n" +
-                            calPFC[2] + " " + "углеводов" + "\n" +
-                            calPFC[3] + " " + "калорий" + "\n");
-                }
-            }
         }
     }
+
 
     @Override
     public void longDiet(User user) {
