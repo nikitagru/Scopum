@@ -29,7 +29,7 @@ public class BotController implements BotFunctionality {
         double employment = user.getEmployment();
 
         DailyDiet dailyDiet = new DailyDiet(weight, growth, age, gender, employment);
-
+        boolean isGetCalPFC = dailyDiet.tryGetEatenCalPFC();
 
         List<String> userAllergyProd = user.getAllergyProducts();
         ProductsFinder finder = new ProductsFinder(dailyDiet.remCalPFC, userAllergyProd);
