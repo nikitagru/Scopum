@@ -20,13 +20,14 @@ public class ProductsFinder extends JSONParse {
     private List<String> allegryProducts;       // массив аллергических продуктов пользователя
 
     public ProductsFinder(double[] userRemCalPFC, List<String> allergyProd) throws ParseException {
-        jsonObj.productsInit("e:\\JavaProjects\\Scopum\\Scopum\\src\\main\\java\\Diet\\Day.json");
+        ClassLoader classLoader = getClass().getClassLoader();
+        jsonObj.productsInit(classLoader.getResource("Day.json").getPath());
         dayCalPFC = jsonObj.convertJson();
-        jsonObj.productsInit("E:\\JavaProjects\\Scopum\\Scopum\\src\\main\\java\\Diet\\Morning.json");
+        jsonObj.productsInit(classLoader.getResource("Morning.json").getPath());
         morningCalPFC = jsonObj.convertJson();
-        jsonObj.productsInit("E:\\JavaProjects\\Scopum\\Scopum\\src\\main\\java\\Diet\\Evening.json");
+        jsonObj.productsInit(classLoader.getResource("Evening.json").getPath());
         eveningCalPFC = jsonObj.convertJson();
-        jsonObj.productsInit("E:\\JavaProjects\\Scopum\\Scopum\\src\\main\\java\\Diet\\Recipes.json");
+        jsonObj.productsInit(classLoader.getResource("Recipes.json").getPath());
         recipes = jsonObj.convertRecipes();
         this.userRemCalPFC = userRemCalPFC;
         this.allegryProducts = allergyProd;
@@ -72,13 +73,13 @@ public class ProductsFinder extends JSONParse {
             String dishName = currentDish.getKey();     // получение название блюда
             double[] calPFC = currentDish.getValue();       // получение БЖУК блюда
 
-            if (    userRemCalPFC[0] - calPFC[0] > 0 &&
+            if (    userRemCalPFC[0] - calPFC[3] > 0 &&
                     userRemCalPFC[1] - calPFC[1] > 0 &&
                     userRemCalPFC[2] - calPFC[2] > 0 &&
-                    userRemCalPFC[3] - calPFC[3] > 0 ) {
+                    userRemCalPFC[3] - calPFC[0] > 0 ) {
                 currentDishName = dishName;
                 currentDishCalPFC = calPFC;
-                recipe = getRecipe(currentDishName);       // получаем рецепт подходящего блюда
+                recipe = Reciptes.getRecipe(currentDishName, recipes);       // получаем рецепт подходящего блюда
 
                 boolean allergy = checkAllergy(recipe[1]);      // сдержит ли еда продукты, вызывающие аллергическую реакцию
 
@@ -93,26 +94,6 @@ public class ProductsFinder extends JSONParse {
 
         HashMap<String[], double[]> result = new HashMap<>();
         result.put(recAndName, currentDishCalPFC);
-
-        return result;
-    }
-
-    /**
-     * Получение рецепта
-     * @param dishName Название блюда
-     * @return Рецепт и ингредиенты
-     */
-    private String[] getRecipe(String dishName) {
-        String[] result = new String[2];
-
-        for (int i = 0; i < recipes.size(); i++) {      // идем по всем рецептам
-            HashMap recipe = recipes.get(i);
-
-            if (recipe.containsKey(dishName)) {     // проверяем у каждого совпадает ли название с входящим
-                result = (String[]) recipe.get(dishName);
-                break;
-            }
-        }
 
         return result;
     }
@@ -152,12 +133,14 @@ public class ProductsFinder extends JSONParse {
         }
 
         boolean result = false;
-
-        for(String allergy : allegryProducts) {
-            if (ingred.contains(allergy)) {
-                result = true;
+        if (allegryProducts != null) {
+            for(String allergy : allegryProducts) {
+                if (ingred.contains(allergy)) {
+                    result = true;
+                }
             }
         }
+
 
         return result;
     }

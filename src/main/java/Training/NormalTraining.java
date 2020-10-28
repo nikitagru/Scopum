@@ -1,11 +1,9 @@
 package Training;
 
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class NormalTraining extends Training {
-    public static void formatNormalTraining() throws IOException, InterruptedException {
+    public static void formatNormalTraining() {
         System.out.println("Вы выбрали раздел тренировки!" +
                 "Чем хотите заняться сегодня?");
         System.out.println("1. Комплекс упражнений для развития тела \r\n" +
@@ -39,45 +37,38 @@ public class NormalTraining extends Training {
         }
     }
 
-    private static void developmentBody() throws IOException, InterruptedException {
+    private static void developmentBody() {
         System.out.println("Я думаю, что для развития вашего тела подойдут эти упражнения: \r\n" +
-                "Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
-        Thread.sleep(5000);
-/**
- * Блок вывода необходимой информации из файла
- * Есть вопросы - стоит спросить!!!
- */
-        //Scanner in = new Scanner(Paths.get("DevelopmaenBody.txt"), "UTF-8");
-       // while (in.hasNextLine()){
-            //System.out.println(in.nextLine());}
+                " Подтягивания - Отжимания - Использование гантелей \r\n" +
+                " Основная планка - Боковая планка - Качание пресса \r\n" +
+                " Растягивание мышц пресса - Приседания \r\n" +
+                " Выпады ногами - Зашагивания - Тяга на одной ноге");
+
     }
 
-    private static void theSlim() throws InterruptedException {
+    private static void theSlim() {
         System.out.println("Я думаю, что для похудения вам подойдут эти упражнения: \r\n" +
-                "Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
-        Thread.sleep(5000);
+                " Подтягивания - Отжимания - Использование гантелей \r\n" +
+                " Основная планка - Боковая планка - Качание пресса \r\n" +
+                " Растягивание мышц пресса - Приседания \r\n" +
+                " Выпады ногами - Зашагивания - Тяга на одной ноге");
     }
 
-    private static void armsMuscles() throws InterruptedException {
+    private static void armsMuscles() {
         System.out.println("Я думаю, что для развития мышц рук вам подойдут эти упражнения: \r\n" +
-                "Подтягивания - Отжимания - Использование_гантелей");
-        Thread.sleep(5000);
+                " Подтягивания - Отжимания - Использование гантелей");
     }
 
-    private static void abdominalMuscles() throws InterruptedException {
+    private static void abdominalMuscles() {
         System.out.println("Я думаю, что для развития мышц пресса вам подойдут эти упражнения: \r\n" +
-                "Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса");
-        Thread.sleep(5000);
+                " Основная планка - Боковая планка \r\n" +
+                " Качание пресса - Растягивание мышц пресса");
     }
 
-    private static void legsMuscles() throws InterruptedException {
+    private static void legsMuscles() {
         System.out.println("Я думаю, что для развития мышц ног вам подойдут эти упражнения: \r\n" +
-                "Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
-        Thread.sleep(5000);
+                " Приседания - Выпады ногами \r\n" +
+                " Зашагивания - Тяга на одной ноге");
     }
 
-/**
- * Блок вывода ошибок
- * На будующее время
- */
 }

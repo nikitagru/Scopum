@@ -1,21 +1,16 @@
 package Diet;
-
+import Constants.Constants;
 import java.util.Scanner;
 
 public class DailyDiet extends Diet {
-    private int age; // Возраст пользователя
-    private double weight; // Вес пользователя
-    private int growth; // Рост пользователя
-    private String gender; // Пол пользователя
-    private double employment; // Уровень занятости пользователя(1-5)
     public double[] remCalPFC = new double[4];      // оставшиеся БЖУК
 
     public DailyDiet(double weight, int growth, int age, String gender, double employment) {
-        this.age = age;
-        this.weight = weight;
-        this.growth = growth;
-        this.gender = gender;
-        this.employment = employment;
+        Constants.age = age;
+        Constants.weight = weight;
+        Constants.growth = growth;
+        Constants.gender = gender;
+        Constants.employment = employment;
     }
 
     /**
@@ -55,7 +50,7 @@ public class DailyDiet extends Diet {
      * @param userEatenCalPFC Употребленные БЖУК на данный момент
      */
     private void computeUserRemCalPFC(double[] userEatenCalPFC) {
-        double[] userDailyCalPfc = computeUserCalPFC(gender, weight, growth, age, employment);      // получение дневной нормы БЖУК пользователя
+        double[] userDailyCalPfc = computeUserCalPFC(Constants.gender, Constants.weight, Constants.growth, Constants.age, Constants.employment);      // получение дневной нормы БЖУК пользователя
 
         remCalPFC = new double[]{  userDailyCalPfc[0] - userEatenCalPFC[0],
                                         userDailyCalPfc[1] - userEatenCalPFC[1],
