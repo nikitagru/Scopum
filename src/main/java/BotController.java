@@ -1,23 +1,17 @@
 import Diet.DailyDiet;
 import Diet.LongDiet;
-import Diet.ProductsFinder;
 import Training.NormalTraining;
 import Training.ProfessionalTraining;
 import org.json.simple.parser.ParseException;
+import Bot.StrConstanst;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
 
 
 public class BotController implements BotFunctionality {
 
     public BotController() {
-        System.out.println("Привет! Меня зовут Scopum. " +
-                "Я бот, который поможет тебе орагнизовать в твоем обычном дне элементы здорового образа жизни. " +
-                "Давай познакомимся!");
+        StrConstanst.hello();
     }
 
     @Override

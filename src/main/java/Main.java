@@ -1,12 +1,4 @@
 import org.json.simple.parser.ParseException;
-import org.telegram.telegrambots.ApiContextInitializer;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.generics.LongPollingBot;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -30,9 +22,7 @@ public class Main /*extends TelegramLongPollingBot*/ {
         User user = new User();
 
         while (true) {
-            System.out.println("Ваши параметры сохранены!");
-            System.out.println("Что бы вы хотели сделать?");
-            System.out.println(" Дневная диета \r\n Многодневная диета \r\n Тренировка \r\n Профессиональная тренировка");
+            StrConstanst.starting();
 
             Scanner in = new Scanner(System.in);
             String userChoice = in.nextLine();
@@ -51,7 +41,7 @@ public class Main /*extends TelegramLongPollingBot*/ {
                     bot.professionalTraining();
                     break;
                 default:
-                    System.out.println("Некорректно введенный запрос. Повторите попытку");
+                    StrConstanst.incorrectInput();
                     break;
             }
         }

@@ -1,6 +1,3 @@
-import org.w3c.dom.ls.LSOutput;
-
-import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -70,12 +67,7 @@ public class User {
             }
 
             if (this.employment == 0.0) {
-                System.out.println("Какой у вас дневной образ жизни? Напишите число от 1 до 5");
-                System.out.println("\"Сидячий без нагрузок\"--" +
-                        "\"Тренировки  1-3 раза в неделю\"--" +
-                        "\"Занятия 3-5 дней в неделю\"--" +
-                        "\"Интенсивные тренировки 6-7 раз в неделю\"--" +
-                        "\"Спортсмены, выполняющие упражнения чаще, чем раз в день(несколько тренировок за день)\"");
+                StrConstanst.askEmployment();
 
                 setEmployment(in.nextLine());
                 if (!isCorrectData()) {
@@ -96,7 +88,7 @@ public class User {
                     this.allergyProducts = null;
                     isCorrect = true;
                 } else {
-                    System.out.println("Вы ввели некорретный ответ. Напишите, пожалуйста, снова.");
+                    StrConstanst.incorrectInput();
                     isCorrect = false;
                 }
                 if (!isCorrectData()) {
@@ -115,7 +107,7 @@ public class User {
         if (allergyProd != null && !allergyProd.equals("")) {
             this.allergyProducts = Arrays.asList(allergyProd.split(" "));
         } else {
-            System.out.println("Продукты были введены в некорреткной форме. Попробуйте снова");
+            StrConstanst.incorrectInput();
             isCorrect = false;
         }
 
@@ -143,7 +135,7 @@ public class User {
             this.name = name;
             isCorrect = true;
         } else {
-            System.out.println("В качестве имени была введена пустая строка. Пожалуйста, напишите корректное имя");
+            StrConstanst.incorrectOrSpace();
             isCorrect = false;
         }
 
@@ -165,7 +157,7 @@ public class User {
                 isCorrect = true;
             }
         } else {
-            System.out.println("Вы ввели некорректный возраст, попробуйте снова");
+            StrConstanst.incorrectOrSpace();
             isCorrect = false;
 
         }
@@ -187,7 +179,7 @@ public class User {
                 isCorrect = true;
             }
         } else {
-            System.out.println("Вы ввели некорректный вес, попробуйте снова");
+            StrConstanst.incorrectInput();
             isCorrect = false;
         }
     }
@@ -208,7 +200,7 @@ public class User {
                 isCorrect = true;
             }
         } else {
-            System.out.println("Вы ввели некорректный рост, попробуйте снова");
+            StrConstanst.incorrectOrSpace();
             isCorrect = false;
         }
     }
@@ -232,7 +224,7 @@ public class User {
                 isCorrect = false;
             }
         } else {
-            System.out.println("Вы ввели некорретный пол, попробуйте снова");
+            StrConstanst.incorrectOrSpace();
             isCorrect = false;
         }
     }

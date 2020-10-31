@@ -1,4 +1,5 @@
 package Diet;
+import Bot.StrConstanst;
 
 import java.util.Scanner;
 
@@ -23,7 +24,7 @@ public class DailyDiet extends Diet {
      * @return получилось или нет
      */
     public boolean tryGetEatenCalPFC() {
-        System.out.println("Вы знаете какое количество КБЖУ вы сегодня уже употребили?(Да/Нет)");
+        StrConstanst.askCalPFC();
         Scanner in = new Scanner(System.in);
 
         String userChoice = in.nextLine();
