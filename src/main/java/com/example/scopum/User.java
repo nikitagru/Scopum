@@ -1,9 +1,42 @@
+package com.example.scopum;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import Bot.StrConstanst;
+import com.example.scopum.Bot.StrConstanst;
+
 
 public class User {
+
+
+    private Long chatId;
+    private Integer stateId;
+    private Boolean notifed = false;
+
+    public Long getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(Long chatId) {
+        this.chatId = chatId;
+    }
+
+    public Integer getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(Integer stateId) {
+        this.stateId = stateId;
+    }
+
+    public Boolean getNotifed() {
+        return notifed;
+    }
+
+    public void setNotifed(Boolean notifed) {
+        this.notifed = notifed;
+    }
+
     private String name; // Имя пользователя
     private int age; // Возраст пользователя
     private double weight; // Вес пользователя
@@ -15,6 +48,12 @@ public class User {
 
     public User() {
         init();
+    }
+
+    public User(Long chatId, Integer state) {
+        this.chatId = chatId;
+        this.stateId = state;
+
     }
 
     /**

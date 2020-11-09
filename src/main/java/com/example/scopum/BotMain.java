@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Bot {
+public class BotMain {
     public static String findWord(String str1) throws IOException {
         FileReader file = new FileReader("com/example/scopum/Diet/Products.txt");
         String products = file.toString();

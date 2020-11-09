@@ -1,4 +1,4 @@
-package Diet;
+package com.example.scopum.Diet;
 
 abstract public class Diet {
     /**

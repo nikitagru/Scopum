@@ -1,19 +1,3 @@
-import org.json.simple.parser.ParseException;
-
-import java.io.IOException;
-import java.util.Scanner;
-import java.util.logging.Level;
-
-import Bot.StrConstanst;
-import org.telegram.telegrambots.ApiContextInitializer;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.objects.Message;
-import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.generics.LongPollingBot;
-
 //public class Main extends TelegramLongPollingBot {
 //    public static void main(String[] args) throws IOException, ParseException, InterruptedException {
 //        // главный класс для запуска бота и инициализации пользователя
@@ -21,7 +5,7 @@ import org.telegram.telegrambots.meta.generics.LongPollingBot;
 //       TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
 //
 //        try {
-//            telegramBotsApi.registerBot((LongPollingBot) new Bot());
+//            telegramBotsApi.registerBot((LongPollingBot) new com.example.scopum.Bot());
 //        } catch (TelegramApiException e) {
 //            e.printStackTrace();
 //        }

@@ -1,5 +1,5 @@
-package Diet;
-import Bot.StrConstanst;
+package com.example.scopum.Diet;
+import com.example.scopum.Bot.StrConstanst;
 
 import java.util.Scanner;
 

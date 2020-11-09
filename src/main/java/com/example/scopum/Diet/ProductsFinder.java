@@ -1,9 +1,8 @@
-package Diet;
+package com.example.scopum.Diet;
 
-import Bot.JSONParse;
+import com.example.scopum.Bot.JSONParse;
 import org.json.simple.parser.ParseException;
 
-import java.sql.Array;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;

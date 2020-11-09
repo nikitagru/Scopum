@@ -1,4 +1,4 @@
-package Training;
+package com.example.scopum.Training;
 /**
  * Распределение тренировок между мужчинами и женщинами
  * Есть вопросы - стоит спросить!!!

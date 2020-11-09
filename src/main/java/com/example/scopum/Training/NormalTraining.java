@@ -1,7 +1,6 @@
-package Training;
+package com.example.scopum.Training;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class NormalTraining extends Training {

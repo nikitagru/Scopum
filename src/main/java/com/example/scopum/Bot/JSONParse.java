@@ -1,7 +1,7 @@
-package Bot;
+package com.example.scopum.Bot;
 
-import Diet.Dish;
-import Diet.Reciptes;
+import com.example.scopum.Diet.Dish;
+import com.example.scopum.Diet.Reciptes;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 

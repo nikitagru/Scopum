@@ -1,4 +1,4 @@
-package Diet;
+package com.example.scopum.Diet;
 
 public class LongDiet extends Diet {
     private int age; // Возраст пользователя

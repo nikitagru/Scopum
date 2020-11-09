@@ -1,9 +1,11 @@
-import Diet.DailyDiet;
-import Diet.LongDiet;
-import Training.NormalTraining;
-import Training.ProfessionalTraining;
+package com.example.scopum;
+
+import com.example.scopum.Diet.DailyDiet;
+import com.example.scopum.Diet.LongDiet;
+import com.example.scopum.Training.NormalTraining;
+import com.example.scopum.Training.ProfessionalTraining;
 import org.json.simple.parser.ParseException;
-import Bot.StrConstanst;
+import com.example.scopum.Bot.StrConstanst;
 
 import java.io.IOException;
 

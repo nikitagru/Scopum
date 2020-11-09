@@ -1,4 +1,4 @@
-package Training;
+package com.example.scopum.Training;
 
 import java.io.IOException;
 import java.util.Scanner;

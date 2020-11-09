@@ -1,4 +1,4 @@
-package Bot;
+package com.example.scopum.Bot;
 
 public class StrConstanst {
 

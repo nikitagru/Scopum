@@ -1,7 +1,6 @@
 
-import Diet.ProductsFinder;
+import com.example.scopum.Diet.ProductsFinder;
 import org.json.simple.parser.ParseException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

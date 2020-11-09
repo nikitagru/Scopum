@@ -1,4 +1,4 @@
-package Diet;
+package com.example.scopum.Diet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
