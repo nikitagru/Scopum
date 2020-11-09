@@ -7,8 +7,8 @@ public class LongDiet extends Diet {
     private String gender; // Пол пользователя
     private double employment; // Уровень занятости пользователя(1-5)
 
-    public LongDiet(double weight, int growth, int age, String gender, double employment) {
-        this.age = age;
+    public LongDiet(double weight, int growth, int age, String gender, double employment) { // User user
+        this.age = age;             /* this.user */
         this.weight = weight;
         this.growth = growth;
         this.gender = gender;

@@ -1,6 +1,7 @@
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import Bot.StrConstanst;
 
 public class User {
     private String name; // Имя пользователя
