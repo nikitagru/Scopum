@@ -8,7 +8,6 @@ import com.example.scopum.Bot.StrConstanst;
 
 public class User {
 
-
     private Long chatId;
     private Integer stateId;
     private Boolean notifed = false;
@@ -43,6 +42,7 @@ public class User {
     private int growth; // Рост пользователя
     private Gender gender; // Пол пользователя
     private double employment; // Уровень занятости пользователя(1-5)
+    private int id;
     private boolean isCorrect = true;
     private List<String> allergyProducts;
 
@@ -50,10 +50,15 @@ public class User {
         init();
     }
 
-    public User(Long chatId, Integer state) {
+    public int getId() {
+        return id;
+    }
+
+    public User(Long chatId, Integer state, String name, int id) {
         this.chatId = chatId;
         this.stateId = state;
-
+        this.name = name;
+        this.id = id;
     }
 
     /**
