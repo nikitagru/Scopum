@@ -1,6 +1,7 @@
 package com.example.scopum.Bot;
 
-import com.example.scopum.User;
+import com.example.scopum.controller.User;
+import com.example.scopum.controller.User;
 
 public class BotContext {
     private final ChatBot bot;

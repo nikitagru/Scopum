@@ -1,7 +1,9 @@
 package com.example.scopum.Bot;
 
 
-import com.example.scopum.User;
+
+import com.example.scopum.controller.User;
+import com.example.scopum.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,12 @@ public class ChatBot extends TelegramLongPollingBot {
 
     @Value("${bot.token}")
     private String botToken;
+
+    private final UserService userService;
+
+    public ChatBot(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     public String getBotUsername() {
@@ -37,11 +45,34 @@ public class ChatBot extends TelegramLongPollingBot {
         final String text = update.getMessage().getText();
         final Long chatId = update.getMessage().getChatId();
 
+        User user = userService.findByChatId(chatId);
+
         BotContext context;
         BotState state;
 
-        state = BotState.getInitialState();
-        User user = new User(chatId, state.ordinal());
+        if (user == null) {
+            state = BotState.getInitialState();
+
+            user = new User(chatId, state.ordinal());
+            userService.addUser(user);
+
+            context = BotContext.of(this, text, user);
+            state.enter(context);
+        } else {
+            context = BotContext.of(this, text, user);
+            state = BotState.byId(user.getStateId());
+        }
+
+        state.handleInput(context);
+
+        do {
+            state = state.nextState();
+            state.enter(context);
+        } while (!state.isInputNeeded());
+
+        user.setStateId(state.ordinal());
+
+        userService.updateUser(user);
 
         context = BotContext.of(this, text, user);
         state.enter(context);

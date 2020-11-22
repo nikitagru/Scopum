@@ -1,5 +1,6 @@
 package com.example.scopum;
 
+import com.example.scopum.controller.User;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;

@@ -4,6 +4,7 @@ import com.example.scopum.Diet.DailyDiet;
 import com.example.scopum.Diet.LongDiet;
 import com.example.scopum.Training.NormalTraining;
 import com.example.scopum.Training.ProfessionalTraining;
+import com.example.scopum.controller.User;
 import org.json.simple.parser.ParseException;
 import com.example.scopum.Bot.StrConstanst;
 
