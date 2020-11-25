@@ -11,7 +11,7 @@ abstract public class Diet {
      * @return Дневная норма калорий
      */
     protected double computeDailyCal(String gender, double weight, int growth, int age, double employment) {
-        if (gender == "male") {
+        if (gender == "Мужчина") {
             double result = (10 * weight) + (6.25 * growth) - (5 * age + 5) * employment;
             return result;
         } else {

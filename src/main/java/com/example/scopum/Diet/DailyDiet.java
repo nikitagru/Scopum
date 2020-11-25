@@ -1,5 +1,8 @@
 package com.example.scopum.Diet;
-import com.example.scopum.Bot.StrConstanst;
+import com.example.scopum.Bot.StrConst;
+import com.example.scopum.Bot.botapi.BotContext;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.util.Scanner;
 
@@ -10,45 +13,51 @@ public class DailyDiet extends Diet {
     private String gender; // Пол пользователя
     private double employment; // Уровень занятости пользователя(1-5)
     public double[] remCalPFC = new double[4];      // оставшиеся БЖУК
+    private double[] userCalPFC;
+    private long chatId;
+    private BotContext context;
 
-    public DailyDiet(double weight, int growth, int age, String gender, double employment) {
-        this.age = age;
-        this.weight = weight;
-        this.growth = growth;
-        this.gender = gender;
-        this.employment = employment;
+    public DailyDiet(BotContext context) {
+        this.context = context;
+        this.weight = context.getUser().getWeight();
+        this.growth = context.getUser().getGrowth();
+        this.age = context.getUser().getAge();
+        this.gender = context.getUser().getGender();
+        this.employment = context.getUser().getEmployment();
+        this.userCalPFC = context.getUser().getCalPFC();
+        this.chatId = context.getUser().getChatId();
     }
 
     /**
      * Попытка получить БЖУК пользователя
      * @return получилось или нет
      */
-    public boolean tryGetEatenCalPFC() {
-        StrConstanst.askCalPFC();
-        Scanner in = new Scanner(System.in);
+    public void tryGetEatenCalPFC() {
+        //StrConst.askCalPFC();
+//        Scanner in = new Scanner(System.in);
+//
+//        String userChoice = in.nextLine();
+//        userChoice = userChoice.replaceAll("\\s+","");
+//        userChoice = userChoice.toLowerCase();
+        SendMessage message = new SendMessage()
+                .setChatId(context.getUser().getChatId())
+                .setText(StrConst.askCalPFC());
 
-        String userChoice = in.nextLine();
-        userChoice = userChoice.replaceAll("\\s+","");
-        userChoice = userChoice.toLowerCase();
-
-        boolean isSuccess = true;
-
-        switch (userChoice) {
-            case "да":
-                System.out.println("Напишите в формате К_Б_Ж_У (без пробелов и через подчеркивание)");
-
-                String calPFC = in.nextLine();
-                calPFC = calPFC.replaceAll("\\s+","");
-
-                double[] userEatenCalPFC = convertUserCalPFC(calPFC);       // конвертация БЖУК
-                computeUserRemCalPFC(userEatenCalPFC);      // подсчет оставшихся к употреблению
-                break;
-            case "нет":
-                System.out.println("Давайте тогда посчитаем сами.");
-                isSuccess = false;
-                break;
+        try {
+            context.getBot().execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
-        return isSuccess;
+
+        message.setText("Напишите в формате К_Б_Ж_У (без пробелов и через подчеркивание)");
+        try {
+            context.getBot().execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+        //double[] userEatenCalPFC = convertUserCalPFC(calPFC);       // конвертация БЖУК
+        computeUserRemCalPFC(userCalPFC);      // подсчет оставшихся к употреблению
+
     }
 
     /**
@@ -63,27 +72,23 @@ public class DailyDiet extends Diet {
                                         userDailyCalPfc[2] - userEatenCalPFC[2],
                                         userDailyCalPfc[3] - userEatenCalPFC[3]};
 
-        System.out.println("Вам осталось необходимо употребить:");
-        System.out.println(remCalPFC[0] + " " + "калорий");
-        System.out.println(remCalPFC[1] + " " + "белков");
-        System.out.println(remCalPFC[2] + " " + "жиров");
-        System.out.println(remCalPFC[3] + " " + "углеводов");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Вам осталось необходимо употребить:\n");
+        sb.append(remCalPFC[0] + " " + "калорий\n");
+        sb.append(remCalPFC[1] + " " + "белков\n");
+        sb.append(remCalPFC[2] + " " + "жиров\n");
+        sb.append(remCalPFC[3] + " " + "углеводов");
 
-    }
+        SendMessage message = new SendMessage()
+                .setChatId(context.getUser().getChatId())
+                .setText(sb.toString());
 
-    /**
-     * Конвертация БЖУК
-     * @param calPFC введенное БЖУК пользователя
-     * @return массив БЖУК
-     */
-    private double[] convertUserCalPFC(String calPFC) {
-        String[] userCalPFC = calPFC.split("_");
-        double[] finUserCalPfc = new double[4];
-
-        for(int i = 0; i < 4; i++) {
-            finUserCalPfc[i] = Double.parseDouble(userCalPFC[i]);
+        try {
+            context.getBot().execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
-        return finUserCalPfc;
+
     }
 
 }

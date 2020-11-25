@@ -1,6 +1,6 @@
 package com.example.scopum.Bot;
 
-public class StrConstanst {
+public class StrConst {
 
     public static void hello() {
         System.out.println("Привет! Меня зовут Scopum. " +
@@ -31,7 +31,7 @@ public class StrConstanst {
                 "\"Спортсмены, выполняющие упражнения чаще, чем раз в день(несколько тренировок за день)\"");
     }
 
-    public static void askCalPFC() {
-        System.out.println("Вы знаете какое количество КБЖУ вы сегодня уже употребили?(Да/Нет)");
+    public static String askCalPFC() {
+        return "Вы знаете какое количество КБЖУ вы сегодня уже употребили?(Да/Нет)";
     }
 }

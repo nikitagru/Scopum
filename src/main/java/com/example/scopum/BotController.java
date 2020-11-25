@@ -1,12 +1,13 @@
 package com.example.scopum;
 
+import com.example.scopum.Bot.botapi.BotContext;
 import com.example.scopum.Diet.DailyDiet;
 import com.example.scopum.Diet.LongDiet;
 import com.example.scopum.Training.NormalTraining;
 import com.example.scopum.Training.ProfessionalTraining;
-import com.example.scopum.controller.User;
+import com.example.scopum.model.User;
 import org.json.simple.parser.ParseException;
-import com.example.scopum.Bot.StrConstanst;
+import com.example.scopum.Bot.StrConst;
 
 import java.io.IOException;
 
@@ -14,19 +15,15 @@ import java.io.IOException;
 public class BotController implements BotFunctionality {
 
     public BotController() {
-        StrConstanst.hello();
+
     }
 
     @Override
-    public void dailyDiet(User user) throws IOException, ParseException {
-        double weight = user.getWeight();
-        int growth = user.getGrowth();
-        int age = user.getAge();
-        String gender = user.getGender();
-        double employment = user.getEmployment();
+    public void dailyDiet(BotContext context) throws IOException, ParseException {
+        DailyDiet dailyDiet = new DailyDiet(context);
 
-        DailyDiet dailyDiet = new DailyDiet(weight, growth, age, gender, employment);
-        boolean isGetCalPFC = dailyDiet.tryGetEatenCalPFC();
+
+        dailyDiet.tryGetEatenCalPFC();
         /*
         List<String> userAllergyProd = user.getAllergyProducts();
         ProductsFinder finder = new ProductsFinder(dailyDiet.remCalPFC, userAllergyProd);
@@ -62,12 +59,12 @@ public class BotController implements BotFunctionality {
 
 
     @Override
-    public void longDiet(User user) {
-        double weight = user.getWeight();
-        int growth = user.getGrowth();
-        int age = user.getAge();
-        String gender = user.getGender();
-        double employment = user.getEmployment();
+    public void longDiet(BotContext context) {
+        double weight = context.getUser().getWeight();
+        int growth = context.getUser().getGrowth();
+        int age = context.getUser().getAge();
+        String gender = context.getUser().getGender();
+        double employment = context.getUser().getEmployment();
 
         LongDiet longDiet = new LongDiet(weight, growth, age, gender, employment);
 
@@ -89,6 +86,21 @@ public class BotController implements BotFunctionality {
         pTraining.formatProfessionalTraining();
     }
 
-
+    public void start(String userChoice, BotContext context) throws IOException, InterruptedException, ParseException {
+        switch (userChoice) {
+            case "Дневная диета":
+                dailyDiet(context);
+                break;
+            case "Многодневная диета":
+                longDiet(context);
+                break;
+            case "Тренировка":
+                normalTraining();
+                break;
+            case "Профессиональная тренировка":
+                professionalTraining();
+                break;
+        }
+    }
 
 }

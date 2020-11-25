@@ -1,6 +1,7 @@
 package com.example.scopum;
 
-import com.example.scopum.controller.User;
+import com.example.scopum.Bot.botapi.BotContext;
+import com.example.scopum.model.User;
 import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
@@ -9,12 +10,12 @@ public interface BotFunctionality {
     /**
      * Составление разового дневного рациона питания
      */
-    void dailyDiet(User user) throws ParseException, IOException;
+    void dailyDiet(BotContext context) throws ParseException, IOException;
 
     /**
      * Составление продолжительной диеты
      */
-    void longDiet(User user);
+    void longDiet(BotContext context);
 
     /**
      * Составление тренировки для обычного человека

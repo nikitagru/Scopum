@@ -1,11 +1,9 @@
 package com.example.scopum.service;
 
-import com.example.scopum.controller.User;
+import com.example.scopum.model.User;
 import com.example.scopum.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 
 @Service
 public class UserService {
@@ -19,7 +17,7 @@ public class UserService {
 
 
     public User findByChatId(long id) {
-        return userRepo.findByChatId(id);
+        return userRepo.findById(id);
     }
 
 
