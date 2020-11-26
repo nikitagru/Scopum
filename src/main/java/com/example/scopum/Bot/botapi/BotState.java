@@ -1,7 +1,7 @@
 package com.example.scopum.Bot.botapi;
 
 import com.example.scopum.Bot.StrConst;
-import com.example.scopum.BotImplement;
+import com.example.scopum.Bot.BotImplement;
 import org.json.simple.parser.ParseException;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;

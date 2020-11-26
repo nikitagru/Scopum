@@ -1,7 +1,6 @@
-package com.example.scopum;
+package com.example.scopum.Bot;
 
 import com.example.scopum.Bot.botapi.BotContext;
-import com.example.scopum.Bot.botapi.BotKeyboard;
 import com.example.scopum.Diet.DailyDiet;
 import com.example.scopum.Diet.LongDiet;
 import com.example.scopum.Diet.ProductsFinder;

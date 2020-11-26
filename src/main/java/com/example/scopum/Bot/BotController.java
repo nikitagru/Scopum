@@ -1,4 +1,4 @@
-package com.example.scopum;
+package com.example.scopum.Bot;
 
 import com.example.scopum.Bot.botapi.BotContext;
 import com.example.scopum.model.User;
