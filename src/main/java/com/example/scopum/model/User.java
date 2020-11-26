@@ -1,9 +1,16 @@
 package com.example.scopum.model;
 
 
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.jpa.repository.Query;
+
 import javax.persistence.Id;
 
 import javax.persistence.*;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Entity
 @Table(name = "users", schema = "public")
@@ -33,6 +40,8 @@ public class User {
     private double carbohydrates;
     @Column(name = "botfunction")
     private String botFunction;
+    @Column(name = "allergyproducts")
+    private String allergyProducts;
 
     public String getBotFunction() {
         return botFunction;
@@ -115,5 +124,19 @@ public class User {
 
     public void setEmployment(double employment) {
         this.employment = employment;
+    }
+
+    public void setAllergyProducts(String allergyProd) {
+        if (allergyProd != null && !allergyProd.equals("")) {
+            this.allergyProducts = allergyProd;
+        } else {
+            this.allergyProducts = null;
+        }
+
+    }
+
+    public String[] getAllergyProducts() {
+        List<String> allergy = Arrays.asList(this.allergyProducts.split(" "));
+        return allergy.toArray(String[]::new);
     }
 }

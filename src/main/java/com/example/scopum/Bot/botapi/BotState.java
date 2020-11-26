@@ -1,6 +1,7 @@
 package com.example.scopum.Bot.botapi;
 
-import com.example.scopum.BotController;
+import com.example.scopum.Bot.StrConst;
+import com.example.scopum.BotImplement;
 import org.json.simple.parser.ParseException;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -13,7 +14,7 @@ public enum BotState {
     Start {
         @Override
         public void enter(BotContext context) {
-            sendMessage(context, "Привет. Я помогу вам привнести в вашу жизнь здоровый образ жизни. Давай познакомимся!");
+            sendMessage(context, StrConst.hello());
         }
 
         @Override
@@ -118,8 +119,30 @@ public enum BotState {
         }
 
         @Override
-        public void enter(BotContext context) throws IOException, InterruptedException, ParseException {
+        public void enter(BotContext context)  {
             sendMessage(context, "Укажите сколько КБЖУ вы сегодня употребили в формате: К_Б_Ж_У (без пробелов и через подчеркивание)");
+        }
+
+        @Override
+        public BotState nextState() {
+            return AllergyProducts;
+        }
+    },
+    AllergyProducts {
+        @Override
+        public void handleInput(BotContext context) {
+            if(context.getCallBack().getData().equals("Да")) {
+                sendMessage(context, "Введите список продуктов через пробел в начальной форме. Вместо \"огурцы\" напишите просто \"огурец\"");
+                context.getUser().setAllergyProducts(context.getInput());
+            } else {
+                context.getUser().setAllergyProducts(null);
+            }
+        }
+
+        @Override
+        public void enter(BotContext context) {
+            setKeyboardInput(BotKeyboard.tryToGetAllergy(context.getUser().getChatId()));
+            sendMessage(context, "Имеете ли вы аллергию на какие-нибудь продукты?");
         }
 
         @Override
@@ -162,21 +185,63 @@ public enum BotState {
         }
 
         @Override
-        public void enter(BotContext context) throws IOException, InterruptedException, ParseException {
-            BotController botController = new BotController();
+        public void enter(BotContext context) throws ParseException, InterruptedException, IOException {
+            BotImplement botController = new BotImplement();
             botController.start(context.getUser().getBotFunction(), context);
         }
 
         @Override
         public BotState nextState() {
-            return Choice;
-        }
-    };
+           return Choice;
+    }
+//    Training {
+//        @Override
+//        public void handleInput(BotContext context) {
+//
+//        }
+//
+//        @Override
+//        public void enter(BotContext context) throws ParseException, InterruptedException, IOException {
+//            BotImplement botController = new BotImplement();
+//            botController.start(context.getUser().getBotFunction(), context);
+//        }
+//
+//        @Override
+//        public BotState nextState() {
+//            return BotFunction;
+//        }
+//    },
+//    ProfessionalTraining {
+//        @Override
+//        public void handleInput(BotContext context) {
+//
+//        }
+//
+//        @Override
+//        public void enter(BotContext context) throws ParseException, InterruptedException, IOException {
+//            BotImplement botController = new BotImplement();
+//            botController.start(context.getUser().getBotFunction(), context);
+//        }
+//
+//        @Override
+//        public BotState nextState() {
+//            return BotFunction;
+//        }
+ };
 
 
     private static BotState[] states;
     private final boolean inputNeeded;
     private SendMessage keyboardInput;
+    private String botFunction;
+
+    public String getBotFunction() {
+        return botFunction;
+    }
+
+    public void setBotFunctionUser(String botFunction) {
+        this.botFunction = botFunction;
+    }
 
     public void setKeyboardInput(SendMessage keyboardInput) {
         this.keyboardInput = keyboardInput;
@@ -229,7 +294,7 @@ public enum BotState {
 
     }
 
-    public abstract void enter(BotContext context) throws IOException, InterruptedException, ParseException;
+    public abstract void enter(BotContext context) throws ParseException, InterruptedException, IOException;
     public abstract BotState nextState();
 
 }

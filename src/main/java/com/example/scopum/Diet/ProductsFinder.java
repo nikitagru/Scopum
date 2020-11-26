@@ -16,9 +16,9 @@ public class ProductsFinder extends JSONParse {
     private List<HashMap> eveningCalPFC;        // массив вечерних блюд
     private List<HashMap> recipes;      // массив рецептов
     private double[] userRemCalPFC;     // остаток необходимых к употреблению БЖУК
-    private List<String> allegryProducts;       // массив аллергических продуктов пользователя
+    private String[] allegryProducts;       // массив аллергических продуктов пользователя
 
-    public ProductsFinder(double[] userRemCalPFC, List<String> allergyProd) throws ParseException {
+    public ProductsFinder(double[] userRemCalPFC, String[] allergyProd) throws ParseException {
         ClassLoader classLoader = getClass().getClassLoader();
         jsonObj.productsInit(classLoader.getResource("Day.json").getPath());
         dayCalPFC = jsonObj.convertJson();

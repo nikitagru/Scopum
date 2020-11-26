@@ -39,22 +39,7 @@ public class DailyDiet extends Diet {
 //        String userChoice = in.nextLine();
 //        userChoice = userChoice.replaceAll("\\s+","");
 //        userChoice = userChoice.toLowerCase();
-        SendMessage message = new SendMessage()
-                .setChatId(context.getUser().getChatId())
-                .setText(StrConst.askCalPFC());
 
-        try {
-            context.getBot().execute(message);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-
-        message.setText("Напишите в формате К_Б_Ж_У (без пробелов и через подчеркивание)");
-        try {
-            context.getBot().execute(message);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
         //double[] userEatenCalPFC = convertUserCalPFC(calPFC);       // конвертация БЖУК
         computeUserRemCalPFC(userCalPFC);      // подсчет оставшихся к употреблению
 
