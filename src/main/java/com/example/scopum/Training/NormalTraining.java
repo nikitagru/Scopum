@@ -6,6 +6,8 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Scanner;
 
 public class NormalTraining extends Training {
@@ -46,11 +48,17 @@ public class NormalTraining extends Training {
         }
     }
 
+    public void invokeTraining(String methodName) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method training = this.getClass().getDeclaredMethod(methodName, null);
+        training.invoke(null,null);
+    }
+
     private void developmentBody() throws IOException, InterruptedException {
         StringBuilder sb = new StringBuilder();
         sb.append("Я думаю, что для развития вашего тела подойдут эти упражнения: \n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
         sendMessage(sb.toString());
+        context.getUser().setBotFunction("end");
     }
 
     private void theSlim() throws InterruptedException {
@@ -58,6 +66,7 @@ public class NormalTraining extends Training {
         sb.append("Я думаю, что для похудения вам подойдут эти упражнения: \n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
         sendMessage(sb.toString());
+        context.getUser().setBotFunction("end");
     }
 
     private void armsMuscles() throws InterruptedException {
@@ -65,22 +74,23 @@ public class NormalTraining extends Training {
         sb.append("Я думаю, что для развития мышц рук вам подойдут эти упражнения: \n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей");
         sendMessage(sb.toString());
+        context.getUser().setBotFunction("end");
     }
 
     private void abdominalMuscles() throws InterruptedException {
         StringBuilder sb = new StringBuilder();
         sb.append("Я думаю, что для развития мышц пресса вам подойдут эти упражнения: \n");
         sb.append("Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса");
-
         sendMessage(sb.toString());
+        context.getUser().setBotFunction("end");
     }
 
     private void legsMuscles() throws InterruptedException {
         StringBuilder sb = new StringBuilder();
         sb.append("Я думаю, что для развития мышц ног вам подойдут эти упражнения:\n");
         sb.append("Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
-
         sendMessage(sb.toString());
+        context.getUser().setBotFunction("end");
     }
 
     private void sendMessage(String text) {

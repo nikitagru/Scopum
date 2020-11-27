@@ -1,6 +1,6 @@
 package com.example.scopum.Bot;
 
-import com.example.scopum.Diet.Dish;
+import com.example.scopum.Diet.DishConverter;
 import com.example.scopum.Diet.Reciptes;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -53,12 +53,11 @@ public class JSONParse {
      * @return Возвращает массив словарей, где ключ - название блюда, значение - БЖУК
      */
     public List<HashMap> convertJson() {
-        //products = resultJson.entrySet();       // конвертация объекта JSON в множество Set
         List<Object> produc = new ArrayList<>();        // массив всех блюд
 
         resultJson.entrySet().forEach(entry -> produc.add(entry));       // добавление в массив блюд
 
-        return Dish.convertToArray(produc);
+        return DishConverter.convertToArray(produc);
     }
 
     /**
@@ -66,7 +65,6 @@ public class JSONParse {
      * @return Возвращает массив словарей, где ключ - название блюда, значение - рецепт и ингридиенты
      */
     public List<HashMap> convertRecipes() {
-        //products = resultJson.entrySet();       // конвертация объекта JSON в множество Set
         List<Object> rec = new ArrayList<>();        // массив всех рецептов
 
         resultJson.entrySet().forEach(entry -> rec.add(entry));      // добавление в массив рецептов

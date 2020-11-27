@@ -1,12 +1,13 @@
 package com.example.scopum.Bot.botapi;
 
 import com.example.scopum.Bot.StrConst;
-import com.example.scopum.Bot.BotImplement;
+import com.example.scopum.Bot.BotController;
 import org.json.simple.parser.ParseException;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 
 public enum BotState {
@@ -185,48 +186,17 @@ public enum BotState {
         }
 
         @Override
-        public void enter(BotContext context) throws ParseException, InterruptedException, IOException {
-            BotImplement botController = new BotImplement();
-            botController.start(context.getUser().getBotFunction(), context);
+        public void enter(BotContext context) throws ParseException, InterruptedException, IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+            if (!context.getUser().getBotFunction().equals("end")) {
+                BotController botController = new BotController();
+                botController.start(context);
+            }
         }
 
         @Override
         public BotState nextState() {
-           return Choice;
-    }
-//    Training {
-//        @Override
-//        public void handleInput(BotContext context) {
-//
-//        }
-//
-//        @Override
-//        public void enter(BotContext context) throws ParseException, InterruptedException, IOException {
-//            BotImplement botController = new BotImplement();
-//            botController.start(context.getUser().getBotFunction(), context);
-//        }
-//
-//        @Override
-//        public BotState nextState() {
-//            return BotFunction;
-//        }
-//    },
-//    ProfessionalTraining {
-//        @Override
-//        public void handleInput(BotContext context) {
-//
-//        }
-//
-//        @Override
-//        public void enter(BotContext context) throws ParseException, InterruptedException, IOException {
-//            BotImplement botController = new BotImplement();
-//            botController.start(context.getUser().getBotFunction(), context);
-//        }
-//
-//        @Override
-//        public BotState nextState() {
-//            return BotFunction;
-//        }
+           return BotFunction;
+        }
  };
 
 
@@ -294,7 +264,7 @@ public enum BotState {
 
     }
 
-    public abstract void enter(BotContext context) throws ParseException, InterruptedException, IOException;
+    public abstract void enter(BotContext context) throws ParseException, InterruptedException, IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException;
     public abstract BotState nextState();
 
 }

@@ -1,5 +1,7 @@
 package com.example.scopum.Diet;
 
+import com.example.scopum.Bot.botapi.BotContext;
+
 public class LongDiet extends Diet {
     private int age; // Возраст пользователя
     private double weight; // Вес пользователя
@@ -7,12 +9,12 @@ public class LongDiet extends Diet {
     private String gender; // Пол пользователя
     private double employment; // Уровень занятости пользователя(1-5)
 
-    public LongDiet(double weight, int growth, int age, String gender, double employment) { // User user
-        this.age = age;             /* this.user */
-        this.weight = weight;
-        this.growth = growth;
-        this.gender = gender;
-        this.employment = employment;
+    public LongDiet(BotContext context) { // User user
+        this.age = context.getUser().getAge();             /* this.user */
+        this.weight = context.getUser().getWeight();
+        this.growth = context.getUser().getGrowth();
+        this.gender = context.getUser().getGender();
+        this.employment = context.getUser().getEmployment();
     }
 
     public void initLongDiet() {

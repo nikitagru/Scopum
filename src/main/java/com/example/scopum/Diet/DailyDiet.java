@@ -33,16 +33,7 @@ public class DailyDiet extends Diet {
      * @return получилось или нет
      */
     public void tryGetEatenCalPFC() {
-        //StrConst.askCalPFC();
-//        Scanner in = new Scanner(System.in);
-//
-//        String userChoice = in.nextLine();
-//        userChoice = userChoice.replaceAll("\\s+","");
-//        userChoice = userChoice.toLowerCase();
-
-        //double[] userEatenCalPFC = convertUserCalPFC(calPFC);       // конвертация БЖУК
         computeUserRemCalPFC(userCalPFC);      // подсчет оставшихся к употреблению
-
     }
 
     /**

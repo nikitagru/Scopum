@@ -13,6 +13,4 @@ abstract public class Training {
             return result;
         }
     }
-
-    //protected double[] computeUserCalTRN(String gender, double weight, int growth, int age, double employment) {}
 }

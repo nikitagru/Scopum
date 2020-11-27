@@ -12,6 +12,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 
 @Component
@@ -42,9 +43,6 @@ public class ChatBot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
-//        if (!update.hasMessage() || !update.getMessage().hasText()) {
-//            return;
-//        }
         final String text;
         final Long chatId;
         if (update.hasCallbackQuery()) {
@@ -72,7 +70,7 @@ public class ChatBot extends TelegramLongPollingBot {
 
             try {
                 state.enter(context);
-            } catch (ParseException | IOException | InterruptedException e) {
+            } catch (ParseException | IOException | InterruptedException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
                 e.printStackTrace();
             }
 
@@ -84,17 +82,22 @@ public class ChatBot extends TelegramLongPollingBot {
 
         state.handleInput(context);
 
-
         do {
             state = state.nextState();
             try {
                 state.enter(context);
-            } catch (ParseException | InterruptedException | IOException e) {
+            } catch (ParseException | InterruptedException | IOException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
             }
         } while (!state.isInputNeeded());
 
-        user.setStateId(state.ordinal());
+        if (user.getBotFunction() != null && user.getBotFunction().equals("end")) {
+            user.setStateId(8);
+            user.setBotFunction("");
+        } else {
+            user.setStateId(state.ordinal());
+        }
+
 
         userService.updateUser(user);
     }

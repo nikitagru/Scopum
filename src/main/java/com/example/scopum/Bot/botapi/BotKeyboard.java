@@ -85,13 +85,13 @@ public class BotKeyboard {
         InlineKeyboardButton inlineKeyboardButton4 = new InlineKeyboardButton();
 
         inlineKeyboardButton1.setText("Дневная диета");
-        inlineKeyboardButton1.setCallbackData("Дневная диета");
+        inlineKeyboardButton1.setCallbackData("DailyDiet");
         inlineKeyboardButton2.setText("Многодневная диета");
-        inlineKeyboardButton2.setCallbackData("Многодневная диета");
+        inlineKeyboardButton2.setCallbackData("LongDiet");
         inlineKeyboardButton3.setText("Тренировка");
-        inlineKeyboardButton3.setCallbackData("Тренировка");
+        inlineKeyboardButton3.setCallbackData("NormalTraining");
         inlineKeyboardButton4.setText("Профессиональная тренировка");
-        inlineKeyboardButton4.setCallbackData("Профессиональная тренировка");
+        inlineKeyboardButton4.setCallbackData("ProfessionalTraining");
 
         List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
         keyboardButtonsRow1.add(inlineKeyboardButton1);
