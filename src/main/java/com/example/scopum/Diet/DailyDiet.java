@@ -1,10 +1,7 @@
 package com.example.scopum.Diet;
-import com.example.scopum.Bot.StrConst;
 import com.example.scopum.Bot.botapi.BotContext;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-
-import java.util.Scanner;
 
 public class DailyDiet extends Diet {
     private int age; // Возраст пользователя

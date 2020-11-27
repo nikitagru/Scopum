@@ -1,9 +1,8 @@
 package com.example.scopum.Bot.botapi;
 
-import com.example.scopum.Bot.StrConst;
+import com.example.scopum.Bot.BotVisualizer;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 import java.util.ArrayList;
@@ -73,7 +72,7 @@ public class BotKeyboard {
 
         inlineKeyboardMarkup.setKeyboard(rowList);
 
-        return new SendMessage().setChatId(chatId).setText(StrConst.askEmployment()).setReplyMarkup(inlineKeyboardMarkup);
+        return new SendMessage().setChatId(chatId).setText(BotVisualizer.askEmployment()).setReplyMarkup(inlineKeyboardMarkup);
     }
 
     public static SendMessage choiceButtons(long chatId) {

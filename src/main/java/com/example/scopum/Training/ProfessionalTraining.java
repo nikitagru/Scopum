@@ -6,7 +6,6 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 public class ProfessionalTraining extends Training{
 
@@ -29,36 +28,36 @@ public class ProfessionalTraining extends Training{
 
         switch (answer) {
             case "1":
-                badminton();
+                badmintonTraining();
                 break;
             case "2":
-                basketball();
+                basketballTraining();
                 break;
             case "3":
-                billiards();
+                billiardsTraining();
                 break;
             case "4":
-                boxing();
+                boxTraining();
                 break;
             case "5":
                 cycling();
                 break;
             case "6":
-                eSport();
+                cyberSportTraining();
                 break;
             case "7":
-                tableTennis();
+                tableTennisTraining();
                 break;
             case "8":
-                football();
+                footballTraining();
                 break;
             case "9":
-                hockey();
+                hockeyTraining();
                 break;
         }
     }
 
-    private void badminton() throws IOException, InterruptedException {
+    private void badmintonTraining() throws IOException, InterruptedException {
         StringBuilder sb = new StringBuilder();
         sb.append("Я думаю, что для игры в бадминтон полезно будет выполнять следующие упражнения:\n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
@@ -66,7 +65,7 @@ public class ProfessionalTraining extends Training{
         sendMessage(sb.toString());
     }
 
-    private void basketball() throws InterruptedException {
+    private void basketballTraining() throws InterruptedException {
         StringBuilder sb = new StringBuilder();
         sb.append("Я думаю, что для игры в бадминтон полезно будет выполнять следующие упражнения: \n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
@@ -74,14 +73,14 @@ public class ProfessionalTraining extends Training{
         sendMessage(sb.toString());
     }
 
-    private void billiards() throws InterruptedException {
+    private void billiardsTraining() throws InterruptedException {
         StringBuilder sb = new StringBuilder();
         sb.append("Я думаю, что для игры в бильярд полезно будет выполнять следующие упражнения: \n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
         sendMessage(sb.toString());
     }
 
-    private void boxing() throws InterruptedException {
+    private void boxTraining() throws InterruptedException {
         StringBuilder sb = new StringBuilder();
         sb.append("Я думаю, что для бокса полезно будет выполнять следующие упражнения: \n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
@@ -95,28 +94,28 @@ public class ProfessionalTraining extends Training{
         sendMessage(sb.toString());
     }
 
-    private void eSport() throws InterruptedException {
+    private void cyberSportTraining() throws InterruptedException {
         StringBuilder sb = new StringBuilder();
         sb.append("Я думаю, что для игры в киберспорт полезно будет выполнять следующие упражнения: \n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
         sendMessage(sb.toString());
     }
 
-    private void tableTennis() throws InterruptedException {
+    private void tableTennisTraining() throws InterruptedException {
         StringBuilder sb = new StringBuilder();
         sb.append("Я думаю, что для игры в настольный теннис полезно будет выполнять следующие упражнения: \n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
         sendMessage(sb.toString());
     }
 
-    private void football() throws InterruptedException {
+    private void footballTraining() throws InterruptedException {
         StringBuilder sb = new StringBuilder();
         sb.append("Я думаю, что для игры в футбол полезно будет выполнять следующие упражнения:\n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
         sendMessage(sb.toString());
     }
 
-    private void hockey() throws InterruptedException {
+    private void hockeyTraining() throws InterruptedException {
         StringBuilder sb = new StringBuilder();
         sb.append("Я думаю, что для игры в хоккей полезно будет выполнять следующие упражнения: \n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");

@@ -1,6 +1,6 @@
 package com.example.scopum.Bot;
 
-public class StrConst {
+public class BotVisualizer {
 
     public static String hello() {
         StringBuilder sb = new StringBuilder();

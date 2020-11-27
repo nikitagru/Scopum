@@ -1,6 +1,6 @@
 package com.example.scopum.Bot.botapi;
 
-import com.example.scopum.Bot.StrConst;
+import com.example.scopum.Bot.BotVisualizer;
 import com.example.scopum.Bot.BotController;
 import org.json.simple.parser.ParseException;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,7 +15,7 @@ public enum BotState {
     Start {
         @Override
         public void enter(BotContext context) {
-            sendMessage(context, StrConst.hello());
+            sendMessage(context, BotVisualizer.hello());
         }
 
         @Override
@@ -201,28 +201,19 @@ public enum BotState {
 
 
     private static BotState[] states;
-    private final boolean inputNeeded;
+    private final boolean isInputNeeded;
     private SendMessage keyboardInput;
-    private String botFunction;
-
-    public String getBotFunction() {
-        return botFunction;
-    }
-
-    public void setBotFunctionUser(String botFunction) {
-        this.botFunction = botFunction;
-    }
 
     public void setKeyboardInput(SendMessage keyboardInput) {
         this.keyboardInput = keyboardInput;
     }
 
     BotState() {
-        this.inputNeeded = true;
+        this.isInputNeeded = true;
     }
 
     BotState(boolean inputNeeded) {
-        this.inputNeeded = inputNeeded;
+        this.isInputNeeded = inputNeeded;
     }
 
     public static BotState getInitialState() {
@@ -258,7 +249,7 @@ public enum BotState {
 
     }
 
-    public boolean isInputNeeded() { return inputNeeded; }
+    public boolean isInputNeeded() { return isInputNeeded; }
 
     public void handleInput(BotContext context) {
 
