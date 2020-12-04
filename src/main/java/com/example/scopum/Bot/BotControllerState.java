@@ -27,7 +27,7 @@ public enum BotControllerState {
     },
     ProfessionalTraining {
         @Override
-        public void enter(BotContext context, BotController controller) throws IOException, InterruptedException {
+        public void enter(BotContext context, BotController controller) throws IOException, InterruptedException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
             controller.createProfessionalTraining(context);
         }
     };

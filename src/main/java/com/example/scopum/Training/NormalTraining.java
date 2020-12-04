@@ -18,7 +18,8 @@ public class NormalTraining extends Training {
     }
 
     public void formatNormalTraining() throws IOException, InterruptedException {
-        SendMessage keyboardInput = BotKeyboard.normalTraining(context.getUser().getChatId());
+        BotKeyboard botKeyboard = new BotKeyboard();
+        SendMessage keyboardInput = botKeyboard.normalTraining(context.getUser().getChatId());
 
         try {
             context.getBot().execute(keyboardInput);
@@ -26,25 +27,6 @@ public class NormalTraining extends Training {
             e.printStackTrace();
         }
 
-        String answer = context.getCallBack().getData();
-
-        switch (answer) {
-            case "1":
-                bodyTraining();
-                break;
-            case "2":
-                slimingTraining();
-                break;
-            case "3":
-               armsTraining();
-                break;
-            case "4":
-                pressTraining();
-                break;
-            case "5":
-                legsTraining();
-                break;
-        }
     }
 
     public void invokeTraining(String methodName) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {

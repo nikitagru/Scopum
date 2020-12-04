@@ -46,13 +46,12 @@ public class ChatBot extends TelegramLongPollingBot {
         final String text;
         final Long chatId;
         if (update.hasCallbackQuery()) {
-            text = update.getCallbackQuery().getData();
             chatId = update.getCallbackQuery().getMessage().getChatId();
+            text = update.getCallbackQuery().getData();
         } else {
             text = update.getMessage().getText();
             chatId = update.getMessage().getChatId();
         }
-
 
         User user = userService.findByChatId(chatId);
 
@@ -73,7 +72,6 @@ public class ChatBot extends TelegramLongPollingBot {
             } catch (ParseException | IOException | InterruptedException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
                 e.printStackTrace();
             }
-
         } else {
             context = BotContext.of(this, text, user, update.getCallbackQuery());
             state = BotState.byId(user.getStateId());

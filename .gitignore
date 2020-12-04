@@ -1,6 +1,4 @@
 telegram.properties
-Users.json
-DataBase.java
 /out/*
 /.idea/*
 .iml

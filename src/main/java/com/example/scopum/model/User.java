@@ -126,17 +126,15 @@ public class User {
         this.employment = employment;
     }
 
-    public void setAllergyProducts(String allergyProd) {
-        if (allergyProd != null && !allergyProd.equals("")) {
-            this.allergyProducts = allergyProd;
-        } else {
-            this.allergyProducts = null;
-        }
-
+    public void setAllergyProducts(String allergyProducts) {
+        this.allergyProducts = allergyProducts;
     }
 
     public String[] getAllergyProducts() {
-        List<String> allergy = Arrays.asList(this.allergyProducts.split(" "));
-        return allergy.toArray(String[]::new);
+        if (this.allergyProducts != null) {
+            List<String> allergy = Arrays.asList(this.allergyProducts.split(" "));
+            return allergy.toArray(String[]::new);
+        }
+        return null;
     }
 }

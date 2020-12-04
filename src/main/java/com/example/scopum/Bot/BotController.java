@@ -1,6 +1,7 @@
 package com.example.scopum.Bot;
 
 import com.example.scopum.Bot.botapi.BotContext;
+import com.example.scopum.Bot.botapi.BotKeyboard;
 import com.example.scopum.Diet.DailyDiet;
 import com.example.scopum.Diet.LongDiet;
 import com.example.scopum.Diet.ProductsFinder;
@@ -12,6 +13,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,8 +25,8 @@ public class BotController {
     public void createDailyDiet(BotContext context) throws ParseException {
         DailyDiet dailyDiet = new DailyDiet(context);
 
-
         dailyDiet.tryGetEatenCalPFC();
+
 
         String[] userAllergyProd = context.getUser().getAllergyProducts();
         ProductsFinder finder = new ProductsFinder(dailyDiet.remCalPFC, userAllergyProd);
@@ -82,16 +84,21 @@ public class BotController {
 
     public void createNormalTraining(BotContext context) throws IOException, InterruptedException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         NormalTraining nTraining = new NormalTraining(context);
-        if (context.getCallBack() != null) {
+        if (!Arrays.asList(BotKeyboard.getNormalTrainings()).contains(context.getCallBack().getData())) {
             nTraining.formatNormalTraining();
         } else {
             nTraining.invokeTraining(context.getCallBack().getData());
         }
     }
 
-    public void createProfessionalTraining(BotContext context) throws IOException, InterruptedException {
+    public void createProfessionalTraining(BotContext context) throws IOException, InterruptedException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         ProfessionalTraining pTraining = new ProfessionalTraining(context);
-        pTraining.formatProfessionalTraining();
+        if (!Arrays.asList(BotKeyboard.getProfessionalTrainings()).contains(context.getCallBack().getData())) {
+            pTraining.formatProfessionalTraining();
+        } else {
+            pTraining.invokeTraining(context.getCallBack().getData());
+        }
+
     }
 
     public void start(BotContext context) throws ParseException, IOException, InterruptedException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {

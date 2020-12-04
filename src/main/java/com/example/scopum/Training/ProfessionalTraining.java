@@ -6,6 +6,8 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class ProfessionalTraining extends Training{
 
@@ -16,61 +18,36 @@ public class ProfessionalTraining extends Training{
     }
 
     public void formatProfessionalTraining() throws IOException, InterruptedException {
-        SendMessage keyboardInput = BotKeyboard.professionalTraining(context.getUser().getChatId());
+        BotKeyboard botKeyboard = new BotKeyboard();
+        SendMessage keyboardInput = botKeyboard.professionalTraining(context.getUser().getChatId());
 
         try {
             context.getBot().execute(keyboardInput);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
-
-        String answer = context.getCallBack().getData();
-
-        switch (answer) {
-            case "1":
-                badmintonTraining();
-                break;
-            case "2":
-                basketballTraining();
-                break;
-            case "3":
-                billiardsTraining();
-                break;
-            case "4":
-                boxTraining();
-                break;
-            case "5":
-                cycling();
-                break;
-            case "6":
-                cyberSportTraining();
-                break;
-            case "7":
-                tableTennisTraining();
-                break;
-            case "8":
-                footballTraining();
-                break;
-            case "9":
-                hockeyTraining();
-                break;
-        }
     }
+
+    public void invokeTraining(String methodName) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        Method training = this.getClass().getDeclaredMethod(methodName, null);
+        training.invoke(this,null);
+    }
+
 
     private void badmintonTraining() throws IOException, InterruptedException {
         StringBuilder sb = new StringBuilder();
         sb.append("Я думаю, что для игры в бадминтон полезно будет выполнять следующие упражнения:\n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
-
         sendMessage(sb.toString());
+        context.getUser().setBotFunction("end");
     }
 
     private void basketballTraining() throws InterruptedException {
         StringBuilder sb = new StringBuilder();
         sb.append("Я думаю, что для игры в бадминтон полезно будет выполнять следующие упражнения: \n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
-
         sendMessage(sb.toString());
+        context.getUser().setBotFunction("end");
     }
 
     private void billiardsTraining() throws InterruptedException {
@@ -78,6 +55,7 @@ public class ProfessionalTraining extends Training{
         sb.append("Я думаю, что для игры в бильярд полезно будет выполнять следующие упражнения: \n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
         sendMessage(sb.toString());
+        context.getUser().setBotFunction("end");
     }
 
     private void boxTraining() throws InterruptedException {
@@ -85,6 +63,7 @@ public class ProfessionalTraining extends Training{
         sb.append("Я думаю, что для бокса полезно будет выполнять следующие упражнения: \n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
         sendMessage(sb.toString());
+        context.getUser().setBotFunction("end");
     }
 
     private void cycling() throws InterruptedException {
@@ -92,6 +71,7 @@ public class ProfessionalTraining extends Training{
         sb.append("Я думаю, что для велоспорта полезно будет выполнять следующие упражнения: \n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
         sendMessage(sb.toString());
+        context.getUser().setBotFunction("end");
     }
 
     private void cyberSportTraining() throws InterruptedException {
@@ -99,6 +79,7 @@ public class ProfessionalTraining extends Training{
         sb.append("Я думаю, что для игры в киберспорт полезно будет выполнять следующие упражнения: \n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
         sendMessage(sb.toString());
+        context.getUser().setBotFunction("end");
     }
 
     private void tableTennisTraining() throws InterruptedException {
@@ -106,6 +87,7 @@ public class ProfessionalTraining extends Training{
         sb.append("Я думаю, что для игры в настольный теннис полезно будет выполнять следующие упражнения: \n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
         sendMessage(sb.toString());
+        context.getUser().setBotFunction("end");
     }
 
     private void footballTraining() throws InterruptedException {
@@ -113,6 +95,7 @@ public class ProfessionalTraining extends Training{
         sb.append("Я думаю, что для игры в футбол полезно будет выполнять следующие упражнения:\n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
         sendMessage(sb.toString());
+        context.getUser().setBotFunction("end");
     }
 
     private void hockeyTraining() throws InterruptedException {
@@ -120,6 +103,7 @@ public class ProfessionalTraining extends Training{
         sb.append("Я думаю, что для игры в хоккей полезно будет выполнять следующие упражнения: \n");
         sb.append("Подтягивания - Отжимания - Использование_гантелей - Основная_планка - Боковая_планка - Качание_пресса - Растягивание_мышц_пресса - Приседания - Выпады_ногами - Зашагивания - Тяга_на_одной_ноге");
         sendMessage(sb.toString());
+        context.getUser().setBotFunction("end");
     }
 
     private void sendMessage(String text) {

@@ -7,7 +7,7 @@ public class BotContext {
     private final ChatBot bot;  //телеграм бот
     private final User user;    //пользователь, с которым работает бот
     private final String input; //последний ввод пользователя
-    private final CallbackQuery callBack;   //объект callBack(кнопки и прочее)
+    private CallbackQuery callBack;   //объект callBack(кнопки и прочее)
 
 
     public static BotContext of(ChatBot bot, String input, User user, CallbackQuery callBack) {return new BotContext(input, user, bot, callBack); }
@@ -34,4 +34,7 @@ public class BotContext {
         return this.input;
     }
 
+    public void setCallBack() {
+        this.callBack = null;
+    }
 }

@@ -74,7 +74,8 @@ public enum BotState {
     Gender {
         @Override
         public void enter(BotContext context) {
-            setKeyboardInput(BotKeyboard.genderButtons(context.getUser().getChatId()));
+            BotKeyboard botKeyboard = new BotKeyboard();
+            setKeyboardInput(botKeyboard.genderButtons(context.getUser().getChatId()));
             sendMessage(context, "Какой у вас пол?");
         }
 
@@ -91,7 +92,8 @@ public enum BotState {
     Employment {
         @Override
         public void enter(BotContext context) {
-            setKeyboardInput(BotKeyboard.employmentButtons(context.getUser().getChatId()));
+            BotKeyboard botKeyboard = new BotKeyboard();
+            setKeyboardInput(botKeyboard.employmentButtons(context.getUser().getChatId()));
             sendMessage(context, "Какой у вас образ жизни?");
         }
 
@@ -132,18 +134,14 @@ public enum BotState {
     AllergyProducts {
         @Override
         public void handleInput(BotContext context) {
-            if(context.getCallBack().getData().equals("Да")) {
-                sendMessage(context, "Введите список продуктов через пробел в начальной форме. Вместо \"огурцы\" напишите просто \"огурец\"");
-                context.getUser().setAllergyProducts(context.getInput());
-            } else {
-                context.getUser().setAllergyProducts(null);
-            }
+            context.getUser().setAllergyProducts(context.getInput());
         }
 
         @Override
         public void enter(BotContext context) {
-            setKeyboardInput(BotKeyboard.tryToGetAllergy(context.getUser().getChatId()));
-            sendMessage(context, "Имеете ли вы аллергию на какие-нибудь продукты?");
+//            BotKeyboard botKeyboard = new BotKeyboard();
+//            setKeyboardInput(botKeyboard.tryToGetAllergy(context.getUser().getChatId()));
+            sendMessage(context, "Имеете ли вы аллергию на какие-нибудь продукты? Если нет, то так и напишите. Если да, то перечислите все продукты через пробел в начальной форме. Вместо \"огурцы\" напишите просто \"огурец\"");
         }
 
         @Override
@@ -170,7 +168,8 @@ public enum BotState {
 
         @Override
         public void enter(BotContext context) {
-            setKeyboardInput(BotKeyboard.choiceButtons(context.getUser().getChatId()));
+            BotKeyboard botKeyboard = new BotKeyboard();
+            setKeyboardInput(botKeyboard.choiceButtons(context.getUser().getChatId()));
             sendMessage(context, "Выберите, что вы хотели бы сделать:");
         }
 
