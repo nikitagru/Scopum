@@ -1,12 +1,13 @@
 package com.example.scopum.Diet;
 
 import com.example.scopum.Bot.botapi.BotContext;
+import com.example.scopum.model.Gender;
 
 public class LongDiet extends Diet {
     private int age; // Возраст пользователя
     private double weight; // Вес пользователя
     private int growth; // Рост пользователя
-    private String gender; // Пол пользователя
+    private Gender gender; // Пол пользователя
     private double employment; // Уровень занятости пользователя(1-5)
 
     public LongDiet(BotContext context) { // User user

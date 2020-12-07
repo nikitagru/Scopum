@@ -1,5 +1,7 @@
 package com.example.scopum.Diet;
+import com.example.scopum.Bot.Message;
 import com.example.scopum.Bot.botapi.BotContext;
+import com.example.scopum.model.Gender;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -7,7 +9,7 @@ public class DailyDiet extends Diet {
     private int age; // Возраст пользователя
     private double weight; // Вес пользователя
     private int growth; // Рост пользователя
-    private String gender; // Пол пользователя
+    private Gender gender; // Пол пользователя
     private double employment; // Уровень занятости пользователя(1-5)
     public double[] remCalPFC = new double[4];      // оставшиеся БЖУК
     private double[] userCalPFC;
@@ -45,23 +47,9 @@ public class DailyDiet extends Diet {
                                         userDailyCalPfc[2] - userEatenCalPFC[2],
                                         userDailyCalPfc[3] - userEatenCalPFC[3]};
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("Вам осталось необходимо употребить:\n");
-        sb.append(remCalPFC[0] + " " + "калорий\n");
-        sb.append(remCalPFC[1] + " " + "белков\n");
-        sb.append(remCalPFC[2] + " " + "жиров\n");
-        sb.append(remCalPFC[3] + " " + "углеводов");
-
-        SendMessage message = new SendMessage()
-                .setChatId(context.getUser().getChatId())
-                .setText(sb.toString());
-
-        try {
-            context.getBot().execute(message);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-
+        Message message = new Message();
+        message.setRemUserCalPFC(remCalPFC);
+        message.sendMessage(context, message.getRemUserCalPFC());
     }
 
 }

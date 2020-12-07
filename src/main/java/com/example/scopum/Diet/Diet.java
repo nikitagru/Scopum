@@ -1,5 +1,7 @@
 package com.example.scopum.Diet;
 
+import com.example.scopum.model.Gender;
+
 abstract public class Diet {
     /**
      * Подсчет дневной нормы калорий
@@ -10,8 +12,8 @@ abstract public class Diet {
      * @param employment
      * @return Дневная норма калорий
      */
-    protected double computeDailyCal(String gender, double weight, int growth, int age, double employment) {
-        if (gender == "Мужчина") {
+    protected double computeDailyCal(Gender gender, double weight, int growth, int age, double employment) {
+        if (gender.equals(Gender.male)) {
             double result = (10 * weight) + (6.25 * growth) - (5 * age + 5) * employment;
             return result;
         } else {
@@ -29,7 +31,7 @@ abstract public class Diet {
      * @param employment
      * @return Дневная норма БЖУК
      */
-    protected double[] computeUserCalPFC(String gender, double weight, int growth, int age, double employment) {
+    protected double[] computeUserCalPFC(Gender gender, double weight, int growth, int age, double employment) {
         double dailyCal = computeDailyCal(gender, weight, growth, age, employment);
         double[] userCalPFC;
 

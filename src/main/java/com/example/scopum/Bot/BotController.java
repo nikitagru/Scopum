@@ -22,6 +22,11 @@ import java.util.Map;
  */
 public class BotController {
 
+    /**
+     * Разовый подбор блюда
+     * @param context контекст приложения
+     * @throws ParseException
+     */
     public void createDailyDiet(BotContext context) throws ParseException {
         DailyDiet dailyDiet = new DailyDiet(context);
 
@@ -43,32 +48,13 @@ public class BotController {
 
 
         if (calPFC[0] == 0.0) {
-            SendMessage message = new SendMessage().setChatId(context.getUser().getChatId())
-                    .setText("Мы не смогли ничего найти подходящего в нашей базе данных рецептов. Возможно, вы уже употребили достаточно пищи сегодня");
-            try {
-                context.getBot().execute(message);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
+            Message message = new Message();
+            message.sendMessage(context, "Мы не смогли ничего найти подходящего в нашей базе данных рецептов. " +
+                    "Возможно, вы уже употребили достаточно пищи сегодня");
         } else {
-            StringBuilder sb = new StringBuilder();
-            sb.append("Могу предложить вам этот рецепт:\n");
-            sb.append(dishName + "\n");
-            sb.append(recipe + "\n");
-            sb.append(ingred + "\n");
-            sb.append("БЖУК данного рецепта:\n");
-            sb.append(calPFC[0] + " " + "белков" + "\n");
-            sb.append(calPFC[1] + " " + "жиров" + "\n");
-            sb.append(calPFC[2] + " " + "углеводов" + "\n");
-            sb.append(calPFC[3] + " " + "калорий" + "\n");
-
-            SendMessage message = new SendMessage().setChatId(context.getUser().getChatId())
-                    .setText(sb.toString());
-            try {
-                context.getBot().execute(message);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
+            Message message = new Message();
+            message.setFullRecipe(dishName, recipe, ingred, calPFC);
+            message.sendMessage(context, message.getFullRecipe());
 
             context.getUser().setBotFunction("end");
         }

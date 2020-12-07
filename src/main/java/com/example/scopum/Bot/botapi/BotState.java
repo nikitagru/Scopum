@@ -2,6 +2,7 @@ package com.example.scopum.Bot.botapi;
 
 import com.example.scopum.Bot.BotVisualizer;
 import com.example.scopum.Bot.BotController;
+import org.checkerframework.checker.units.qual.A;
 import org.json.simple.parser.ParseException;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -31,7 +32,7 @@ public enum BotState {
 
         @Override
         public void handleInput(BotContext context) {
-            context.getUser().setAge(Integer.parseInt(context.getInput()));
+            context.getUser().setAge(context.getInput(), context);
         }
 
         @Override
@@ -47,7 +48,7 @@ public enum BotState {
 
         @Override
         public void handleInput(BotContext context) {
-            context.getUser().setWeight(Double.parseDouble(context.getInput()));
+            context.getUser().setWeight(context.getInput(), context);
         }
 
         @Override
@@ -63,7 +64,7 @@ public enum BotState {
 
         @Override
         public void handleInput(BotContext context) {
-            context.getUser().setGrowth(Integer.parseInt(context.getInput()));
+            context.getUser().setGrowth(context.getInput(), context);
         }
 
         @Override
@@ -104,26 +105,66 @@ public enum BotState {
 
         @Override
         public BotState nextState() {
-            return CalPFC;
+            return Calories;
         }
     },
-    CalPFC {
+    Calories {
         @Override
         public void handleInput(BotContext context) {
-
-            String[] userCalPFC = context.getInput().split("_");
-            double[] finUserCalPfc = new double[4];
-
-            for(int i = 0; i < 4; i++) {
-                finUserCalPfc[i] = Double.parseDouble(userCalPFC[i]);
-            }
-
-            context.getUser().setCalPFC(finUserCalPfc);
+            context.getUser().setCalories(context.getInput(), context);
         }
 
         @Override
         public void enter(BotContext context)  {
-            sendMessage(context, "Укажите сколько КБЖУ вы сегодня употребили в формате: К_Б_Ж_У (без пробелов и через подчеркивание)");
+            sendMessage(context, "Укажите сколько калорий вы сегодня употребили(если не знаете, то просто пишете 0)");
+        }
+
+        @Override
+        public BotState nextState() {
+            return Proteins;
+        }
+    },
+    Proteins {
+        @Override
+        public void handleInput(BotContext context) {
+            context.getUser().setProteins(context.getInput(), context);
+        }
+
+        @Override
+        public void enter(BotContext context) throws ParseException, InterruptedException, IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+            sendMessage(context, "Укажите сколько белков вы сегодня употребили(если не знаете, то просто пишите 0)");
+        }
+
+        @Override
+        public BotState nextState() {
+            return Fat;
+        }
+    },
+    Fat {
+        @Override
+        public void handleInput(BotContext context) {
+            context.getUser().setFat(context.getInput(), context);
+        }
+
+        @Override
+        public void enter(BotContext context) throws ParseException, InterruptedException, IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+            sendMessage(context, "Укажите сколько жиров вы сегодня употребили(если не знаете, то просто пишите 0)");
+        }
+
+        @Override
+        public BotState nextState() {
+            return Carbohydrates;
+        }
+    },
+    Carbohydrates {
+        @Override
+        public void handleInput(BotContext context) {
+            context.getUser().setCarbohydrates(context.getInput(), context);
+        }
+
+        @Override
+        public void enter(BotContext context) throws ParseException, InterruptedException, IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+            sendMessage(context, "Укажите сколько углеводов вы сегодня употребили(если не знаете, то просто пишите 0)");
         }
 
         @Override
@@ -134,13 +175,11 @@ public enum BotState {
     AllergyProducts {
         @Override
         public void handleInput(BotContext context) {
-            context.getUser().setAllergyProducts(context.getInput());
+            context.getUser().setAllergyProducts(context.getInput(), context);
         }
 
         @Override
         public void enter(BotContext context) {
-//            BotKeyboard botKeyboard = new BotKeyboard();
-//            setKeyboardInput(botKeyboard.tryToGetAllergy(context.getUser().getChatId()));
             sendMessage(context, "Имеете ли вы аллергию на какие-нибудь продукты? Если нет, то так и напишите. Если да, то перечислите все продукты через пробел в начальной форме. Вместо \"огурцы\" напишите просто \"огурец\"");
         }
 
@@ -199,9 +238,9 @@ public enum BotState {
  };
 
 
-    private static BotState[] states;
+    private static BotState[] states;       //массив состояний бота
     private final boolean isInputNeeded;
-    private SendMessage keyboardInput;
+    private SendMessage keyboardInput;      //тип сообщения, где присутствует клавиатура у сообщения бота
 
     public void setKeyboardInput(SendMessage keyboardInput) {
         this.keyboardInput = keyboardInput;
@@ -215,6 +254,10 @@ public enum BotState {
         this.isInputNeeded = inputNeeded;
     }
 
+    /**
+     * Возвращает начальное состояние бота
+     * @return Самое первое состояние
+     */
     public static BotState getInitialState() {
         return byId(0);
     }
@@ -227,6 +270,19 @@ public enum BotState {
         return states[id];
     }
 
+    /**
+     * Возвращает бота в меню выбора функции
+     * @return Ожидание ввода
+     */
+    public BotState getChoiceMenu() {
+        return Approved;
+    }
+
+    /**
+     * Отправляет сообщение пользователю
+     * @param context контекст приложения
+     * @param text текст сообщения
+     */
     protected void sendMessage(BotContext context, String text) {
         if (keyboardInput == null) {
             SendMessage message = new SendMessage()
@@ -250,11 +306,30 @@ public enum BotState {
 
     public boolean isInputNeeded() { return isInputNeeded; }
 
+    /**
+     * Обработка ввода от пользователя
+     * @param context контекст приложения
+     */
     public void handleInput(BotContext context) {
 
     }
 
+    /**
+     * Вход в состояние
+     * @param context контекст приложения
+     * @throws ParseException
+     * @throws InterruptedException
+     * @throws IOException
+     * @throws NoSuchMethodException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     */
     public abstract void enter(BotContext context) throws ParseException, InterruptedException, IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException;
+
+    /**
+     * Переходит в следующее состояние
+     * @return Следующее состояние
+     */
     public abstract BotState nextState();
 
 }

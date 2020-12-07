@@ -45,7 +45,7 @@ public class ChatBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         final String text;
         final Long chatId;
-        if (update.hasCallbackQuery()) {
+        if (update.hasCallbackQuery()) {        // если была нажата кнопка и т.д
             chatId = update.getCallbackQuery().getMessage().getChatId();
             text = update.getCallbackQuery().getData();
         } else {
@@ -53,19 +53,18 @@ public class ChatBot extends TelegramLongPollingBot {
             chatId = update.getMessage().getChatId();
         }
 
-        User user = userService.findByChatId(chatId);
+        User user = userService.findByChatId(chatId);       //ищет в БД пользователя по chatId
 
         BotContext context;
         BotState state;
 
-        if (user == null) {
+        if (user == null) {     //если не нашли пользователя(пользователь первый раз общается с ботом)
             state = BotState.getInitialState();
 
             user = new User(chatId, state.ordinal());
             userService.addUser(user);
 
             context = BotContext.of(this, text, user, update.getCallbackQuery());
-
 
             try {
                 state.enter(context);
@@ -81,16 +80,19 @@ public class ChatBot extends TelegramLongPollingBot {
         state.handleInput(context);
 
         do {
-            state = state.nextState();
-            try {
-                state.enter(context);
-            } catch (ParseException | InterruptedException | IOException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
+            if (context.getUser().isCorrect()) {        //если пользователь ввел корректное сообщение
+                state = state.nextState();
+
+                try {
+                    state.enter(context);
+                } catch (ParseException | InterruptedException | IOException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                    e.printStackTrace();
+                }
             }
         } while (!state.isInputNeeded());
 
-        if (user.getBotFunction() != null && user.getBotFunction().equals("end")) {
-            user.setStateId(8);
+        if (user.getBotFunction() != null && user.getBotFunction().equals("end")) {     // если бот закончил работу с какой-то из своих основных функций
+            user.setStateId(state.getChoiceMenu().ordinal());
             user.setBotFunction("");
         } else {
             user.setStateId(state.ordinal());

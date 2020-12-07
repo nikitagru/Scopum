@@ -32,7 +32,17 @@ public enum BotControllerState {
         }
     };
 
-
+    /**
+     * Вход в метод обработки одной из основных функций
+     * @param context контекст приложения
+     * @param controller контроллер бота
+     * @throws ParseException
+     * @throws IOException
+     * @throws InterruptedException
+     * @throws NoSuchMethodException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     */
     public abstract void enter(BotContext context, BotController controller) throws ParseException, IOException, InterruptedException, NoSuchMethodException, IllegalAccessException, InvocationTargetException;
 
 
