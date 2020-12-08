@@ -18,18 +18,6 @@ public enum BotControllerState {
         public void enter(BotContext context, BotController controller) {
             controller.createLongDiet(context);
         }
-    },
-    NormalTraining {
-        @Override
-        public void enter(BotContext context, BotController controller) throws IOException, InterruptedException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-            controller.createNormalTraining(context);
-        }
-    },
-    ProfessionalTraining {
-        @Override
-        public void enter(BotContext context, BotController controller) throws IOException, InterruptedException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-            controller.createProfessionalTraining(context);
-        }
     };
 
     /**

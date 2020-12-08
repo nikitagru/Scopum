@@ -10,20 +10,6 @@ public class BotVisualizer {
 
         return sb.toString();
     }
-    public static void starting() {
-        System.out.println("Ваши параметры сохранены!");
-        System.out.println("Что бы вы хотели сделать?");
-        System.out.println(" Дневная диета \r\n Многодневная диета \r\n Тренировка \r\n Профессиональная тренировка");
-    }
-
-    public static void incorrectInput() {
-        System.out.println("Некорректно введенный запрос. Повторите попытку");
-    }
-
-    public static void incorrectOrSpace(){
-        incorrectInput();
-        System.out.println("В качестве имени была введена пустая строка.");
-    }
 
     public static String askEmployment() {
         StringBuilder sb = new StringBuilder();
@@ -35,9 +21,5 @@ public class BotVisualizer {
         sb.append("5. Спортсмены, выполняющие упражнения чаще, чем раз в день(несколько тренировок за день)");
 
         return sb.toString();
-    }
-
-    public static String askCalPFC() {
-        return "Вы знаете какое количество КБЖУ вы сегодня уже употребили?(Да/Нет)";
     }
 }

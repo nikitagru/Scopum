@@ -1,19 +1,13 @@
 package com.example.scopum.Bot;
 
 import com.example.scopum.Bot.botapi.BotContext;
-import com.example.scopum.Bot.botapi.BotKeyboard;
 import com.example.scopum.Diet.DailyDiet;
 import com.example.scopum.Diet.LongDiet;
 import com.example.scopum.Diet.ProductsFinder;
-import com.example.scopum.Training.NormalTraining;
-import com.example.scopum.Training.ProfessionalTraining;
 import org.json.simple.parser.ParseException;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,25 +60,6 @@ public class BotController {
         LongDiet longDiet = new LongDiet(context);
         longDiet.initLongDiet();
         context.getUser().setBotFunction("end");
-    }
-
-    public void createNormalTraining(BotContext context) throws IOException, InterruptedException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        NormalTraining nTraining = new NormalTraining(context);
-        if (!Arrays.asList(BotKeyboard.getNormalTrainings()).contains(context.getCallBack().getData())) {
-            nTraining.formatNormalTraining();
-        } else {
-            nTraining.invokeTraining(context.getCallBack().getData());
-        }
-    }
-
-    public void createProfessionalTraining(BotContext context) throws IOException, InterruptedException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
-        ProfessionalTraining pTraining = new ProfessionalTraining(context);
-        if (!Arrays.asList(BotKeyboard.getProfessionalTrainings()).contains(context.getCallBack().getData())) {
-            pTraining.formatProfessionalTraining();
-        } else {
-            pTraining.invokeTraining(context.getCallBack().getData());
-        }
-
     }
 
     public void start(BotContext context) throws ParseException, IOException, InterruptedException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
