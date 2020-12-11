@@ -2,7 +2,7 @@ package com.example.scopum.Bot;
 
 public class BotVisualizer {
 
-    public static String hello() {
+    public static String getHelloMsg() {
         StringBuilder sb = new StringBuilder();
         sb.append("Привет! Меня зовут Scopum.\n");
         sb.append("Я бот, который поможет тебе орагнизовать в твоем обычном дне элементы здорового образа жизни.\n");
@@ -11,7 +11,7 @@ public class BotVisualizer {
         return sb.toString();
     }
 
-    public static String askEmployment() {
+    public static String getEmploymentMsg() {
         StringBuilder sb = new StringBuilder();
         sb.append("Какой у вас дневной образ жизни?\n");
         sb.append("1. Сидячий без нагрузок\n");

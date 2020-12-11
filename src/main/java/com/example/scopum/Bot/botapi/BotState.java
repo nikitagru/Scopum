@@ -2,7 +2,6 @@ package com.example.scopum.Bot.botapi;
 
 import com.example.scopum.Bot.BotVisualizer;
 import com.example.scopum.Bot.BotController;
-import org.checkerframework.checker.units.qual.A;
 import org.json.simple.parser.ParseException;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
@@ -16,7 +15,7 @@ public enum BotState {
     Start {
         @Override
         public void enter(BotContext context) {
-            sendMessage(context, BotVisualizer.hello());
+            sendMessage(context, BotVisualizer.getHelloMsg());
         }
 
         @Override

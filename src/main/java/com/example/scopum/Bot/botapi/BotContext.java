@@ -30,11 +30,11 @@ public class BotContext {
         return user;
     }
 
+    /**
+     * Получение последнего введенного сообщения от пользователя.
+     * @return текст сообщения
+     */
     public String getInput() {
         return this.input;
-    }
-
-    public void setCallBack() {
-        this.callBack = null;
     }
 }

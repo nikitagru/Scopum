@@ -6,6 +6,9 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * Состояния основных функций бота(Основные функции)
+ */
 public enum BotControllerState {
     DailyDiet{
         @Override

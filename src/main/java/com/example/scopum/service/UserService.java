@@ -5,6 +5,9 @@ import com.example.scopum.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * Сервис для работы с репозиторием
+ */
 @Service
 public class UserService {
 
@@ -15,11 +18,9 @@ public class UserService {
         this.userRepo = userRepository;
     }
 
-
     public User findByChatId(long id) {
         return userRepo.findById(id);
     }
-
 
     public void addUser(User user) {
         userRepo.save(user);

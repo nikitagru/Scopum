@@ -9,18 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BotKeyboard implements Keyboard{
-
-    private static final String[] normalTrainings = {"bodyTraining", "slimingTraining", "armsTraining", "pressTraining", "legsTraining"};
-    private static final String[] professionalTrainings = {"badmintonTraining", "basketballTraining", "billiardsTraining", "boxTraining", "cycling", "cyberSportTraining", "tableTennisTraining", "footballTraining", "hockeyTraining" };
-
-    public static String[] getNormalTrainings() {
-        return normalTrainings;
-    }
-
-    public static String[] getProfessionalTrainings() {
-        return professionalTrainings;
-    }
-
     public SendMessage genderButtons(long chatId) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
@@ -55,7 +43,7 @@ public class BotKeyboard implements Keyboard{
 
         inlineKeyboardMarkup.setKeyboard(createGrid(buttons));
 
-        return new SendMessage().setChatId(chatId).setText(BotVisualizer.askEmployment()).setReplyMarkup(inlineKeyboardMarkup);
+        return new SendMessage().setChatId(chatId).setText(BotVisualizer.getEmploymentMsg()).setReplyMarkup(inlineKeyboardMarkup);
     }
 
     public SendMessage choiceButtons(long chatId) {
@@ -63,12 +51,10 @@ public class BotKeyboard implements Keyboard{
 
         List<InlineKeyboardButton> buttons;
 
-        buttons = initializeButton(4);
+        buttons = initializeButton(2);
 
         setData(buttons.get(0), "Дневная диета", "DailyDiet");
         setData(buttons.get(1), "Многодневная диета", "LongDiet");
-        setData(buttons.get(2), "Тренировка", "NormalTraining");
-        setData(buttons.get(3), "Профессиональная тренировка", "ProfessionalTraining");
 
         inlineKeyboardMarkup.setKeyboard(createGrid(buttons));
 
