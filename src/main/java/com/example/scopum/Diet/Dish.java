@@ -1,46 +1,74 @@
 package com.example.scopum.Diet;
 
-import java.util.HashMap;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "dish")
 public class Dish {
-    private double[] calPFC;
+
+    @Id
+    private long id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "calories")
+    private double calories;
+    @Column(name = "proteins")
+    private double proteins;
+    @Column(name = "fat")
+    private double fat;
+    @Column(name = "carbohydrates")
+    private double carbohydrates;
+    @Column(name = "recipe")
+    private String recipe;
+    @Column(name = "ingredients")
+    private String ingredients;
+    @Column(name = "picturename")
+    private String pictureName;
+    @Column(name = "time")
+    private String time;
 
-    public Dish(String product) {
-        initDish(product);
+    public String getName() {
+        return name;
     }
 
-    /**
-     * Инициализация блюда
-     * @param product Строка блюда(название и бжук)
-     */
-    private void initDish(String product) {
-        product = product.replaceAll("_", " ");     // замена _ на пробел
-        product = product.replaceAll("__", "\n");       // замена __ на перенос строки
-
-        String[] prodcutCalPFC = product.split("=");        // 0 - название, 1 - БЖУК
-        this.name = prodcutCalPFC[0];
-        prodcutCalPFC[1] = prodcutCalPFC[1].substring(1);
-        prodcutCalPFC[1] = prodcutCalPFC[1].replaceAll("}", "");        // удаление обрамляющих скобок у БЖУК
-
-        String[] caloriesPFC = prodcutCalPFC[1].split(",");     // разделение всех строк БЖУК
-        this.calPFC = new double[4];
-
-        for (int i = 0; i < 4; i++) {
-            caloriesPFC[i] = caloriesPFC[i].replaceAll("\"","");
-            String value = caloriesPFC[i].split(":")[1];
-            calPFC[i] = Double.parseDouble(value);      // добавление в массив одно из БЖУК
-        }
+    public double getCalories() {
+        return calories;
     }
 
-    /**
-     * Получение блюда в сконвертрованном виде
-     * @return Словарь, где ключ - название, значение - БЖУК
-     */
-    public HashMap<String, double[]> getDish() {
-        HashMap<String, double[]> result = new HashMap<>();
-        result.put(name, calPFC);
+    public double getProteins() {
+        return proteins;
+    }
 
-        return result;
+    public double getFat() {
+        return fat;
+    }
+
+    public double getCarbohydrates() {
+        return carbohydrates;
+    }
+
+    public String getRecipe() {
+        return recipe;
+    }
+
+    public String getPictureName() {
+        return pictureName;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public String getIngredients() {
+        return ingredients;
+    }
+
+
+    public double[] getCalPFC() {
+        return new double[] {calories, proteins, fat, carbohydrates};
+    }
+
+    public Dish() {
+
     }
 }
