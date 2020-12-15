@@ -2,9 +2,7 @@ package com.example.scopum.Bot.botapi;
 
 
 
-import com.example.scopum.Diet.Dish;
 import com.example.scopum.model.User;
-import com.example.scopum.service.DishService;
 import com.example.scopum.service.UserService;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
 
 @Component
 @PropertySource("classpath:telegram.properties")
@@ -28,11 +27,8 @@ public class ChatBot extends TelegramLongPollingBot {
 
     private final UserService userService;
 
-    private final DishService dishService;
-
-    public ChatBot(UserService userService, DishService dishService) {
+    public ChatBot(UserService userService) {
         this.userService = userService;
-        this.dishService = dishService;
     }
 
     @Override
@@ -59,8 +55,6 @@ public class ChatBot extends TelegramLongPollingBot {
 
         User user = userService.findByChatId(chatId);       //ищет в БД пользователя по chatId
 
-        Iterable<Dish> dishes = dishService.findAll();
-
         BotContext context;
         BotState state;
 
@@ -70,7 +64,7 @@ public class ChatBot extends TelegramLongPollingBot {
             user = new User(chatId, state.ordinal());
             userService.addUser(user);
 
-            context = BotContext.of(this, text, user, update.getCallbackQuery(), dishes);
+            context = BotContext.of(this, text, user, update.getCallbackQuery());
 
             try {
                 state.enter(context);
@@ -78,7 +72,7 @@ public class ChatBot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
         } else {
-            context = BotContext.of(this, text, user, update.getCallbackQuery(), dishes);
+            context = BotContext.of(this, text, user, update.getCallbackQuery());
             state = BotState.byId(user.getStateId());
         }
 

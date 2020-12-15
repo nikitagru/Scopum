@@ -28,14 +28,14 @@ public class BotController {
 
 
         String[] userAllergyProd = context.getUser().getAllergyProducts();
-        ProductsFinder finder = new ProductsFinder(dailyDiet.remCalPFC, userAllergyProd, context);
+        ProductsFinder finder = new ProductsFinder(dailyDiet.remCalPFC, userAllergyProd);
         HashMap<String[], double[]> dish = finder.getDishDaily();
         Map.Entry<String[], double[]> currentDish = dish.entrySet().iterator().next();
 
         String dishName = currentDish.getKey()[0];
 
         String recipe = currentDish.getKey()[1];
-        String ingredients = currentDish.getKey()[2];
+        String ingred = currentDish.getKey()[2];
 
         double[] calPFC = currentDish.getValue();
 
@@ -47,7 +47,7 @@ public class BotController {
                     "Возможно, вы уже употребили достаточно пищи сегодня");
         } else {
             Message message = new Message();
-            message.setFullRecipe(dishName, recipe, ingredients,  calPFC);
+            message.setFullRecipe(dishName, recipe, ingred, calPFC);
             message.sendMessage(context, message.getFullRecipe());
 
             context.getUser().setBotFunction("end");

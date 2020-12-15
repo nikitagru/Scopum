@@ -1,24 +1,35 @@
 package com.example.scopum.Diet;
 
-import com.example.scopum.Bot.botapi.BotContext;
+import com.example.scopum.Bot.JSONParse;
 import org.json.simple.parser.ParseException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class ProductsFinder {
+public class ProductsFinder extends JSONParse {
 
-    private List<Dish> dishes;        // массив блюд
+    private JSONParse jsonObj = new JSONParse();
+
+    private List<HashMap> dayCalPFC;        // массив дневных блюд
+    private List<HashMap> morningCalPFC;        // массив утренних блюд
+    private List<HashMap> eveningCalPFC;        // массив вечерних блюд
+    private List<HashMap> recipes;      // массив рецептов
     private double[] userRemCalPFC;     // остаток необходимых к употреблению БЖУК
     private String[] allegryProducts;       // массив аллергических продуктов пользователя
-    private BotContext context;
 
-    public ProductsFinder(double[] userRemCalPFC, String[] allergyProd, BotContext context) throws ParseException {
+    public ProductsFinder(double[] userRemCalPFC, String[] allergyProd) throws ParseException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        jsonObj.productsInit(classLoader.getResource("Day.json").getPath());
+        dayCalPFC = jsonObj.convertJson();
+        jsonObj.productsInit(classLoader.getResource("Morning.json").getPath());
+        morningCalPFC = jsonObj.convertJson();
+        jsonObj.productsInit(classLoader.getResource("Evening.json").getPath());
+        eveningCalPFC = jsonObj.convertJson();
+        jsonObj.productsInit(classLoader.getResource("Recipes.json").getPath());
+        recipes = jsonObj.convertRecipes();
         this.userRemCalPFC = userRemCalPFC;
         this.allegryProducts = allergyProd;
-        this.context = context;
-
     }
 
     /**
@@ -27,11 +38,18 @@ public class ProductsFinder {
      */
     public HashMap<String[], double[]> getDishDaily() {
         String timeOfDay = getCurrentTimeOfDay();       // получение нынешнего времени суток
-        HashMap<String[], double[]> result;
+        HashMap<String[], double[]> result = new HashMap<>();
 
-        this.dishes = getAllDishesByTime(timeOfDay, context.getDishes());
-        result = getDishAndRecipe(dishes);
-
+        switch (timeOfDay) {
+            case "morning":
+                result = getDishAndRecipe(morningCalPFC);
+                break;
+            case "day":
+                result = getDishAndRecipe(dayCalPFC);
+                break;
+            case "evening":
+                result = getDishAndRecipe(eveningCalPFC);
+        }
         return result;
     }
 
@@ -40,7 +58,7 @@ public class ProductsFinder {
      * @param dishCalPFC массив блюд
      * @return Возвращает словарь, где ключ - название блюда, рецепт и ингредиенты, а значение - БЖУК
      */
-    private HashMap<String[], double[]> getDishAndRecipe(List<Dish> dishCalPFC) {
+    private HashMap<String[], double[]> getDishAndRecipe(List<HashMap> dishCalPFC) {
         String currentDishName = "";        // название нужного блюда
         double[] currentDishCalPFC = new double[4];     // БЖУК нужного блюда
         String[] recipe = new String[2];
@@ -48,10 +66,11 @@ public class ProductsFinder {
 
         for (int i = 0; i < dishCalPFC.size(); i++) {
             Random rnd = new Random();
-            Dish dish = dishCalPFC.get(rnd.nextInt(dishCalPFC.size()));        // получение рандомного блюда из массива блюд
+            HashMap<String, double[]> dish = dishCalPFC.get(rnd.nextInt(dishCalPFC.size()));        // получение рандомного блюда из массива блюд
+            Map.Entry<String, double[]> currentDish = dish.entrySet().iterator().next();        // преобразование нужного словаря блюда
 
-            String dishName = dish.getName();     // получение название блюда
-            double[] calPFC = dish.getCalPFC();       // получение БЖУК блюда
+            String dishName = currentDish.getKey();     // получение название блюда
+            double[] calPFC = currentDish.getValue();       // получение БЖУК блюда
 
             if (    userRemCalPFC[0] - calPFC[3] > 0 &&
                     userRemCalPFC[1] - calPFC[1] > 0 &&
@@ -59,8 +78,7 @@ public class ProductsFinder {
                     userRemCalPFC[3] - calPFC[0] > 0 ) {
                 currentDishName = dishName;
                 currentDishCalPFC = calPFC;
-                recipe[0] = dish.getRecipe();       // получаем рецепт подходящего блюда
-                recipe[1] = dish.getIngredients();  // получаем ингредиенты рецепта
+                recipe = Reciptes.getRecipe(currentDishName, recipes);       // получаем рецепт подходящего блюда
 
                 boolean allergy = checkAllergy(recipe[1]);      // сдержит ли еда продукты, вызывающие аллергическую реакцию
 
@@ -91,11 +109,11 @@ public class ProductsFinder {
         int currentHour = Integer.parseInt(currentTime.substring(0, 2));
 
         if (currentHour >= 6 && currentHour < 12) {
-            return "Morning";
+            return "morning";
         } else if (currentHour >= 12 && currentHour < 15) {
-            return "Day";
+            return "day";
         } else {
-            return "Evening";
+            return "evening";
         }
     }
 
@@ -109,8 +127,8 @@ public class ProductsFinder {
 
         for (int i = 0; i < ingred.size(); i++) {
             String idredient = ingred.get(i);
-            int index = idredient.indexOf("-");     // получаем индекс первого тире
-            ingred.set(i, idredient.substring(0, index - 1).toLowerCase());     // заменяем название продукта("Помидор - 2шт" -> "помидор)"
+            int index = idredient.indexOf("-");
+            ingred.set(i, idredient.substring(0, index - 1).toLowerCase());
         }
 
         boolean result = false;
@@ -122,24 +140,7 @@ public class ProductsFinder {
             }
         }
 
+
         return result;
-    }
-
-    /**
-     * Получение всех блюд для определенного времени суток
-     * @param time Время суток(утро, день или вечер)
-     * @param dishArray массив всех блюд
-     * @return массив блюд определенного времени суток
-     */
-    public List<Dish> getAllDishesByTime(String time, Iterable<Dish> dishArray) {
-        List<Dish> dishes = new ArrayList<>();
-
-        for(Dish d : dishArray) {
-            if (d.getTime().equals(time)) {
-                dishes.add(d);
-            }
-        }
-
-        return dishes;
     }
 }

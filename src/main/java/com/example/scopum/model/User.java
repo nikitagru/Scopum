@@ -73,7 +73,7 @@ public class User {
         if (caloriesIn != null && !caloriesIn.equals("")) {
             try {
                 calories = Double.parseDouble(caloriesIn);
-                if (calories < 0.0d) {
+                if (calories <= 0.0d) {
                     Message message = new Message();
                     message.informAboutIncorrectUserInput(context);
                 } else {
@@ -97,7 +97,7 @@ public class User {
         if (proteinsIn != null && !proteinsIn.equals("")) {
             try {
                 proteins = Double.parseDouble(proteinsIn);
-                if (proteins < 0.0d) {
+                if (proteins <= 0.0d) {
                     Message message = new Message();
                     message.informAboutIncorrectUserInput(context);
                 } else {
@@ -121,7 +121,7 @@ public class User {
         if (fatIn != null && !fatIn.equals("")) {
             try {
                 fat = Double.parseDouble(fatIn);
-                if (fat < 0.0d) {
+                if (fat <= 0.0d) {
                     Message message = new Message();
                     message.informAboutIncorrectUserInput(context);
                 } else {
@@ -145,7 +145,7 @@ public class User {
         if (carbohydratesIn != null && !carbohydratesIn.equals("")) {
             try {
                 carbohydrates = Double.parseDouble(carbohydratesIn);
-                if (carbohydrates < 0.0d) {
+                if (carbohydrates <= 0.0d) {
                     Message message = new Message();
                     message.informAboutIncorrectUserInput(context);
                 } else {
@@ -298,7 +298,7 @@ public class User {
             message.informAboutIncorrectUserInput(context);
             isCorrect = false;
         } else {
-            this.allergyProducts = allergyProducts.toLowerCase();
+            this.allergyProducts = allergyProducts;
             isCorrect = true;
         }
 
