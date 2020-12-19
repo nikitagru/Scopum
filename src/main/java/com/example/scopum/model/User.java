@@ -43,6 +43,26 @@ public class User {
     private String allergyProducts;
     @Column(name = "iscorrect")
     private boolean isCorrect = true;
+    @Column(name = "tracking")
+    private boolean tracking;
+    @Column(name = "lastcalpfc")
+    private String lastCalPFC;
+
+    public String getLastCalPFC() {
+        return lastCalPFC;
+    }
+
+    public void setLastCalPFC(String lastCalPFC) {
+        this.lastCalPFC = lastCalPFC;
+    }
+
+    public boolean isTracking() {
+        return tracking;
+    }
+
+    public void setTracking(boolean tracking) {
+        this.tracking = tracking;
+    }
 
     public boolean isCorrect() {
         return isCorrect;
@@ -310,5 +330,29 @@ public class User {
             return allergy.toArray(String[]::new);
         }
         return null;
+    }
+
+    public void clickButton (String text) {
+        switch (text) {
+            case "Включить трекинг":
+                setTracking(true);
+                break;
+            case "Выключить трекинг":
+                setTracking(false);
+                break;
+            case "Отменить последний подсчет КБЖУ":
+                double[] lastCalPFC = new double[4];
+                String lastUserCalPFC = getLastCalPFC();
+
+                for (int i = 0; i < 4; i++) {
+                    lastCalPFC[i] = Double.parseDouble(lastUserCalPFC.split("_")[i]);
+                }
+                this.calories -= lastCalPFC[0];
+                this.proteins -= lastCalPFC[1];
+                this.fat -= lastCalPFC[2];
+                this.carbohydrates -= lastCalPFC[3];
+
+                break;
+        }
     }
 }

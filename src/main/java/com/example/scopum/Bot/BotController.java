@@ -4,7 +4,6 @@ import com.example.scopum.Bot.botapi.BotContext;
 import com.example.scopum.Diet.DailyDiet;
 import com.example.scopum.Diet.LongDiet;
 import com.example.scopum.Diet.ProductsFinder;
-import org.json.simple.parser.ParseException;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -19,9 +18,8 @@ public class BotController {
     /**
      * Разовый подбор блюда
      * @param context контекст приложения
-     * @throws ParseException
      */
-    public void createDailyDiet(BotContext context) throws ParseException {
+    public void createDailyDiet(BotContext context) {
         DailyDiet dailyDiet = new DailyDiet(context);
 
         dailyDiet.tryGetEatenCalPFC();
@@ -62,7 +60,7 @@ public class BotController {
         context.getUser().setBotFunction("end");
     }
 
-    public void start(BotContext context) throws ParseException, IOException, InterruptedException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public void start(BotContext context) throws IOException, InterruptedException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         BotControllerState state = BotControllerState.valueOf(context.getUser().getBotFunction());
         state.enter(context, this);
     }

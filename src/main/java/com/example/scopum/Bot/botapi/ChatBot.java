@@ -6,7 +6,6 @@ import com.example.scopum.Diet.Dish;
 import com.example.scopum.model.User;
 import com.example.scopum.service.DishService;
 import com.example.scopum.service.UserService;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -51,7 +50,7 @@ public class ChatBot extends TelegramLongPollingBot {
         final Long chatId;
         if (update.hasCallbackQuery()) {        // если была нажата кнопка и т.д
             chatId = update.getCallbackQuery().getMessage().getChatId();
-            text = update.getCallbackQuery().getData();
+            text = "";
         } else {
             text = update.getMessage().getText();
             chatId = update.getMessage().getChatId();
@@ -74,7 +73,7 @@ public class ChatBot extends TelegramLongPollingBot {
 
             try {
                 state.enter(context);
-            } catch (ParseException | IOException | InterruptedException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            } catch (IOException | InterruptedException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
                 e.printStackTrace();
             }
         } else {
@@ -91,7 +90,7 @@ public class ChatBot extends TelegramLongPollingBot {
 
                 try {
                     state.enter(context);
-                } catch (ParseException | InterruptedException | IOException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                } catch (InterruptedException | IOException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
             }
