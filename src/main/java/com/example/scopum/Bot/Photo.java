@@ -3,6 +3,9 @@ package com.example.scopum.Bot;
 import java.io.File;
 import java.util.Objects;
 
+/**
+ * сущность фотографии блюда
+ */
 public class Photo {
     private File photo;
 

@@ -7,14 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductFinder {
-    //private List<Product> products;
-    private BotContext context;
-
-    public ProductFinder(BotContext context) {
-        this.context = context;
-    }
+    /**
+     * поиск совпадения блюда в БД
+     * @param input ввод пользователя
+     * @param product итерируемый объект продуктов
+     * @return Объект продукта
+     */
     public Product getCalPFC(String input, Iterable<Product> product){
-
         Product result = null;
         for (Product prod : product) {
             if (input.equals(prod.getName())) {

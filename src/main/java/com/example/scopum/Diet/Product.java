@@ -2,6 +2,9 @@ package com.example.scopum.Diet;
 
 import javax.persistence.*;
 
+/**
+ * Сущность продукта
+ */
 @Entity
 @Table(name = "product")
 public class Product {

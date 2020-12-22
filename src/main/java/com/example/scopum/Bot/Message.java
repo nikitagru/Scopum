@@ -66,6 +66,12 @@ public class Message {
         }
     }
 
+    /**
+     * Отправка сообщения с фотографией
+     * @param context контекст приложения
+     * @param message текст сообщения
+     * @param photo фотография сообщения
+     */
     public void sendMessage(BotContext context, String message, File photo) {
         SendPhoto sendMessage = new SendPhoto().setChatId(context.getUser().getChatId())
                                                 .setCaption(message)

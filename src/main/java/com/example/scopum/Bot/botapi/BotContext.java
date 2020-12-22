@@ -5,6 +5,9 @@ import com.example.scopum.Diet.Product;
 import com.example.scopum.model.User;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
+/**
+ * Контекст приложения на данный момент: бот, конкретный пользователь и данные, связанные с ним
+ */
 public class BotContext {
     private final ChatBot bot;  //телеграм бот
     private final User user;    //пользователь, с которым работает бот

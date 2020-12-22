@@ -6,12 +6,19 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.Keyboard
 
 import java.util.ArrayList;
 
+/**
+ * Клавиатура пользователя
+ */
 public class UserKeyboard {
     private BotContext context;
     public UserKeyboard(BotContext context) {
         this.context = context;
     }
 
+    /**
+     * Создание клавиатуры у пользователя
+     * @return Объект сообщения
+     */
     public SendMessage createKeyboard() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
 

@@ -64,8 +64,12 @@ public class BotController {
         context.getUser().setBotFunction("end");
     }
 
+    /**
+     * Анализатор КБЖУ продукта
+     * @param context контекст приложения
+     */
     public void createAnalyzer(BotContext context) {
-        ProductFinder productFinder = new ProductFinder(context);
+        ProductFinder productFinder = new ProductFinder();
         Message message = new Message();
         if (context.getInput().equals(""))
         {

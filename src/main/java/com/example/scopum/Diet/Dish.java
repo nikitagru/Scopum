@@ -2,6 +2,9 @@ package com.example.scopum.Diet;
 
 import javax.persistence.*;
 
+/**
+ * Сущность блюда
+ */
 @Entity
 @Table(name = "dish")
 public class Dish {
