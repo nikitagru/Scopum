@@ -3,7 +3,10 @@ package com.example.scopum.Bot;
 import com.example.scopum.Bot.botapi.BotContext;
 import com.example.scopum.Diet.Product;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import java.io.File;
 
 /**
  * Сообщение, отправляемое пользователю
@@ -34,7 +37,7 @@ public class Message {
         sb.append(dishName + "\n");
         sb.append(recipe + "\n");
         sb.append(ingredients + "\n");
-        sb.append("БЖУК данного рецепта:\n");
+        sb.append("КБЖУ данного рецепта:\n");
         sb.append(calPFC[0] + " " + "белков" + "\n");
         sb.append(calPFC[1] + " " + "жиров" + "\n");
         sb.append(calPFC[2] + " " + "углеводов" + "\n");
@@ -55,6 +58,19 @@ public class Message {
     public void sendMessage(BotContext context, String message) {
         SendMessage sendMessage = new SendMessage().setChatId(context.getUser().getChatId())
                 .setText(message);
+
+        try {
+            context.getBot().execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendMessage(BotContext context, String message, File photo) {
+        SendPhoto sendMessage = new SendPhoto().setChatId(context.getUser().getChatId())
+                                                .setCaption(message)
+                                                .setPhoto(photo);
+
         try {
             context.getBot().execute(sendMessage);
         } catch (TelegramApiException e) {

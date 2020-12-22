@@ -32,6 +32,8 @@ public class BotController {
         String recipe = currentDish.getKey()[1];
         String ingredients = currentDish.getKey()[2];
 
+        String photoName = currentDish.getKey()[3];
+
         double[] calPFC = currentDish.getValue();
         if (context.getUser().isTracking()) {
             context.getUser().setTrackingCalPFC(calPFC);
@@ -43,7 +45,9 @@ public class BotController {
                     "Возможно, вы уже употребили достаточно пищи сегодня");
         } else {
             message.setFullRecipe(dishName, recipe, ingredients,  calPFC);
-            message.sendMessage(context, message.getFullRecipe());
+            Photo photo = new Photo();
+            photo.setPhoto(photoName);
+            message.sendMessage(context, message.getFullRecipe(), photo.getPhoto());
 
             if (context.getUser().isTracking()) {
                 StringBuilder sb = new StringBuilder();

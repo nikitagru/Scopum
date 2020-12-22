@@ -42,7 +42,7 @@ public class DishesFinder {
     private HashMap<String[], double[]> getDishAndRecipe(List<Dish> dishCalPFC) {
         String currentDishName = "";        // название нужного блюда
         double[] currentDishCalPFC = new double[4];     // БЖУК нужного блюда
-        String[] recipe = new String[2];
+        String[] recipe = new String[3];
 
 
         for (int i = 0; i < dishCalPFC.size(); i++) {
@@ -60,6 +60,7 @@ public class DishesFinder {
                 currentDishCalPFC = calPFC;
                 recipe[0] = dish.getRecipe();       // получаем рецепт подходящего блюда
                 recipe[1] = dish.getIngredients();  // получаем ингредиенты рецепта
+                recipe[2] = dish.getPictureName();
 
                 boolean allergy = checkAllergy(recipe[1]);      // сдержит ли еда продукты, вызывающие аллергическую реакцию
 
@@ -70,7 +71,7 @@ public class DishesFinder {
         }
 
 
-        String[] recAndName = new String[] {currentDishName, recipe[0], recipe[1]};
+        String[] recAndName = new String[] {currentDishName, recipe[0], recipe[1], recipe[2]};
 
         HashMap<String[], double[]> result = new HashMap<>();
         result.put(recAndName, currentDishCalPFC);
