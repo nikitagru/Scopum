@@ -12,7 +12,6 @@ public class Photo {
     }
 
     public void setPhoto(String name) {
-//        String path = "images/" + name;
         ClassLoader cl = getClass().getClassLoader();
         String absolutePath = cl.getResource(name).getPath();
         this.photo = new File(absolutePath);
