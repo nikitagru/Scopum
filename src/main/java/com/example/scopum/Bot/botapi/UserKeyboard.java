@@ -1,12 +1,18 @@
 package com.example.scopum.Bot.botapi;
 
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 import java.util.ArrayList;
 
 public class UserKeyboard {
-    public void createKeyboard() {
+    private BotContext context;
+    public UserKeyboard(BotContext context) {
+        this.context = context;
+    }
+
+    public SendMessage createKeyboard() {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
 
         ArrayList<KeyboardRow> keyboardRows = new ArrayList<>();
@@ -24,5 +30,6 @@ public class UserKeyboard {
         keyboardRows.add(secondRow);
 
         replyKeyboardMarkup.setKeyboard(keyboardRows);
+        return new SendMessage().setChatId(context.getUser().getChatId()).setText("Спасибо!").setReplyMarkup(replyKeyboardMarkup);
     }
 }

@@ -54,7 +54,7 @@ public class BotKeyboard implements Keyboard{
         buttons = initializeButton(2);
 
         setData(buttons.get(0), "Дневная диета", "DailyDiet");
-        setData(buttons.get(1), "Многодневная диета", "LongDiet");
+        setData(buttons.get(1), "Анализатор КБЖУ продукта", "Analyzer");
 
         inlineKeyboardMarkup.setKeyboard(createGrid(buttons));
 

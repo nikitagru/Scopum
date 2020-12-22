@@ -1,20 +1,19 @@
 package com.example.scopum.Diet;
 
 import com.example.scopum.Bot.botapi.BotContext;
-import org.json.simple.parser.ParseException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-public class ProductsFinder {
+public class DishesFinder {
 
     private List<Dish> dishes;        // массив блюд
     private double[] userRemCalPFC;     // остаток необходимых к употреблению БЖУК
     private String[] allegryProducts;       // массив аллергических продуктов пользователя
     private BotContext context;
 
-    public ProductsFinder(double[] userRemCalPFC, String[] allergyProd, BotContext context) throws ParseException {
+    public DishesFinder(double[] userRemCalPFC, String[] allergyProd, BotContext context) {
         this.userRemCalPFC = userRemCalPFC;
         this.allegryProducts = allergyProd;
         this.context = context;
@@ -53,10 +52,10 @@ public class ProductsFinder {
             String dishName = dish.getName();     // получение название блюда
             double[] calPFC = dish.getCalPFC();       // получение БЖУК блюда
 
-            if (    userRemCalPFC[0] - calPFC[3] > 0 &&
+            if (    userRemCalPFC[0] - calPFC[0] > 0 &&
                     userRemCalPFC[1] - calPFC[1] > 0 &&
                     userRemCalPFC[2] - calPFC[2] > 0 &&
-                    userRemCalPFC[3] - calPFC[0] > 0 ) {
+                    userRemCalPFC[3] - calPFC[3] > 0 ) {
                 currentDishName = dishName;
                 currentDishCalPFC = calPFC;
                 recipe[0] = dish.getRecipe();       // получаем рецепт подходящего блюда

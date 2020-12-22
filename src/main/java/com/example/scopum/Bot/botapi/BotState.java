@@ -3,6 +3,7 @@ package com.example.scopum.Bot.botapi;
 import com.example.scopum.Bot.BotVisualizer;
 import com.example.scopum.Bot.BotController;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
@@ -189,9 +190,19 @@ public enum BotState {
     Approved(false) {
         @Override
         public void enter(BotContext context) {
-            UserKeyboard userKeyboard = new UserKeyboard();
-            userKeyboard.createKeyboard();
             sendMessage(context, "Спасибо!");
+        }
+
+        @Override
+        public BotState nextState() {
+            return UserKeyboardInput;
+        }
+    },
+    UserKeyboardInput(false) {
+        @Override
+        public void enter(BotContext context) {
+            UserKeyboard userKeyboard = new UserKeyboard(context);
+            setReplyKeyboardMarkup(userKeyboard.createKeyboard());
         }
 
         @Override
@@ -202,9 +213,11 @@ public enum BotState {
     Choice {
         @Override
         public void handleInput(BotContext context) {
-            context.getUser().setBotFunction(context.getCallBack().getData());
-            if (context.getInput() != "") {
+            if (!context.getInput().equals("")) {       // если не была нажата кнопка основного меню функций
                 context.getUser().clickButton(context.getInput());
+                context.getUser().setStateId(this.getUserKeyboardInputMenu().ordinal());
+            } else {
+                context.getUser().setBotFunction(context.getCallBack().getData());
             }
         }
 
@@ -245,9 +258,14 @@ public enum BotState {
     private static BotState[] states;       //массив состояний бота
     private final boolean isInputNeeded;
     private SendMessage keyboardInput;      //тип сообщения, где присутствует клавиатура у сообщения бота
+    private SendMessage replyKeyboardMarkup;
 
     public void setKeyboardInput(SendMessage keyboardInput) {
         this.keyboardInput = keyboardInput;
+    }
+
+    public void setReplyKeyboardMarkup(SendMessage replyKeyboardMarkup) {
+        this.replyKeyboardMarkup = replyKeyboardMarkup;
     }
 
     BotState() {
@@ -282,19 +300,29 @@ public enum BotState {
         return Approved;
     }
 
+    public BotState getUserKeyboardInputMenu() {
+        return UserKeyboardInput;
+    }
+
     /**
      * Отправляет сообщение пользователю
      * @param context контекст приложения
      * @param text текст сообщения
      */
     protected void sendMessage(BotContext context, String text) {
-        if (keyboardInput == null) {
+        if (keyboardInput == null && replyKeyboardMarkup == null) {
             SendMessage message = new SendMessage()
                     .setChatId(context.getUser().getChatId())
                     .setText(text);
 
             try {
                 context.getBot().execute(message);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+        } else if (replyKeyboardMarkup != null) {
+            try {
+                context.getBot().execute(replyKeyboardMarkup);
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }

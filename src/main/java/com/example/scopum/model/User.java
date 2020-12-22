@@ -52,8 +52,8 @@ public class User {
         return lastCalPFC;
     }
 
-    public void setLastCalPFC(String lastCalPFC) {
-        this.lastCalPFC = lastCalPFC;
+    public void setLastCalPFC(double[] lastCalPFC) {
+        this.lastCalPFC = lastCalPFC[0] + "_" + lastCalPFC[1] + "_" + lastCalPFC[2] + "_" + lastCalPFC[3];
     }
 
     public boolean isTracking() {
@@ -85,6 +85,13 @@ public class User {
         this.proteins = calPFC[1];
         this.fat = calPFC[2];
         this.carbohydrates = calPFC[3];
+    }
+
+    public void setTrackingCalPFC(double[] calPFC) {
+        this.calories -= calPFC[0];
+        this.proteins -= calPFC[1];
+        this.fat -= calPFC[2];
+        this.carbohydrates -= calPFC[3];
     }
 
     public void setCalories(String caloriesIn, BotContext context) {
@@ -339,6 +346,7 @@ public class User {
                 break;
             case "Выключить трекинг":
                 setTracking(false);
+                setLastCalPFC(new double[] {0.0, 0.0, 0.0, 0.0});
                 break;
             case "Отменить последний подсчет КБЖУ":
                 double[] lastCalPFC = new double[4];
@@ -347,10 +355,10 @@ public class User {
                 for (int i = 0; i < 4; i++) {
                     lastCalPFC[i] = Double.parseDouble(lastUserCalPFC.split("_")[i]);
                 }
-                this.calories -= lastCalPFC[0];
-                this.proteins -= lastCalPFC[1];
-                this.fat -= lastCalPFC[2];
-                this.carbohydrates -= lastCalPFC[3];
+                this.calories = lastCalPFC[0];
+                this.proteins = lastCalPFC[1];
+                this.fat = lastCalPFC[2];
+                this.carbohydrates = lastCalPFC[3];
 
                 break;
         }
