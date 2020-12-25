@@ -2,9 +2,12 @@ package com.example.scopum.Bot.botapi;
 
 
 
+import com.example.scopum.Diet.Dish;
+import com.example.scopum.Diet.Product;
 import com.example.scopum.model.User;
+import com.example.scopum.service.DishService;
+import com.example.scopum.service.ProductService;
 import com.example.scopum.service.UserService;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -13,7 +16,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.SQLException;
 
 @Component
 @PropertySource("classpath:telegram.properties")
@@ -26,9 +28,13 @@ public class ChatBot extends TelegramLongPollingBot {
     private String botToken;
 
     private final UserService userService;
+    private final DishService dishService;
+    private final ProductService productService;
 
-    public ChatBot(UserService userService) {
+    public ChatBot(UserService userService, DishService dishService, ProductService productService) {
         this.userService = userService;
+        this.dishService = dishService;
+        this.productService = productService;
     }
 
     @Override
@@ -47,13 +53,16 @@ public class ChatBot extends TelegramLongPollingBot {
         final Long chatId;
         if (update.hasCallbackQuery()) {        // если была нажата кнопка и т.д
             chatId = update.getCallbackQuery().getMessage().getChatId();
-            text = update.getCallbackQuery().getData();
+            text = "";
         } else {
             text = update.getMessage().getText();
             chatId = update.getMessage().getChatId();
         }
 
         User user = userService.findByChatId(chatId);       //ищет в БД пользователя по chatId
+
+        Iterable<Dish> dishes = dishService.findAll();
+        Iterable<Product> products = productService.findAll();
 
         BotContext context;
         BotState state;
@@ -64,28 +73,27 @@ public class ChatBot extends TelegramLongPollingBot {
             user = new User(chatId, state.ordinal());
             userService.addUser(user);
 
-            context = BotContext.of(this, text, user, update.getCallbackQuery());
+            context = BotContext.of(this, text, user, update.getCallbackQuery(), dishes, products);
 
             try {
                 state.enter(context);
-            } catch (ParseException | IOException | InterruptedException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            } catch (IOException | InterruptedException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
                 e.printStackTrace();
             }
         } else {
-            context = BotContext.of(this, text, user, update.getCallbackQuery());
+            context = BotContext.of(this, text, user, update.getCallbackQuery(), dishes, products);
             state = BotState.byId(user.getStateId());
         }
 
-
         state.handleInput(context);
-
+        userService.updateUser(user);
         do {
             if (context.getUser().isCorrect()) {        //если пользователь ввел корректное сообщение
                 state = state.nextState();
 
                 try {
                     state.enter(context);
-                } catch (ParseException | InterruptedException | IOException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+                } catch (InterruptedException | IOException | NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
             }

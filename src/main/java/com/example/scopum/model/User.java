@@ -43,6 +43,26 @@ public class User {
     private String allergyProducts;
     @Column(name = "iscorrect")
     private boolean isCorrect = true;
+    @Column(name = "tracking")
+    private boolean tracking;
+    @Column(name = "lastcalpfc")
+    private String lastCalPFC;
+
+    public String getLastCalPFC() {
+        return lastCalPFC;
+    }
+
+    public void setLastCalPFC(double[] lastCalPFC) {
+        this.lastCalPFC = lastCalPFC[0] + "_" + lastCalPFC[1] + "_" + lastCalPFC[2] + "_" + lastCalPFC[3];
+    }
+
+    public boolean isTracking() {
+        return tracking;
+    }
+
+    public void setTracking(boolean tracking) {
+        this.tracking = tracking;
+    }
 
     public boolean isCorrect() {
         return isCorrect;
@@ -67,13 +87,20 @@ public class User {
         this.carbohydrates = calPFC[3];
     }
 
+    public void setTrackingCalPFC(double[] calPFC) {
+        this.calories -= calPFC[0];
+        this.proteins -= calPFC[1];
+        this.fat -= calPFC[2];
+        this.carbohydrates -= calPFC[3];
+    }
+
     public void setCalories(String caloriesIn, BotContext context) {
         double calories;
         isCorrect = false;
         if (caloriesIn != null && !caloriesIn.equals("")) {
             try {
                 calories = Double.parseDouble(caloriesIn);
-                if (calories <= 0.0d) {
+                if (calories < 0.0d) {
                     Message message = new Message();
                     message.informAboutIncorrectUserInput(context);
                 } else {
@@ -97,7 +124,7 @@ public class User {
         if (proteinsIn != null && !proteinsIn.equals("")) {
             try {
                 proteins = Double.parseDouble(proteinsIn);
-                if (proteins <= 0.0d) {
+                if (proteins < 0.0d) {
                     Message message = new Message();
                     message.informAboutIncorrectUserInput(context);
                 } else {
@@ -121,7 +148,7 @@ public class User {
         if (fatIn != null && !fatIn.equals("")) {
             try {
                 fat = Double.parseDouble(fatIn);
-                if (fat <= 0.0d) {
+                if (fat < 0.0d) {
                     Message message = new Message();
                     message.informAboutIncorrectUserInput(context);
                 } else {
@@ -145,7 +172,7 @@ public class User {
         if (carbohydratesIn != null && !carbohydratesIn.equals("")) {
             try {
                 carbohydrates = Double.parseDouble(carbohydratesIn);
-                if (carbohydrates <= 0.0d) {
+                if (carbohydrates < 0.0d) {
                     Message message = new Message();
                     message.informAboutIncorrectUserInput(context);
                 } else {
@@ -298,7 +325,7 @@ public class User {
             message.informAboutIncorrectUserInput(context);
             isCorrect = false;
         } else {
-            this.allergyProducts = allergyProducts;
+            this.allergyProducts = allergyProducts.toLowerCase();
             isCorrect = true;
         }
 
@@ -310,5 +337,30 @@ public class User {
             return allergy.toArray(String[]::new);
         }
         return null;
+    }
+
+    public void clickButton (String text) {
+        switch (text) {
+            case "Включить трекинг":
+                setTracking(true);
+                break;
+            case "Выключить трекинг":
+                setTracking(false);
+                setLastCalPFC(new double[] {0.0, 0.0, 0.0, 0.0});
+                break;
+            case "Отменить последний подсчет КБЖУ":
+                double[] lastCalPFC = new double[4];
+                String lastUserCalPFC = getLastCalPFC();
+
+                for (int i = 0; i < 4; i++) {
+                    lastCalPFC[i] = Double.parseDouble(lastUserCalPFC.split("_")[i]);
+                }
+                this.calories = lastCalPFC[0];
+                this.proteins = lastCalPFC[1];
+                this.fat = lastCalPFC[2];
+                this.carbohydrates = lastCalPFC[3];
+
+                break;
+        }
     }
 }

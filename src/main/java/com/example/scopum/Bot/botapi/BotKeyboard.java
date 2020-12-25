@@ -8,6 +8,9 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Клавиатура у сообщений бота
+ */
 public class BotKeyboard implements Keyboard{
     public SendMessage genderButtons(long chatId) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
@@ -54,13 +57,18 @@ public class BotKeyboard implements Keyboard{
         buttons = initializeButton(2);
 
         setData(buttons.get(0), "Дневная диета", "DailyDiet");
-        setData(buttons.get(1), "Многодневная диета", "LongDiet");
+        setData(buttons.get(1), "Анализатор КБЖУ продукта", "Analyzer");
 
         inlineKeyboardMarkup.setKeyboard(createGrid(buttons));
 
         return new SendMessage().setChatId(chatId).setText("Выберите, что вы хотели бы сделать:").setReplyMarkup(inlineKeyboardMarkup);
     }
 
+    /**
+     * Инициализация кнопок
+     * @param count количество кнопок
+     * @return Возвращает кнопки
+     */
     private List<InlineKeyboardButton> initializeButton(int count) {
         List<InlineKeyboardButton> buttons = new ArrayList<>();
         for (int i = 0; i < count; i++) {
@@ -70,11 +78,22 @@ public class BotKeyboard implements Keyboard{
         return buttons;
     }
 
+    /**
+     * Устанавливает текст и возвращаемое значение у кнопок
+     * @param button кнопка
+     * @param buttonCaption текст кнопки
+     * @param buttonCallBack возвращаемое значение
+     */
     private void setData(InlineKeyboardButton button, String buttonCaption, String buttonCallBack) {
         button.setText(buttonCaption);
         button.setCallbackData(buttonCallBack);
     }
 
+    /**
+     * Создает разметку кнопок
+     * @param buttons кнопки
+     * @return готовая сетка
+     */
     private List<List<InlineKeyboardButton>> createGrid(List<InlineKeyboardButton> buttons) {
         List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
 

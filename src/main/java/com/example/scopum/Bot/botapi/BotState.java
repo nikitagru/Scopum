@@ -2,8 +2,8 @@ package com.example.scopum.Bot.botapi;
 
 import com.example.scopum.Bot.BotVisualizer;
 import com.example.scopum.Bot.BotController;
-import org.json.simple.parser.ParseException;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
@@ -130,7 +130,7 @@ public enum BotState {
         }
 
         @Override
-        public void enter(BotContext context) throws ParseException, InterruptedException, IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        public void enter(BotContext context) throws InterruptedException, IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
             sendMessage(context, "Укажите сколько белков вы сегодня употребили(если не знаете, то просто пишите 0)");
         }
 
@@ -146,7 +146,7 @@ public enum BotState {
         }
 
         @Override
-        public void enter(BotContext context) throws ParseException, InterruptedException, IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        public void enter(BotContext context) throws InterruptedException, IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
             sendMessage(context, "Укажите сколько жиров вы сегодня употребили(если не знаете, то просто пишите 0)");
         }
 
@@ -162,7 +162,7 @@ public enum BotState {
         }
 
         @Override
-        public void enter(BotContext context) throws ParseException, InterruptedException, IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        public void enter(BotContext context) throws InterruptedException, IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
             sendMessage(context, "Укажите сколько углеводов вы сегодня употребили(если не знаете, то просто пишите 0)");
         }
 
@@ -195,19 +195,37 @@ public enum BotState {
 
         @Override
         public BotState nextState() {
+            return UserKeyboardInput;
+        }
+    },
+    UserKeyboardInput(false) {
+        @Override
+        public void enter(BotContext context) {
+            UserKeyboard userKeyboard = new UserKeyboard(context);
+            setReplyKeyboardMarkup(userKeyboard.createKeyboard());
+        }
+
+        @Override
+        public BotState nextState() {
             return Choice;
         }
     },
     Choice {
         @Override
         public void handleInput(BotContext context) {
-            context.getUser().setBotFunction(context.getCallBack().getData());
+            if (!context.getInput().equals("")) {       // если не была нажата кнопка основного меню функций
+                context.getUser().clickButton(context.getInput());
+                context.getUser().setStateId(this.getUserKeyboardInputMenu().ordinal());
+            } else {
+                context.getUser().setBotFunction(context.getCallBack().getData());
+            }
         }
 
         @Override
         public void enter(BotContext context) {
             BotKeyboard botKeyboard = new BotKeyboard();
             setKeyboardInput(botKeyboard.choiceButtons(context.getUser().getChatId()));
+
             sendMessage(context, "Выберите, что вы хотели бы сделать:");
         }
 
@@ -223,7 +241,7 @@ public enum BotState {
         }
 
         @Override
-        public void enter(BotContext context) throws ParseException, InterruptedException, IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        public void enter(BotContext context) throws InterruptedException, IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
             if (!context.getUser().getBotFunction().equals("end")) {
                 BotController botController = new BotController();
                 botController.start(context);
@@ -240,9 +258,14 @@ public enum BotState {
     private static BotState[] states;       //массив состояний бота
     private final boolean isInputNeeded;
     private SendMessage keyboardInput;      //тип сообщения, где присутствует клавиатура у сообщения бота
+    private SendMessage replyKeyboardMarkup;
 
     public void setKeyboardInput(SendMessage keyboardInput) {
         this.keyboardInput = keyboardInput;
+    }
+
+    public void setReplyKeyboardMarkup(SendMessage replyKeyboardMarkup) {
+        this.replyKeyboardMarkup = replyKeyboardMarkup;
     }
 
     BotState() {
@@ -277,19 +300,29 @@ public enum BotState {
         return Approved;
     }
 
+    public BotState getUserKeyboardInputMenu() {
+        return UserKeyboardInput;
+    }
+
     /**
      * Отправляет сообщение пользователю
      * @param context контекст приложения
      * @param text текст сообщения
      */
     protected void sendMessage(BotContext context, String text) {
-        if (keyboardInput == null) {
+        if (keyboardInput == null && replyKeyboardMarkup == null) {
             SendMessage message = new SendMessage()
                     .setChatId(context.getUser().getChatId())
                     .setText(text);
 
             try {
                 context.getBot().execute(message);
+            } catch (TelegramApiException e) {
+                e.printStackTrace();
+            }
+        } else if (replyKeyboardMarkup != null) {
+            try {
+                context.getBot().execute(replyKeyboardMarkup);
             } catch (TelegramApiException e) {
                 e.printStackTrace();
             }
@@ -316,14 +349,13 @@ public enum BotState {
     /**
      * Вход в состояние
      * @param context контекст приложения
-     * @throws ParseException
      * @throws InterruptedException
      * @throws IOException
      * @throws NoSuchMethodException
      * @throws IllegalAccessException
      * @throws InvocationTargetException
      */
-    public abstract void enter(BotContext context) throws ParseException, InterruptedException, IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException;
+    public abstract void enter(BotContext context) throws InterruptedException, IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException;
 
     /**
      * Переходит в следующее состояние
